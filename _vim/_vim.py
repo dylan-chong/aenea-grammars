@@ -43,6 +43,8 @@ fugitive_index_context = aenea.wrappers.AeneaContext(
     AppContext(title='index') & AppContext('.git')
     ) & vim_context
 
+print 'Loading _vim.py grammar'
+
 grammar = Grammar('vim', context=vim_context)
 
 from dragonfly import DictListRef
@@ -99,10 +101,13 @@ def execute_insertion_buffer(insertion_buffer):
 
 class InsertModeEntry(MappingRule):
     mapping = {
-        'inns': Key('i'),
-        'syn': Key('a'),
-        'phyllo': Key('o'),
-        'phyhigh': Key('O'),
+        'insert': Key('i'),
+        'big insert': Key('I'),
+        'append': Key('a'),
+        'big append': Key('A'),
+        'open': Key('o'),
+        'big open': Key('O'),
+        'sust': Key('S'),
         }
 ruleInsertModeEntry = RuleRef(InsertModeEntry(), name='InsertModeEntry')
 
@@ -217,7 +222,7 @@ class KeyInsertion(MappingRule):
         'slap [<count>]':       Key('enter:%(count)d'),
         'chuck [<count>]':      Key('del:%(count)d'),
         'scratch [<count>]':    Key('backspace:%(count)d'),
-        'ack':                  Key('escape'),
+        'quit':                 Key('escape'),
         }
     extras = [ruleDigitalInteger[3]]
     defaults = {'count': 1}
@@ -352,6 +357,9 @@ class PrimitiveMotion(MappingRule):
         'down': Text('j'),
         'left': Text('h'),
         'right': Text('l'),
+
+        'gup': Key('c-u'),
+        'gown': Key('c-d'),
 
         'lope': Text('b'),
         'yope': Text('w'),
