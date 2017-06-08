@@ -102,12 +102,12 @@ def execute_insertion_buffer(insertion_buffer):
 class InsertModeEntry(MappingRule):
     mapping = {
         'insert': Key('i'),
-        'big insert': Key('I'),
+        'big insert': Key('s-i'),
         'append': Key('a'),
-        'big append': Key('A'),
+        'big append': Key('s-a'),
         'open': Key('o'),
-        'big open': Key('O'),
-        'sust': Key('S'),
+        'big open': Key('s-o'),
+        'sust': Key('s-s'),
         }
 ruleInsertModeEntry = RuleRef(InsertModeEntry(), name='InsertModeEntry')
 
@@ -353,43 +353,43 @@ ruleInsertion = RuleRef(Insertion(), name='Insertion')
 
 class PrimitiveMotion(MappingRule):
     mapping = {
-        'up': Text('k'),
-        'down': Text('j'),
-        'left': Text('h'),
-        'right': Text('l'),
+        'up': Key('k'),
+        'down': Key('j'),
+        'left': Key('h'),
+        'right': Key('l'),
 
         'gup': Key('c-u'),
         'gown': Key('c-d'),
 
-        'lope': Text('b'),
-        'yope': Text('w'),
-        'elope': Text('ge'),
-        'iyope': Text('e'),
+        'lope': Key('b'),
+        'yope': Key('w'),
+        'elope': Key('g,e'),
+        'iyope': Key('e'),
 
-        'lopert': Text('B'),
-        'yopert': Text('W'),
-        'elopert': Text('gE'),
-        'eyopert': Text('E'),
+        'lopert': Key('s-b'),
+        'yopert': Key('s-w'),
+        'elopert': Key('g, s-e'),
+        'eyopert': Key('s-e'),
 
-        'apla': Text('{'),
-        'anla': Text('}'),
-        'sapla': Text('('),
-        'sanla': Text(')'),
+        'left brace': Key('lbrace'),
+        'right brace': Key('rbrace'),
+        'left paren': Key('lparen'),
+        'right paren': Key('rparen'),
 
-        'care': Text('^'),
-        'hard care': Text('0'),
-        'doll': Text('$'),
+        'caret': Key('caret'),
+        'hard care': Key('0'),
+        'doll': Key('dollar'),
 
-        'screecare': Text('g^'),
-        'screedoll': Text('g$'),
+        'screecare': Key('g,caret'),
+        'screedoll': Key('g,dollar'),
 
-        'scree up': Text('gk'),
-        'scree down': Text('gj'),
+        'scree up': Key('g,k'),
+        'scree down': Key('g,j'),
 
-        'wynac': Text('G'),
+        'wynac': Key('G'),
 
-        'wynac top': Text('H'),
-        'wynac toe': Text('L'),
+        'wynac top': Key('H'),
+        'wynac toe': Key('L'),
 
         # CamelCaseMotion plugin
         'calalope': Text(',b'),
@@ -566,7 +566,7 @@ ruleOperatorApplication = Alternative([ruleOperatorApplicationMotion,
 
 class PrimitiveCommand(MappingRule):
     mapping = {
-        'vim scratch': Key('X'),
+        'vim scratch': Key('s-x'),
         'vim chuck': Key('x'),
         'vim undo': Key('u'),
         'plap': Key('P'),
