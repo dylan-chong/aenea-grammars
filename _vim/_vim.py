@@ -28,8 +28,12 @@ from dragonfly import (
     RuleRef
     )
 
+intellijWindowTitle = '[^\s]+ - [^\s]+ - \[[^\s]+\]'
+terminalWindowNames = 'BASH|RUBY|PYTHON'
 vim_context = aenea.wrappers.AeneaContext(
-    ProxyAppContext(match='regex', title='(?i).*VIM.*'),
+    ProxyAppContext(match='regex',
+                    title='(?i).*(?:VIM|' + terminalWindowNames + ').*|' +
+                    '(?:' + intellijWindowTitle + ')'),
     AppContext(title='VIM')
     )
 
