@@ -226,7 +226,6 @@ class KeyInsertion(MappingRule):
         'slap [<count>]':       Key('enter:%(count)d'),
         'chuck [<count>]':      Key('del:%(count)d'),
         'scratch [<count>]':    Key('backspace:%(count)d'),
-        'quit':                 Key('escape'),
         }
     extras = [ruleDigitalInteger[3]]
     defaults = {'count': 1}
@@ -577,6 +576,7 @@ class PrimitiveCommand(MappingRule):
         'plop': Key('p'),
         'ditto': Text('.'),
         'ripple': 'macro',
+        'quit': Key('escape'),
         }
 rulePrimitiveCommand = RuleRef(PrimitiveCommand(), name='PrimitiveCommand')
 
