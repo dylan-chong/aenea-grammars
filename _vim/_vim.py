@@ -374,12 +374,12 @@ class PrimitiveMotion(MappingRule):
         'elopert': Key('g, s-e'),
         'eyopert': Key('s-e'),
 
-        'left brace': Key('lbrace'),
-        'right brace': Key('rbrace'),
-        'left paren': Key('lparen'),
-        'right paren': Key('rparen'),
+        'apla': Key('lbrace'),
+        'anla': Key('rbrace'),
+        'sapla': Key('lparen'),
+        'sanla': Key('rparen'),
 
-        'caret': Key('caret'),
+        'care': Key('caret'),
         'hard care': Key('0'),
         'doll': Key('dollar'),
 
@@ -568,10 +568,14 @@ ruleOperatorApplication = Alternative([ruleOperatorApplicationMotion,
 
 
 class PrimitiveCommand(MappingRule):
+    # If you have a space in the key here, the grammars seem to get recognised
+    # better if you use a hyphen instead. E.g. 'vim-undo' instead of 'vim undo'.
+    # You may still have to train the word 'vim-undo' inside Dragon in order
+    # for this to work.
     mapping = {
-        'vim scratch': Key('s-x'),
-        'vim chuck': Key('x'),
-        'vim undo': Key('u'),
+        'vim-scratch': Key('s-x'),
+        'vim-chuck': Key('x'),
+        'vim-undo': Key('u'),
         'plap': Key('P'),
         'plop': Key('p'),
         'ditto': Text('.'),

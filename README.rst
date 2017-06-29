@@ -37,3 +37,12 @@ Chromium
 --------
 
 Bindings for Chrome/Chromium. Should work via proxy or locally. Supports rebinding.
+
+=================
+Tips
+=================
+
+Some of the words used in these grammars are rather strange, and may not get
+recognised by Dragon. You can get around this by opening Vocabulary Editor,
+removing the word, and then adding it back along with spoken-form text. Training
+the word afterwards will help too.
