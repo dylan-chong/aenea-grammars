@@ -105,13 +105,14 @@ def execute_insertion_buffer(insertion_buffer):
 
 class InsertModeEntry(MappingRule):
     mapping = {
-        'insert': Key('i'),
-        'big insert': Key('s-i'),
-        'append': Key('a'),
-        'big append': Key('s-a'),
-        'open': Key('o'),
-        'big open': Key('s-o'),
-        'sust': Key('s-s'),
+        'indigo': Key('i'),
+        'big indigo': Key('s-i'),
+        'alpha': Key('a'),
+        'big alpha': Key('s-a'),
+        'oscar': Key('o'),
+        'big oscar': Key('s-o'),
+        'big sierra': Key('s-s'),
+        'big charlie': Key('s-c'),
         }
 ruleInsertModeEntry = RuleRef(InsertModeEntry(), name='InsertModeEntry')
 
@@ -232,6 +233,7 @@ class KeyInsertion(MappingRule):
 ruleKeyInsertion = RuleRef(KeyInsertion(), name='KeyInsertion')
 
 
+# TODO use this somewhere (in some insert mode thing)
 class SpellingInsertion(MappingRule):
     mapping = dict(('dig ' + key, val) for (key, val) in aenea.misc.DIGITS.iteritems())
     mapping.update(aenea.misc.LETTERS)
@@ -281,7 +283,6 @@ primitive_insertions = [
         aenea.vocabulary.register_dynamic_vocabulary('vim.insertions')
         ),
     ruleArithmeticInsertion,
-    ruleSpellingInsertion,
     ]
 
 
@@ -364,23 +365,23 @@ class PrimitiveMotion(MappingRule):
         'gup': Key('c-u'),
         'gown': Key('c-d'),
 
-        'lope': Key('b'),
-        'yope': Key('w'),
+        'bravo': Key('b'),
+        'whiskey': Key('w'),
         'elope': Key('g,e'),
-        'iyope': Key('e'),
+        'echo': Key('e'),
 
-        'lopert': Key('s-b'),
-        'yopert': Key('s-w'),
+        'big bravo': Key('s-b'),
+        'big whiskey': Key('s-w'),
         'elopert': Key('g, s-e'),
-        'eyopert': Key('s-e'),
+        'big echo': Key('s-e'),
 
-        'apla': Key('lbrace'),
-        'anla': Key('rbrace'),
-        'sapla': Key('lparen'),
-        'sanla': Key('rparen'),
+        'left brace': Key('lbrace'),
+        'right brace': Key('rbrace'),
+        'left paren': Key('lparen'),
+        'right paren': Key('rparen'),
 
         'care': Key('caret'),
-        'hard care': Key('0'),
+        'zero': Key('0'),
         'doll': Key('dollar'),
 
         'screecare': Key('g,caret'),
@@ -389,10 +390,10 @@ class PrimitiveMotion(MappingRule):
         'scree up': Key('g,k'),
         'scree down': Key('g,j'),
 
-        'wynac': Key('G'),
+        'big golf': Key('G'),
 
-        'wynac top': Key('H'),
-        'wynac toe': Key('L'),
+        'big hotel': Key('H'),
+        'big lima': Key('L'),
 
         # CamelCaseMotion plugin
         'calalope': Text(',b'),
@@ -414,10 +415,10 @@ class PrimitiveMotion(MappingRule):
         'easy eyopert': Key('%s:2, E' % LEADER),
         }
 
-    for (spoken_object, command_object) in (('(lope | yope)', 'w'),
-                                            ('(lopert | yopert)', 'W')):
-        for (spoken_modifier, command_modifier) in (('inner', 'i'),
-                                                    ('outer', 'a')):
+    for (spoken_object, command_object) in (('whiskey', 'w'),
+                                            ('big whiskey', 'W')):
+        for (spoken_modifier, command_modifier) in (('indigo', 'i'),
+                                                    ('alpha', 'a')):
             map_action = Text(command_modifier + command_object)
             mapping['%s %s' % (spoken_modifier, spoken_object)] = map_action
 rulePrimitiveMotion = RuleRef(PrimitiveMotion(), name='PrimitiveMotion')
@@ -433,10 +434,10 @@ ruleUncountedMotion = RuleRef(UncountedMotion(), name='UncountedMotion')
 
 class MotionParameterMotion(MappingRule):
     mapping = {
-        'phytic': 'f',
-        'fitton': 'F',
-        'pre phytic': 't',
-        'pre fitton': 'T',
+        'foxtrot': 'f',
+        'big foxtrot': 'F',
+        'tango': 't',
+        'big tango': 'T',
         }
 ruleMotionParameterMotion = RuleRef(
     MotionParameterMotion(),
@@ -485,9 +486,9 @@ ruleMotion = RuleRef(Motion(), name='Motion')
 
 _OPERATORS = {
     'relo': '',
-    'dell': 'd',
-    'chaos': 'c',
-    'nab': 'y',
+    'delta': 'd',
+    'charlie': 'c',
+    'yankee': 'y',
     'swap case': 'g~',
     'uppercase': 'gU',
     'lowercase': 'gu',
@@ -568,16 +569,12 @@ ruleOperatorApplication = Alternative([ruleOperatorApplicationMotion,
 
 
 class PrimitiveCommand(MappingRule):
-    # If you have a space in the key here, the grammars seem to get recognised
-    # better if you use a hyphen instead. E.g. 'vim-undo' instead of 'vim undo'.
-    # You may still have to train the word 'vim-undo' inside Dragon in order
-    # for this to work.
     mapping = {
-        'vim-scratch': Key('s-x'),
-        'vim-chuck': Key('x'),
-        'vim-undo': Key('u'),
-        'plap': Key('P'),
-        'plop': Key('p'),
+        'big x-ray': Key('s-x'),
+        'x-ray': Key('x'),
+        'uniform': Key('u'),
+        'big poppa': Key('P'),
+        'poppa': Key('p'),
         'ditto': Text('.'),
         'ripple': 'macro',
         'quit': Key('escape'),
