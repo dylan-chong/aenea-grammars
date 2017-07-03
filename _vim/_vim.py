@@ -28,12 +28,8 @@ from dragonfly import (
     RuleRef
     )
 
-intellijWindowTitle = '[^\s]+ - [^\s]+ - \[[^\s]+\]'
-terminalWindowNames = 'BASH|RUBY|PYTHON'
 vim_context = aenea.wrappers.AeneaContext(
-    ProxyAppContext(match='regex',
-                    title='(?i).*(?:VIM|' + terminalWindowNames + ').*|' +
-                    '(?:' + intellijWindowTitle + ')'),
+    ProxyAppContext(match='regex', title='(?i).*VIM.*'),
     AppContext(title='VIM')
     )
 
@@ -46,8 +42,6 @@ fugitive_index_context = aenea.wrappers.AeneaContext(
     ProxyAppContext(match='regex', title='^index.*\.git.*$'),
     AppContext(title='index') & AppContext('.git')
     ) & vim_context
-
-print 'Loading _vim.py grammar'
 
 grammar = Grammar('vim', context=vim_context)
 
@@ -105,14 +99,10 @@ def execute_insertion_buffer(insertion_buffer):
 
 class InsertModeEntry(MappingRule):
     mapping = {
-        'indigo': Key('i'),
-        'big indigo': Key('s-i'),
-        'alpha': Key('a'),
-        'big alpha': Key('s-a'),
-        'oscar': Key('o'),
-        'big oscar': Key('s-o'),
-        'big sierra': Key('s-s'),
-        'big charlie': Key('s-c'),
+        'inns': Key('i'),
+        'syn': Key('a'),
+        'phyllo': Key('o'),
+        'phyhigh': Key('O'),
         }
 ruleInsertModeEntry = RuleRef(InsertModeEntry(), name='InsertModeEntry')
 
@@ -227,13 +217,13 @@ class KeyInsertion(MappingRule):
         'slap [<count>]':       Key('enter:%(count)d'),
         'chuck [<count>]':      Key('del:%(count)d'),
         'scratch [<count>]':    Key('backspace:%(count)d'),
+        'ack':                  Key('escape'),
         }
     extras = [ruleDigitalInteger[3]]
     defaults = {'count': 1}
 ruleKeyInsertion = RuleRef(KeyInsertion(), name='KeyInsertion')
 
 
-# TODO use this somewhere (in some insert mode thing)
 class SpellingInsertion(MappingRule):
     mapping = dict(('dig ' + key, val) for (key, val) in aenea.misc.DIGITS.iteritems())
     mapping.update(aenea.misc.LETTERS)
@@ -283,6 +273,7 @@ primitive_insertions = [
         aenea.vocabulary.register_dynamic_vocabulary('vim.insertions')
         ),
     ruleArithmeticInsertion,
+    ruleSpellingInsertion,
     ]
 
 
@@ -357,43 +348,40 @@ ruleInsertion = RuleRef(Insertion(), name='Insertion')
 
 class PrimitiveMotion(MappingRule):
     mapping = {
-        'up': Key('k'),
-        'down': Key('j'),
-        'left': Key('h'),
-        'right': Key('l'),
+        'up': Text('k'),
+        'down': Text('j'),
+        'left': Text('h'),
+        'right': Text('l'),
 
-        'gup': Key('c-u'),
-        'gown': Key('c-d'),
+        'lope': Text('b'),
+        'yope': Text('w'),
+        'elope': Text('ge'),
+        'iyope': Text('e'),
 
-        'bravo': Key('b'),
-        'whiskey': Key('w'),
-        'elope': Key('g,e'),
-        'echo': Key('e'),
+        'lopert': Text('B'),
+        'yopert': Text('W'),
+        'elopert': Text('gE'),
+        'eyopert': Text('E'),
 
-        'big bravo': Key('s-b'),
-        'big whiskey': Key('s-w'),
-        'elopert': Key('g, s-e'),
-        'big echo': Key('s-e'),
+        'apla': Text('{'),
+        'anla': Text('}'),
+        'sapla': Text('('),
+        'sanla': Text(')'),
 
-        'left brace': Key('lbrace'),
-        'right brace': Key('rbrace'),
-        'left paren': Key('lparen'),
-        'right paren': Key('rparen'),
+        'care': Text('^'),
+        'hard care': Text('0'),
+        'doll': Text('$'),
 
-        'care': Key('caret'),
-        'zero': Key('0'),
-        'doll': Key('dollar'),
+        'screecare': Text('g^'),
+        'screedoll': Text('g$'),
 
-        'screecare': Key('g,caret'),
-        'screedoll': Key('g,dollar'),
+        'scree up': Text('gk'),
+        'scree down': Text('gj'),
 
-        'scree up': Key('g,k'),
-        'scree down': Key('g,j'),
+        'wynac': Text('G'),
 
-        'big golf': Key('G'),
-
-        'big hotel': Key('H'),
-        'big lima': Key('L'),
+        'wynac top': Text('H'),
+        'wynac toe': Text('L'),
 
         # CamelCaseMotion plugin
         'calalope': Text(',b'),
@@ -415,10 +403,10 @@ class PrimitiveMotion(MappingRule):
         'easy eyopert': Key('%s:2, E' % LEADER),
         }
 
-    for (spoken_object, command_object) in (('whiskey', 'w'),
-                                            ('big whiskey', 'W')):
-        for (spoken_modifier, command_modifier) in (('indigo', 'i'),
-                                                    ('alpha', 'a')):
+    for (spoken_object, command_object) in (('(lope | yope)', 'w'),
+                                            ('(lopert | yopert)', 'W')):
+        for (spoken_modifier, command_modifier) in (('inner', 'i'),
+                                                    ('outer', 'a')):
             map_action = Text(command_modifier + command_object)
             mapping['%s %s' % (spoken_modifier, spoken_object)] = map_action
 rulePrimitiveMotion = RuleRef(PrimitiveMotion(), name='PrimitiveMotion')
@@ -434,10 +422,10 @@ ruleUncountedMotion = RuleRef(UncountedMotion(), name='UncountedMotion')
 
 class MotionParameterMotion(MappingRule):
     mapping = {
-        'foxtrot': 'f',
-        'big foxtrot': 'F',
-        'tango': 't',
-        'big tango': 'T',
+        'phytic': 'f',
+        'fitton': 'F',
+        'pre phytic': 't',
+        'pre fitton': 'T',
         }
 ruleMotionParameterMotion = RuleRef(
     MotionParameterMotion(),
@@ -486,9 +474,9 @@ ruleMotion = RuleRef(Motion(), name='Motion')
 
 _OPERATORS = {
     'relo': '',
-    'delta': 'd',
-    'charlie': 'c',
-    'yankee': 'y',
+    'dell': 'd',
+    'chaos': 'c',
+    'nab': 'y',
     'swap case': 'g~',
     'uppercase': 'gU',
     'lowercase': 'gu',
@@ -570,14 +558,13 @@ ruleOperatorApplication = Alternative([ruleOperatorApplicationMotion,
 
 class PrimitiveCommand(MappingRule):
     mapping = {
-        'big x-ray': Key('s-x'),
-        'x-ray': Key('x'),
-        'uniform': Key('u'),
-        'big poppa': Key('P'),
-        'poppa': Key('p'),
+        'vim scratch': Key('X'),
+        'vim chuck': Key('x'),
+        'vim undo': Key('u'),
+        'plap': Key('P'),
+        'plop': Key('p'),
         'ditto': Text('.'),
         'ripple': 'macro',
-        'quit': Key('escape'),
         }
 rulePrimitiveCommand = RuleRef(PrimitiveCommand(), name='PrimitiveCommand')
 
