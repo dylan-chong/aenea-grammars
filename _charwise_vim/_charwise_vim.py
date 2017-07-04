@@ -21,7 +21,6 @@ from dragonfly import (
     RuleRef
 )
 
-# TODO remove this?
 GRAMMAR_NAME = 'charwise_vim'
 GRAMMAR_TAGS = [GRAMMAR_NAME + '.all']
 
@@ -78,10 +77,15 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into an aenea file?
         # Shift + Keys 1-8
         'exclamation [mark]': 'exclamation',
         'at [sign]': 'at',
-        # TODO LATER finish keys 3-8
+        '(hash|pound)': 'hash',
+        'percent': 'percent',
+        'caret': 'caret',
+        '(ampersand|and)': 'and',
+        '(asterisk|star)': 'star',
         # Spaces
         'space [bar]': 'space',
         'tab': 'tab',
+        '(enter|new line)': 'enter',
         # Other
         '(full stop|dot)': 'dot',
         'comma': 'comma',
@@ -96,16 +100,16 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into an aenea file?
         },
     'digits': {
         ('dig ' + word): num for word, num in {
-        'zero': '0',
-        'one': '1',
-        'two': '2',
-        'three': '3',
-        'four': '4',
-        'five': '5',
-        'six': '6',
-        'seven': '7',
-        'eight': '8',
-        'niner': '9'
+            'zero': '0',
+            'one': '1',
+            'two': '2',
+            'three': '3',
+            'four': '4',
+            'five': '5',
+            'six': '6',
+            'seven': '7',
+            'eight': '8',
+            'niner': '9'
             }.iteritems()
         }
     }
