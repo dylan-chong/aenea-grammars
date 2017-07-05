@@ -24,39 +24,14 @@ from dragonfly import (
 GRAMMAR_NAME = 'charwise_vim'
 GRAMMAR_TAGS = [GRAMMAR_NAME + '.all']
 
-CHAR_KEY_MAPPINGS = {  # TODO move this into an aenea file?
+CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
+    # See the Dragonfly documentation to see what the values should be:
+    # http://dragonfly.readthedocs.io/en/latest/_modules/dragonfly/actions/action_key.html?highlight=lparen
+    # Not all symbols are here. Feel free to add the ones you need
+
     # In each sub-key: What to say (key): Dragon key code (value)
-    'all': {},  # Updated below
-    'uppercase_letters': None,  # Updated below
-    # TODO control/alt
-    'lowercase_letters': {
-        'alpha': 'a',
-        'bravo': 'b',
-        'charlie': 'c',
-        'delta': 'd',
-        'echo': 'e',
-        'foxtrot': 'f',
-        'golf': 'g',
-        'hotel': 'h',
-        'indigo': 'i',
-        'juliet': 'j',
-        'kilo': 'k',
-        'lima': 'l',
-        'mike': 'm',
-        'november': 'n',
-        'oscar': 'o',
-        'poppa': 'p',
-        'quiche': 'q',
-        'romeo': 'r',
-        'sierra': 's',
-        'tango': 't',
-        'uniform': 'u',
-        'victor': 'v',
-        'whiskey': 'w',
-        'x-ray': 'x',
-        'yankee': 'y',
-        'zulu': 'z'
-        },
+    'all': {},  # All mappings excluding modifier keys. Updated below
+    'letters': aenea.misc.LOWERCASE_LETTERS,
     'symbols': {
         # Brackets and stuff
         'left (paren|parenthesis)': 'lparen',
@@ -78,6 +53,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into an aenea file?
         'exclamation [mark]': 'exclamation',
         'at [sign]': 'at',
         '(hash|pound)': 'hash',
+        'dollar': 'dollar',
         'percent': 'percent',
         'caret': 'caret',
         '(ampersand|and)': 'and',
@@ -109,11 +85,11 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into an aenea file?
             'six': '6',
             'seven': '7',
             'eight': '8',
-            'niner': '9'
+            '(niner|nine)': '9'
             }.iteritems()
         }
     }
-UPPERCASE_KEY_PREFIX = 'big '
+
 
 charwise_grammar = None
 
@@ -129,8 +105,6 @@ def load():
 
 
 def unload():
-    aenea.vocabulary.inhibit_global_dynamic_vocabulary(GRAMMAR_NAME, GRAMMAR_TAGS)
-
     global charwise_grammar
     if charwise_grammar:
         charwise_grammar.unload()
@@ -138,14 +112,7 @@ def unload():
 
 
 def setup_key_mappings():
-    # See the Dragonfly documentation to see what the values should be:
-    # http://dragonfly.readthedocs.io/en/latest/_modules/dragonfly/actions/action_key.html?highlight=lparen
-    # Not all symbols are here. Feel free to add the ones you need
-    CHAR_KEY_MAPPINGS['uppercase_letters'] = {
-        UPPERCASE_KEY_PREFIX + speech: 's-' + letter
-        for speech, letter in CHAR_KEY_MAPPINGS['lowercase_letters'].iteritems()
-        }
-
+    # Copy into CHAR_KEY_MAPPINGS['all']
     for sub_mappings in {s for s in CHAR_KEY_MAPPINGS.keys() if s != 'all'}:
         CHAR_KEY_MAPPINGS['all'].update(CHAR_KEY_MAPPINGS[sub_mappings])
 
@@ -153,7 +120,6 @@ def setup_key_mappings():
 def setup_grammar():
     vim_context = create_app_context()
     new_grammar = Grammar(GRAMMAR_NAME, context=vim_context)
-    aenea.vocabulary.uninhibit_global_dynamic_vocabulary(GRAMMAR_NAME, GRAMMAR_TAGS)
 
     new_grammar.add_rule(CharwiseVimRule())
     new_grammar.load()
@@ -188,10 +154,40 @@ class SingleCharRule(MappingRule):
     """
     setup_key_mappings()
     mapping = CHAR_KEY_MAPPINGS['all']
-    mapping['down'] = 'j'
+
+
+class ModifierKeyRule(MappingRule):
+    mapping = {
+        # grammar to modifier for use in Key, e.g. Key('s-a')
+        '(shift|big)': 's',
+        '(control|con)': 'c',
+        '(alt|olt)': 'a',  # use 'olt` as hack for proper pronunciation of 'alt'
+        '(windows|command)': 'w',  # Command key on Mac
+    }
+
+
+class ModifiableSingleCharRule(CompoundRule):
+    """
+    A SingleCharRule with optional modifier keys
+    """
+    spec = '[<ModifierKeyRule>] <SingleCharRule>'
+    extras = [
+        RuleRef(ModifierKeyRule(), name='ModifierKeyRule'),
+        RuleRef(SingleCharRule(), name='SingleCharRule'),
+    ]
 
     def value(self, node):
-        return Key(MappingRule.value(self, node))
+        # Seriously, what kind of api makes you write this sort of shit?
+        children = node.children[0].children[0].children
+        optional_modifier = children[0].value()
+        char = children[1].value()
+
+        if optional_modifier:
+            key_str = '{}-{}'.format(optional_modifier, char)
+        else:
+            key_str = char
+
+        return Key(key_str)
 
 
 class SimpleCommandRule(MappingRule):
@@ -268,14 +264,22 @@ def format_sentence(text):
     return ' '.join([text[0].capitalize()] + text[1:])
 
 
+
+# TODO NEXT test this
+
+
+
+
 class IdentifierInsertion(CompoundRule):
     spec = ('[upper | natural] ( proper | camel | rel-path | abs-path | score '
             '| sentence | scope-resolve | jumble | dotword | dashword | '
             'natword | snakeword | brooding-narrative) [<dictation>]')
+    print spec
     extras = [Dictation(name='dictation')]
 
     def value(self, node):
         words = node.words()
+        print 'words: {}'.format(words)
 
         uppercase = words[0] == 'upper'
         lowercase = words[0] != 'natural'
@@ -289,9 +293,10 @@ class IdentifierInsertion(CompoundRule):
         if words[0].lower() in ('upper', 'natural'):
             del words[0]
 
-        function = globals()['format_%s' % words[0].lower()]
-        formatted = function(words[1:])
+        func = globals()['format_%s' % words[0].lower()]
+        formatted = func(words[1:])
 
+        print 'You said: {}'.format(formatted)
         return Text(formatted)
 
 
@@ -306,11 +311,11 @@ class CharwiseVimRule(CompoundRule):
     _identifier_insertion_key = 'identifier_insertion'
 
     _repeatable_rules = [
-        RuleRef(SingleCharRule()),
+        RuleRef(ModifiableSingleCharRule()),
         RuleRef(SimpleCommandRule()),
         ]
 
-    spec = '[<{}>] [{}]'.format(_repeated_rules_key, _identifier_insertion_key)
+    spec = '[<{}>] [<{}>]'.format(_repeated_rules_key, _identifier_insertion_key)
     extras = [
         # TODO put with count
         Repetition(
@@ -322,17 +327,17 @@ class CharwiseVimRule(CompoundRule):
         ]
 
     def _process_recognition(self, node, extras):
-        print 'CharwiseVimRule._process_recognition(self, node={}, extras)'\
-            .format(node)
+        # Press keys for what user just said
 
-        for key in extras[self._repeated_rules_key]:
-            print 'Repeatable {}'.format(key)
-            key.execute()
+        if self._repeated_rules_key in extras:
+            for key in extras[self._repeated_rules_key]:
+                print 'Executing Repeatable {}'.format(key)
+                key.execute()
 
-        identifier_insertion_text = extras[self._identifier_insertion_key]
-        if identifier_insertion_text:
-            print 'Identifier {}'.format(identifier_insertion_text)
-            identifier_insertion_text.execute()
+        if self._identifier_insertion_key in extras:
+            identifier = extras[self._identifier_insertion_key]
+            print 'Executing Identifier {}'.format(identifier)
+            identifier.execute()
 
 load()
 
