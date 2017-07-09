@@ -22,7 +22,7 @@ from dragonfly import (
 )
 
 GRAMMAR_NAME = 'charwise_vim'
-GRAMMAR_TAGS = [GRAMMAR_NAME + '.all']
+INHIBITED_GRAMMAR_TAGS = ["vim.insertions", "multiedit.count", "global"]
 
 CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
     # See the Dragonfly documentation to see what the values should be:
@@ -31,8 +31,43 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
 
     # In each sub-key: What to say (key): Dragon key code (value)
     'all': {},  # All mappings excluding modifier keys. Updated below
-    'letters': aenea.misc.LOWERCASE_LETTERS,
+    'letters': {
+        # Copied from aenea/client/misc.py
+        'alpha': 'a',
+        'bravo': 'b',
+        'charlie': 'c',
+        'delta': 'd',
+        'echo': 'e',
+        'foxtrot': 'f',
+        'golf': 'g',
+        'hotel': 'h',
+        'indigo': 'i',
+        'juliet': 'j',
+        'kilo': 'k',
+        'lima': 'l',
+        'mike': 'm',
+        'november': 'n',
+        'oscar': 'o',
+        'poppy': 'p',  # Different from 'poppa' (avoids conflict with 'proper')
+        'quiche': 'q',
+        'romeo': 'r',
+        'sierra': 's',
+        'tango': 't',
+        'uniform': 'u',
+        'victor': 'v',
+        'whiskey': 'w',
+        'x-ray': 'x',
+        'yankee': 'y',
+        'zulu': 'z'
+    },
     'symbols': {
+        # NOTES:
+        # vocabulary_config/symbols.json has many symbols, but they
+        # don't get 'mixed in' with this grammar, so you have to wait if you
+        # do something like 'foxtrot ash' ('f/') - you have to wait for the
+        # 'foxtrot' to be recognised before saying 'ash'.
+        # TODO there has got to be a better way than duplicating everything
+
         # Brackets and stuff
         'left (paren|parenthesis)': 'lparen',
         'right (paren|parenthesis)': 'rparen',
@@ -40,24 +75,24 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'right bracket': 'rbracket',
         'left brace': 'lbrace',
         'right brace': 'rbrace',
-        '(less than|left angle)': 'leftangle',
-        '(greater than|right angle)': 'rightangle',
+        '(less than|left angle)': 'langle',
+        '(greater than|right angle)': 'rangle',
         # Quotes
         '[single] quote': 'squote',
         'double quote': 'dquote',
         'backtick': 'backtick',
         # Slashes
         'backslash': 'backslash',
-        'forward slash': 'slash',
+        '[forward] slash': 'slash',
         # Shift + Keys 1-8
-        'exclamation [mark]': 'exclamation',
-        'at [sign]': 'at',
+        '(exclamation [mark]|bang)': 'exclamation',
+        'at sign': 'at',
         '(hash|pound)': 'hash',
         'dollar': 'dollar',
         'percent': 'percent',
         'caret': 'caret',
-        '(ampersand|and)': 'and',
-        '(asterisk|star)': 'star',
+        '(ampersand|amp)': 'ampersand',
+        '(asterisk|star)': 'asterisk',
         # Spaces
         'space [bar]': 'space',
         'tab': 'tab',
@@ -66,27 +101,26 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         '(full stop|dot)': 'dot',
         'comma': 'comma',
         'question [mark]': 'question',
+        'underscore': 'underscore',
         '(dash|hyphen|minus)': 'minus',
-        '(underscore|score)': 'minus',
-        'equals': 'equals',
-        'plus': 'plus',
         'colon': 'colon',
-        'semicolon': 'semicolon',
-        '[vertical] bar': 'bar',
-        },
+        '(pipe|vertical bar)': 'bar',
+        '(equals|equal)': 'equal',
+        'plus': 'plus',
+        # Semicolon does not exist in dragonfly 0.6.5.
+        # There is a SimpleCommandRule to get around this
+    },
     'digits': {
-        ('dig ' + word): num for word, num in {
-            'zero': '0',
-            'one': '1',
-            'two': '2',
-            'three': '3',
-            'four': '4',
-            'five': '5',
-            'six': '6',
-            'seven': '7',
-            'eight': '8',
-            '(niner|nine)': '9'
-            }.iteritems()
+        'zero': '0',
+        'one': '1',
+        'two': '2',
+        'three': '3',
+        'four': '4',
+        'five': '5',
+        'six': '6',
+        'seven': '7',
+        'eight': '8',
+        '(niner|nine)': '9'
         }
     }
 
@@ -108,6 +142,9 @@ def unload():
     global charwise_grammar
     if charwise_grammar:
         charwise_grammar.unload()
+        aenea.vocabulary.uninhibit_global_dynamic_vocabulary(
+            GRAMMAR_NAME, INHIBITED_GRAMMAR_TAGS
+            )
     charwise_grammar = None
 
 
@@ -121,6 +158,11 @@ def setup_grammar():
     vim_context = create_app_context()
     new_grammar = Grammar(GRAMMAR_NAME, context=vim_context)
 
+    # TODO does this prevent other vocabs from using the global grammars
+    aenea.vocabulary.inhibit_global_dynamic_vocabulary(
+        GRAMMAR_NAME, INHIBITED_GRAMMAR_TAGS
+        )
+
     new_grammar.add_rule(CharwiseVimRule())
     new_grammar.load()
 
@@ -130,6 +172,7 @@ def setup_grammar():
 def create_app_context():
     # Allow use with IntelliJ's IDEA-Vim plugin (this is quite general so it
     # may match other apps accidentally)
+    # TODO match the app name rather than the window name?
     intellij_window_title = '[^\s]+ - [^\s]+ - \[[^\s]+\]'
     # iTerm 2 sets the window title to these
     terminal_window_names = 'BASH|RUBY|PYTHON'
@@ -205,7 +248,11 @@ class SimpleCommandRule(MappingRule):
         'right': Key('right'),
         '(page up|gup)': Key('c-u'),
         '(page down|gone)': Key('c-d'),
+        'semicolon': Text(';'),  # Gets around the invalid Key('semicolon')
     }
+
+
+# TODO include programming.json somewhere??
 
 
 def format_snakeword(text):
@@ -264,22 +311,18 @@ def format_sentence(text):
     return ' '.join([text[0].capitalize()] + text[1:])
 
 
-
-# TODO NEXT test this
-
-
-
-
 class IdentifierInsertion(CompoundRule):
+    """
+    Text insertion. E.g. saying 'camel my variable name' => types
+    'myVariableName'.
+    """
     spec = ('[upper | natural] ( proper | camel | rel-path | abs-path | score '
             '| sentence | scope-resolve | jumble | dotword | dashword | '
             'natword | snakeword | brooding-narrative) [<dictation>]')
-    print spec
     extras = [Dictation(name='dictation')]
 
     def value(self, node):
         words = node.words()
-        print 'words: {}'.format(words)
 
         uppercase = words[0] == 'upper'
         lowercase = words[0] != 'natural'
@@ -296,7 +339,6 @@ class IdentifierInsertion(CompoundRule):
         func = globals()['format_%s' % words[0].lower()]
         formatted = func(words[1:])
 
-        print 'You said: {}'.format(formatted)
         return Text(formatted)
 
 
@@ -317,7 +359,6 @@ class CharwiseVimRule(CompoundRule):
 
     spec = '[<{}>] [<{}>]'.format(_repeated_rules_key, _identifier_insertion_key)
     extras = [
-        # TODO put with count
         Repetition(
             Alternative(_repeatable_rules),
             max=20,
@@ -327,12 +368,17 @@ class CharwiseVimRule(CompoundRule):
         ]
 
     def _process_recognition(self, node, extras):
-        # Press keys for what user just said
+        # If node contains a string, but extras contains 'None', then perhaps
+        # you have tried to call Key(str) where 'str' is some invalid key name.
+        print '_process_recognition(\n  node={},\n  extras={}\n)'\
+            .format(node, extras)
 
+        # Press keys for what user just said
         if self._repeated_rules_key in extras:
-            for key in extras[self._repeated_rules_key]:
-                print 'Executing Repeatable {}'.format(key)
-                key.execute()
+            for key_or_text in extras[self._repeated_rules_key]:
+                if key_or_text:
+                    print 'Executing Repeatable {}'.format(key_or_text)
+                    key_or_text.execute()
 
         if self._identifier_insertion_key in extras:
             identifier = extras[self._identifier_insertion_key]
