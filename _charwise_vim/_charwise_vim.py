@@ -218,22 +218,33 @@ class ModifierKeyRule(MappingRule):
 
 class ModifiableSingleCharRule(CompoundRule):
     """
-    A SingleCharRule with optional modifier keys
+    A SingleCharRule with 0 or more modifier keys.
+
+    You can say things like:
+    - 'alpha'
+    - 'control space'
+    - 'command shift alpha'
     """
-    spec = '[<ModifierKeyRule>] <SingleCharRule>'
+    spec = '[<modifiers>] <SingleCharRule>'
     extras = [
-        RuleRef(ModifierKeyRule(), name='ModifierKeyRule'),
+        Repetition(
+            RuleRef(ModifierKeyRule()),
+            max=8,
+            name='modifiers',
+            ),
         RuleRef(SingleCharRule(), name='SingleCharRule'),
     ]
 
     def value(self, node):
-        # Seriously, what kind of api makes you write this sort of shit?
-        children = node.children[0].children[0].children
-        optional_modifier = children[0].value()
-        char = children[1].value()
+        # Seriously, what kind of api makes you write this sort of nonsense?
+        child_grammar_nodes = node.children[0].children[0]
+        grammar_values = child_grammar_nodes.value()  # e.g. [['c', 's'], 'a']
 
-        if optional_modifier:
-            key_str = '{}-{}'.format(optional_modifier, char)
+        modifiers = ''.join(grammar_values[0] or [])
+        char = grammar_values[1]
+
+        if modifiers:
+            key_str = '{}-{}'.format(modifiers, char)
         else:
             key_str = char
 
@@ -359,6 +370,7 @@ class CharwiseVimRule(CompoundRule):
     _repeated_rules_key = 'repeated_rules'
     _identifier_insertion_key = 'identifier_insertion'
 
+    # TODO add a count
     _repeatable_rules = [
         RuleRef(ModifiableSingleCharRule()),
         RuleRef(SimpleCommandRule()),
