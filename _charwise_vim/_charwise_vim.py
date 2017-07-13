@@ -27,13 +27,18 @@ INHIBITED_GRAMMAR_TAGS = ["vim.insertions", "multiedit.count", "global"]
 CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
     # See the Dragonfly documentation to see what the values should be:
     # http://dragonfly.readthedocs.io/en/latest/_modules/dragonfly/actions/action_key.html?highlight=lparen
-    # Not all symbols are here. Feel free to add the ones you need
+    #
+    # Put any alternative sayings here (e.g. you could say 'insert' instead of
+    # 'indigo' to press 'i'). If you need to press modifier keys, then add to
+    # SimpleCommandRule.
+    #
+    # NOTE: Not all symbols are here. Feel free to add the ones you need
 
-    # In each sub-key: What to say (key): Dragon key code (value)
+    # In each sub-dict: What to say (key): String to pass into Key(str) (value)
     'all': {},  # All mappings excluding modifier keys. Updated below
     'letters': {
         # Copied from aenea/client/misc.py
-        'alpha': 'a',
+        '(alpha|append)': 'a',
         'bravo': 'b',
         'charlie': 'c',
         'delta': 'd',
@@ -41,7 +46,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'foxtrot': 'f',
         'golf': 'g',
         'hotel': 'h',
-        'indigo': 'i',
+        '(indigo|insert)': 'i',
         'juliet': 'j',
         'kilo': 'k',
         'lima': 'l',
@@ -194,6 +199,19 @@ def create_app_context():
         )
 
 
+# Random Helpers
+
+
+def text_to_key_str(text):
+    """
+    Splits the text (e.g. 'abc') into comma-separated characters suitable for
+    use in the Key constructor.
+
+    It currently only works with lowercase letters, digits, and spaces
+    """
+    return ','.join(text).replace(' ', 'space')
+
+
 # Rules
 
 
@@ -212,7 +230,8 @@ class ModifierKeyRule(MappingRule):
         '(shift|big)': 's',
         '(control|con)': 'c',
         '(alt|olt)': 'a',  # use 'olt` as hack for proper pronunciation of 'alt'
-        '(windows|command)': 'w',  # Command key on Mac
+        # Command key on Mac. (Remember, it's 'w' for command, not 'c'!)
+        '(windows|command)': 'w',
     }
 
 
@@ -254,8 +273,10 @@ class ModifiableSingleCharRule(CompoundRule):
 class SimpleCommandRule(MappingRule):
     """
     Similar to SingleCharRule, but you can include non-symbol things like
-    pressing 'Escape', or 'Control-D'.
+    pressing 'Escape', or 'Control-D'. These are not affected by ModifierKeyRule.
     """
+    _search_everywhere = text_to_key_str('search everywhere')
+
     setup_key_mappings()
     mapping = {
         '(escape|quit)': Key('escape'),
@@ -266,7 +287,19 @@ class SimpleCommandRule(MappingRule):
         'right': Key('right'),
         '(page up|gup)': Key('c-u'),
         '(page down|gone)': Key('c-d'),
-        'semicolon': Text(';'),  # Gets around the invalid Key('semicolon')
+        'semicolon': Text(';'),  # Gets around invalid Key('semicolon') error
+
+        # Jumping around (e.g. via vim tags, or in IntelliJ)
+        '(jump deaf|jump to definition)': Key('c-rbracket'),
+        'jump back': Key('c-t'),
+
+        # IntelliJ (Mac shortcuts - TODO detect platform)
+        'find (action|actions)': Key('ws-a'),
+        '(refactor|rename)': Key('s-f6'),
+        'find (usages|uses)': Key('a-f7'),
+        'find in path': Key('ws-f'),
+        '(open|find) class': Key('w-o'),
+        '(open|find) symbol': Key('wa-o'),
     }
 
 
@@ -389,10 +422,9 @@ class CharwiseVimRule(CompoundRule):
     def _process_recognition(self, node, extras):
         # If node contains a string, but extras contains 'None', then perhaps
         # you have tried to call Key(str) where 'str' is some invalid key name.
-        print '_process_recognition(\n  node={},\n  extras={}\n)'\
-            .format(node, extras)
 
-        # Press keys for what user just said
+        # Press keys / enter text for what user just said
+
         if self._repeated_rules_key in extras:
             for key_or_text in extras[self._repeated_rules_key]:
                 if key_or_text:
