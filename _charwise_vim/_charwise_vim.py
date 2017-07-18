@@ -50,7 +50,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'kilo': 'k',
         'lima': 'l',
         'mike': 'm',
-        'november': 'n',
+        '(november|new york)': 'n',
         'oscar': 'o',
         'poppy': 'p',  # Different from 'poppa' (avoids conflict with 'proper')
         'quiche': 'q',
@@ -114,6 +114,14 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         # Semicolon does not exist in dragonfly 0.6.5.
         # There is a SimpleCommandRule to get around this
     },
+    'special-keys': {
+        '(escape|quit)': 'escape',
+        'backspace': 'backspace',
+        'up': 'up',
+        'down': 'down',
+        'left': 'left',
+        'right': 'right',
+    },
     'digits': {
         'zero': '0',
         'one': '1',
@@ -155,6 +163,7 @@ def setup_key_mappings():
     # Copy into CHAR_KEY_MAPPINGS['all']
     for sub_mappings in {s for s in CHAR_KEY_MAPPINGS.keys() if s != 'all'}:
         CHAR_KEY_MAPPINGS['all'].update(CHAR_KEY_MAPPINGS[sub_mappings])
+    print CHAR_KEY_MAPPINGS['all'].keys()
 
 
 def setup_grammar():
@@ -215,7 +224,7 @@ def text_to_key_str(text):
 # Rules
 
 
-class SingleCharRule(MappingRule):
+class SingleKeyRule(MappingRule):
     """
     Allows the entry of a single character. See aenea/client/aenea/misc.py for
     what word(s) you have to say for each character.
@@ -235,23 +244,23 @@ class ModifierKeyRule(MappingRule):
     }
 
 
-class ModifiableSingleCharRule(CompoundRule):
+class ModifiableSingleKeyRule(CompoundRule):
     """
-    A SingleCharRule with 0 or more modifier keys.
+    A SingleKeyRule with 0 or more modifier keys.
 
     You can say things like:
     - 'alpha'
     - 'control space'
     - 'command shift alpha'
     """
-    spec = '[<modifiers>] <SingleCharRule>'
+    spec = '[<modifiers>] <SingleKeyRule>'
     extras = [
         Repetition(
             RuleRef(ModifierKeyRule()),
             max=8,
             name='modifiers',
         ),
-        RuleRef(SingleCharRule(), name='SingleCharRule'),
+        RuleRef(SingleKeyRule(), name='SingleKeyRule'),
     ]
 
     def value(self, node):
@@ -272,23 +281,17 @@ class ModifiableSingleCharRule(CompoundRule):
 
 class SimpleCommandRule(MappingRule):
     """
-    Similar to SingleCharRule, but you can include non-symbol things like
+    Similar to SingleKeyRule, but you can include non-symbol things like
     pressing 'Escape', or 'Control-D'. These are not affected by ModifierKeyRule.
     """
 
     setup_key_mappings()
     mapping = {
-        '(escape|quit)': Key('escape'),
-        'backspace': Key('backspace'),
-        'up': Key('up'),
-        'down': Key('down'),
-        'left': Key('left'),
-        'right': Key('right'),
-        '(page up|gup)': Key('c-u'),
-        '(page down|gone)': Key('c-d'),
         'semicolon': Text(';'),  # Gets around invalid Key('semicolon') error
 
         # Vim key aliases
+        '(page up|gup)': Key('c-u'),
+        '(page down|gone)': Key('c-d'),
         'delete line': Text('dd'),
 
         # Jumping around (e.g. via vim tags, or in IntelliJ)
@@ -308,6 +311,7 @@ class SimpleCommandRule(MappingRule):
         'next error': Key('f2'),
         'previous error': Key('s-f2'),
         'toggle breakpoint': Key('w-f8'),
+        'file structure': Key('w-f12'),
 
         # Custom IntelliJ shortcuts (Mac)
         # A lot of these are remapped to avoid conflicting with (IDEA) Vim
@@ -419,7 +423,7 @@ class CharwiseVimRule(CompoundRule):
     _identifier_insertion_key = 'identifier_insertion'
 
     _repeatable_rules = [
-        RuleRef(ModifiableSingleCharRule()),
+        RuleRef(ModifiableSingleKeyRule()),
         RuleRef(SimpleCommandRule()),
     ]
 
