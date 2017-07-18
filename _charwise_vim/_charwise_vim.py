@@ -4,7 +4,6 @@ import aenea.vocabulary
 
 from aenea import (
     Key,
-    NoAction,
     Text
 )
 
@@ -38,7 +37,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
     'all': {},  # All mappings excluding modifier keys. Updated below
     'letters': {
         # Copied from aenea/client/misc.py
-        '(alpha|append)': 'a',
+        'alpha': 'a',
         'bravo': 'b',
         'charlie': 'c',
         'delta': 'd',
@@ -46,8 +45,8 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'foxtrot': 'f',
         'golf': 'g',
         'hotel': 'h',
-        '(indigo|insert)': 'i',
-        'juliet': 'j',
+        'indigo': 'i',
+        '(juliet|julie)': 'j',
         'kilo': 'k',
         'lima': 'l',
         'mike': 'm',
@@ -58,7 +57,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'romeo': 'r',
         'sierra': 's',
         'tango': 't',
-        'uniform': 'u',
+        '(uniform|unit)': 'u',
         'victor': 'v',
         'whiskey': 'w',
         'x-ray': 'x',
@@ -74,8 +73,8 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         # TODO there has got to be a better way than duplicating everything
 
         # Brackets and stuff
-        'left (paren|parenthesis)': 'lparen',
-        'right (paren|parenthesis)': 'rparen',
+        '(left (paren|parenthesis)|push)': 'lparen',
+        '(right (paren|parenthesis)|pop)': 'rparen',
         'left bracket': 'lbracket',
         'right bracket': 'rbracket',
         'left brace': 'lbrace',
@@ -83,7 +82,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         '(less than|left angle)': 'langle',
         '(greater than|right angle)': 'rangle',
         # Quotes
-        '[single] quote': 'squote',
+        '([single] quote|smote)': 'squote',
         '(double|dub) quote': 'dquote',
         'backtick': 'backtick',
         # Slashes
@@ -105,8 +104,8 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         # Other
         '(full stop|dot)': 'dot',
         'comma': 'comma',
-        'question [mark]': 'question',
-        'underscore': 'underscore',
+        '(question [mark]|quest)': 'question',
+        '(underscore|rail)': 'underscore',
         '(dash|hyphen|minus)': 'minus',
         'colon': 'colon',
         '(pipe|vertical bar)': 'bar',
@@ -126,9 +125,8 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'seven': '7',
         'eight': '8',
         '(niner|nine)': '9'
-        }
     }
-
+}
 
 charwise_grammar = None
 
@@ -149,7 +147,7 @@ def unload():
         charwise_grammar.unload()
         aenea.vocabulary.uninhibit_global_dynamic_vocabulary(
             GRAMMAR_NAME, INHIBITED_GRAMMAR_TAGS
-            )
+        )
     charwise_grammar = None
 
 
@@ -166,7 +164,7 @@ def setup_grammar():
     # TODO does this prevent other vocabs from using the global grammars
     aenea.vocabulary.inhibit_global_dynamic_vocabulary(
         GRAMMAR_NAME, INHIBITED_GRAMMAR_TAGS
-        )
+    )
 
     new_grammar.add_rule(CharwiseVimRule())
     new_grammar.load()
@@ -189,14 +187,16 @@ def create_app_context():
 
     return aenea.wrappers.AeneaContext(
         ProxyAppContext(
+            # Both title and app_id of the active app/window must match for
+            # this grammar to be active
             match='regex',
             title='(?i).*(?:VIM|' + terminal_window_names + ').*' +
                   '|(?:' + intellij_window_title +
                   '|' + blank_window_title + ')',
             app_id='(?i).*VIM.*|.*TERM.*|' + intellij_app_name,
-            ),
+        ),
         AppContext(title='VIM')
-        )
+    )
 
 
 # Random Helpers
@@ -250,7 +250,7 @@ class ModifiableSingleCharRule(CompoundRule):
             RuleRef(ModifierKeyRule()),
             max=8,
             name='modifiers',
-            ),
+        ),
         RuleRef(SingleCharRule(), name='SingleCharRule'),
     ]
 
@@ -275,7 +275,6 @@ class SimpleCommandRule(MappingRule):
     Similar to SingleCharRule, but you can include non-symbol things like
     pressing 'Escape', or 'Control-D'. These are not affected by ModifierKeyRule.
     """
-    _search_everywhere = text_to_key_str('search everywhere')
 
     setup_key_mappings()
     mapping = {
@@ -289,6 +288,9 @@ class SimpleCommandRule(MappingRule):
         '(page down|gone)': Key('c-d'),
         'semicolon': Text(';'),  # Gets around invalid Key('semicolon') error
 
+        # Vim key aliases
+        'delete line': Text('dd'),
+
         # Jumping around (e.g. via vim tags, or in IntelliJ)
         '(jump deaf|jump to definition)': Key('c-rbracket'),
         'jump back': Key('c-t'),
@@ -297,9 +299,22 @@ class SimpleCommandRule(MappingRule):
         'find (action|actions)': Key('ws-a'),
         '(refactor|rename)': Key('s-f6'),
         'find (usages|uses)': Key('a-f7'),
-        'find in path': Key('ws-f'),
+        'find (subclasses|subclass)': Key('wa-b'),
+        'find in (path|files)': Key('ws-f'),
         '(open|find) class': Key('w-o'),
         '(open|find) symbol': Key('wa-o'),
+        'recent files': Key('w-e'),
+        'search files': Key('shift:down, shift:up, shift:down, shift:up'),
+        'next error': Key('f2'),
+        'previous error': Key('s-f2'),
+        'toggle breakpoint': Key('w-f8'),
+
+        # Custom IntelliJ shortcuts (Mac)
+        # A lot of these are remapped to avoid conflicting with (IDEA) Vim
+        # shortcuts
+        'run configuration': Key('csw-r'),
+        'debug configuration': Key('csw-d'),
+        'edit (configuration|configurations)': Key('csw-e'),
     }
 
 
@@ -403,21 +418,21 @@ class CharwiseVimRule(CompoundRule):
     _repeated_rules_key = 'repeated_rules'
     _identifier_insertion_key = 'identifier_insertion'
 
-    # TODO add a count
     _repeatable_rules = [
         RuleRef(ModifiableSingleCharRule()),
         RuleRef(SimpleCommandRule()),
-        ]
+    ]
 
-    spec = '[<{}>] [<{}>]'.format(_repeated_rules_key, _identifier_insertion_key)
+    spec = '[<{}>] [<{}>]'.format(_repeated_rules_key,
+                                  _identifier_insertion_key)
     extras = [
         Repetition(
             Alternative(_repeatable_rules),
             max=20,
             name=_repeated_rules_key
-            ),
+        ),
         RuleRef(IdentifierInsertion(), name=_identifier_insertion_key)
-        ]
+    ]
 
     def _process_recognition(self, node, extras):
         # If node contains a string, but extras contains 'None', then perhaps
@@ -436,5 +451,5 @@ class CharwiseVimRule(CompoundRule):
             print 'Executing Identifier {}'.format(identifier)
             identifier.execute()
 
-load()
 
+load()
