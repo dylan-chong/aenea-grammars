@@ -116,7 +116,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
     },
     'special-keys': {
         '(escape|quit)': 'escape',
-        'backspace': 'backspace',
+        '(backspace|chuck)': 'backspace',
         'up': 'up',
         'down': 'down',
         'left': 'left',
@@ -163,7 +163,6 @@ def setup_key_mappings():
     # Copy into CHAR_KEY_MAPPINGS['all']
     for sub_mappings in {s for s in CHAR_KEY_MAPPINGS.keys() if s != 'all'}:
         CHAR_KEY_MAPPINGS['all'].update(CHAR_KEY_MAPPINGS[sub_mappings])
-    print CHAR_KEY_MAPPINGS['all'].keys()
 
 
 def setup_grammar():
@@ -294,7 +293,7 @@ class SimpleCommandRule(MappingRule):
         '(page down|gone)': Key('c-d'),
         'delete line': Text('dd'),
 
-        # Jumping around (e.g. via vim tags, or in IntelliJ)
+        # Vim tags (or IntelliJ)
         '(jump deaf|jump to definition)': Key('c-rbracket'),
         'jump back': Key('c-t'),
 
@@ -319,6 +318,27 @@ class SimpleCommandRule(MappingRule):
         'run configuration': Key('csw-r'),
         'debug configuration': Key('csw-d'),
         'edit (configuration|configurations)': Key('csw-e'),
+
+        # Vocabulary (TODO Don't copy paste from programming.json)
+        'assign':           Text(' = '),
+        'compare eek':      Text(' == '),
+        'compare not eek':  Text(' != '),
+        'compare greater':  Text(' > '),
+        'compare less':     Text(' < '),
+        'compare geck':     Text(' >= '),
+        'compare lack':     Text(' <= '),
+        'bit ore':          Text(' | '),
+        'bit and':          Text(' & '),
+        'bit ex or':        Text(' ^ '),
+        'times':            Text(' * '),
+        'divided':          Text(' / '),
+        'plus':             Text(' + '),
+        'minus':            Text(' - '),
+        'plus equal':       Text(' += '),
+        'minus equal':      Text(' -= '),
+        'times equal':      Text(' *= '),
+        'divided equal':    Text(' /= '),
+        'mod equal':        Text(' %%= '),
     }
 
 
