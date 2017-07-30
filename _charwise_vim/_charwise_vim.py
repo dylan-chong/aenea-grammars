@@ -292,6 +292,7 @@ class SimpleCommandRule(MappingRule):
         '(page up|gup)': Key('c-u'),
         '(page down|gone)': Key('c-d'),
         'delete line': Text('dd'),
+        'align (par|paragraph)': Key('m,z,g,q,i,p,squote,z'),
 
         # Vim tags (or IntelliJ)
         '(jump deaf|jump to definition)': Key('c-rbracket'),
@@ -320,25 +321,44 @@ class SimpleCommandRule(MappingRule):
         'edit (configuration|configurations)': Key('csw-e'),
 
         # Vocabulary (TODO Don't copy paste from programming.json)
-        'assign':           Text(' = '),
-        'compare eek':      Text(' == '),
-        'compare not eek':  Text(' != '),
-        'compare greater':  Text(' > '),
-        'compare less':     Text(' < '),
-        'compare geck':     Text(' >= '),
-        'compare lack':     Text(' <= '),
-        'bit ore':          Text(' | '),
-        'bit and':          Text(' & '),
-        'bit ex or':        Text(' ^ '),
-        'times':            Text(' * '),
-        'divided':          Text(' / '),
-        'plus':             Text(' + '),
-        'minus':            Text(' - '),
-        'plus equal':       Text(' += '),
-        'minus equal':      Text(' -= '),
-        'times equal':      Text(' *= '),
-        'divided equal':    Text(' /= '),
-        'mod equal':        Text(' %%= '),
+        'assign': Text(' = '),
+        'compare eek': Text(' == '),
+        'compare not eek': Text(' != '),
+        'compare greater': Text(' > '),
+        'compare less': Text(' < '),
+        'compare geck': Text(' >= '),
+        'compare lack': Text(' <= '),
+        'bull ore': Text(' || '),
+        'bull and': Text(' && '),
+        'bit ore': Text(' | '),
+        'bit and': Text(' & '),
+        'bit ex or': Text(' ^ '),
+        'times': Text(' * '),
+        'divide': Text(' / '),
+        'add': Text(' + '),
+        '(minus|take away)': Text(' - '),
+        'plus equal': Text(' += '),
+        'minus equal': Text(' -= '),
+        'times equal': Text(' *= '),
+        'divided equal': Text(' /= '),
+        'mod equal': Text(' %%= '),
+
+        # Programming aliases
+        # NOTE: Tried to word these so these are usable for multiple languages
+        # Remember that we don't know what language we are using from this
+        # grammar.
+        'let': Text('let '),
+        'var': Text('var '),
+        'deaf': Text('def '),
+        'deaf pee': Text('defp '),
+        'return': Text('return '),
+        'if': Text('if '),
+        'else': Text('else '),
+        'new': Text('new '),
+        'lamb dash': Text(' -> '),
+        'lamb eek': Text(' => '),
+        'slash (com|comment)': Text('// '),
+        '(bee|brace) block': Key('space,lbrace,enter'),  # assumes editor types '}'
     }
 
 
