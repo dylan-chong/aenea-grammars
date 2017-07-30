@@ -27,7 +27,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
     # See the Dragonfly documentation to see what the values should be:
     # http://dragonfly.readthedocs.io/en/latest/_modules/dragonfly/actions/action_key.html?highlight=lparen
     #
-    # Put any alternative sayings here (e.g. you could say 'insert' instead of
+    # Put any alternative sayings here (e.g. you could say 'indie' instead of
     # 'indigo' to press 'i'). If you need to press modifier keys, then add to
     # SimpleCommandRule.
     #
@@ -45,7 +45,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'foxtrot': 'f',
         'golf': 'g',
         'hotel': 'h',
-        'indigo': 'i',
+        '(indigo|indie)': 'i',
         '(juliet|julie)': 'j',
         'kilo': 'k',
         'lima': 'l',
@@ -106,7 +106,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'comma': 'comma',
         '(question [mark]|quest)': 'question',
         '(underscore|rail)': 'underscore',
-        '(dash|hyphen|minus)': 'minus',
+        '(dash|hyphen)': 'minus',
         'colon': 'colon',
         '(pipe|vertical bar)': 'bar',
         '(equals|equal)': 'equal',
@@ -280,13 +280,13 @@ class ModifiableSingleKeyRule(CompoundRule):
 
 class SimpleCommandRule(MappingRule):
     """
-    Similar to SingleKeyRule, but you can include non-symbol things like
-    pressing 'Escape', or 'Control-D'. These are not affected by ModifierKeyRule.
+    Similar to SingleKeyRule, but you can include aliases for key combinations
+    and sequences. These are not affected by ModifierKeyRule.
     """
 
     setup_key_mappings()
     mapping = {
-        'semicolon': Text(';'),  # Gets around invalid Key('semicolon') error
+        '(semicolon|semi)': Text(';'),  # Gets around invalid Key('semicolon') error
 
         # Vim key aliases
         '(page up|gup)': Key('c-u'),
