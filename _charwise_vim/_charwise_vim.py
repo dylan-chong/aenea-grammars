@@ -42,7 +42,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'charlie': 'c',
         'delta': 'd',
         'echo': 'e',
-        'foxtrot': 'f',
+        'fox': 'f',
         'golf': 'g',
         'hotel': 'h',
         '(indigo|indie)': 'i',
@@ -50,7 +50,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'kilo': 'k',
         'lima': 'l',
         'mike': 'm',
-        '(november|new york)': 'n',
+        '(november|neighbour)': 'n',
         'oscar': 'o',
         'poppy': 'p',  # Different from 'poppa' (avoids conflict with 'proper')
         'quiche': 'q',
@@ -286,13 +286,18 @@ class SimpleCommandRule(MappingRule):
 
     setup_key_mappings()
     mapping = {
-        '(semicolon|semi)': Text(';'),  # Gets around invalid Key('semicolon') error
+        # Gets around invalid Key('semicolon') error
+        '(semicolon|semi)': Text(';'),
 
         # Vim key aliases
-        '(page up|gup)': Key('c-u'),
-        '(page down|gone)': Key('c-d'),
+        '(page up)': Key('c-u'),
+        '(page down)': Key('c-d'),
         'delete line': Text('dd'),
-        'align (par|paragraph)': Key('m,z,g,q,i,p,squote,z'),
+        'align (par|paragraph)': Text('mzgqip\'z'),
+        'save file': Key('colon,w,enter'),
+        'save and quit': Key('colon,w,q,enter'),
+        'move line up': Text('ddkP'),
+        'move line down': Text('ddp'),
 
         # Vim tags (or IntelliJ)
         '(jump deaf|jump to definition)': Key('c-rbracket'),
