@@ -424,6 +424,10 @@ def format_natword(text):
     return ' '.join(text)
 
 
+def format_spaceword(text):
+    return ' '.join(text) + ' '
+
+
 def format_broodingnarrative(text):
     return ''
 
@@ -432,6 +436,11 @@ def format_sentence(text):
     return ' '.join([text[0].capitalize()] + text[1:])
 
 
+def format_title(text):
+    return ' '.join([word[0].upper() + word[1:] for word in text])
+
+
+# TODO copy changes to vim grammar
 class IdentifierInsertion(CompoundRule):
     """
     Text insertion. E.g. saying 'camel my variable name' => types
@@ -439,7 +448,8 @@ class IdentifierInsertion(CompoundRule):
     """
     spec = ('[upper | natural] ( proper | camel | rel-path | abs-path | score '
             '| sentence | scope-resolve | jumble | dotword | dashword | '
-            'natword | snakeword | brooding-narrative) [<dictation>]')
+            'natword | spaceword | snakeword | brooding-narrative | title) '
+            '[<dictation>]')
     extras = [Dictation(name='dictation')]
 
     def value(self, node):
