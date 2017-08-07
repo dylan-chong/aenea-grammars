@@ -308,6 +308,7 @@ class SimpleCommandRule(MappingRule):
         '(refactor|rename)': Key('s-f6'),
         'find (usages|uses)': Key('a-f7'),
         'find (subclasses|subclass)': Key('wa-b'),
+        'find in superclass': Key('w-u'),
         'find in (path|files)': Key('ws-f'),
         '(open|find) class': Key('w-o'),
         '(open|find) symbol': Key('wa-o'),
@@ -342,18 +343,18 @@ class SimpleCommandRule(MappingRule):
         'divide': Text(' / '),
         'add': Text(' + '),
         '(minus|take away)': Text(' - '),
-        'plus equal': Text(' += '),
-        'minus equal': Text(' -= '),
-        'times equal': Text(' *= '),
-        'divided equal': Text(' /= '),
-        'mod equal': Text(' %%= '),
+        'assign plus equal': Text(' += '),
+        'assign minus equal': Text(' -= '),
+        'assign times equal': Text(' *= '),
+        'assign divided equal': Text(' /= '),
+        'assign mod equal': Text(' %%= '),
 
         # Programming aliases
         # NOTE: Tried to word these so these are usable for multiple languages
         # Remember that we don't know what language we are using from this
         # grammar.
         'let': Text('let '),
-        'var': Text('var '),
+        'var': Text('var'),
         'deaf': Text('def '),
         'deaf pee': Text('defp '),
         'return': Text('return '),
@@ -362,8 +363,13 @@ class SimpleCommandRule(MappingRule):
         'new': Text('new '),
         'lamb dash': Text(' -> '),
         'lamb eek': Text(' => '),
-        'slash (com|comment)': Text('// '),
-        '(bee|brace) block': Key('space,lbrace,enter'),  # assumes editor types '}'
+        'slash comment': Text('// '),
+        # assumes editor types '}' automatically
+        '(bee|brace) block': Key('space,lbrace,enter'),
+        'slash doc comment': Key('slash,asterisk,asterisk,enter'),
+
+        # Temporary
+        'short cat': Key('ws-space'),
     }
 
 
