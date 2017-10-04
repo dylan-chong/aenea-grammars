@@ -75,8 +75,8 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         # Brackets and stuff
         '(left (paren|parenthesis)|push)': 'lparen',
         '(right (paren|parenthesis)|pop)': 'rparen',
-        'left bracket': 'lbracket',
-        'right bracket': 'rbracket',
+        'left square': 'lbracket',  # saying 'left bracket' makes Dragon type '('
+        'right square': 'rbracket',
         'left brace': 'lbrace',
         'right brace': 'rbrace',
         '(less than|left angle)': 'langle',
@@ -106,7 +106,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'comma': 'comma',
         '(question [mark]|quest)': 'question',
         '(underscore|rail)': 'underscore',
-        '(dash|hyphen)': 'minus',
+        '(dash)': 'minus',
         'colon': 'colon',
         '(pipe|vertical bar)': 'bar',
         '(equals|equal)': 'equal',
