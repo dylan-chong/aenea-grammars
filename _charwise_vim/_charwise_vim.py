@@ -395,6 +395,10 @@ def format_score(text):
     return '_'.join(text)
 
 
+def format_params(text):
+    return ', '.join(text)
+
+
 def format_camel(text):
     return text[0] + ''.join([word[0].upper() + word[1:] for word in text[1:]])
 
@@ -435,6 +439,9 @@ def format_spaceword(text):
     return ' '.join(text) + ' '
 
 
+format_spayword = format_spaceword
+
+
 def format_broodingnarrative(text):
     return ''
 
@@ -454,8 +461,9 @@ class IdentifierInsertion(CompoundRule):
     'myVariableName'.
     """
     spec = ('[upper | natural] ( proper | camel | rel-path | abs-path | score '
-            '| sentence | scope-resolve | jumble | dotword | dashword | '
-            'natword | spaceword | snakeword | brooding-narrative | title) '
+            '| sentence | scope-resolve | jumble | dotword | dashword '
+            '| natword | spaceword | spayword | snakeword '
+            '| brooding-narrative | title | params ) '
             '[<dictation>]')
     extras = [Dictation(name='dictation')]
 
