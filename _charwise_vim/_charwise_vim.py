@@ -293,11 +293,16 @@ class SimpleCommandRule(MappingRule):
         '(page up)': Key('c-u'),
         '(page down)': Key('c-d'),
         'delete line': Text('dd'),
-        'align (par|paragraph)': Text('mzgqip\'z'),
+        'align (par|paragraph)': Text('mzgqip`z'),
+        'yank (file|all)': Text('mzggVGy`z'),
         'save file': Key('colon,w,enter'),
         'save and quit': Key('colon,w,q,enter'),
+        'save all [files]': Key('colon,w,a,enter'),
+        'save all [files] and quit': Key('colon,w,q,enter'),
         'move line up': Text('ddkP'),
         'move line down': Text('ddp'),
+        'change word': Text('ciw'),
+        'switch split': Key('c-w,c-w'),
 
         # Vim tags (or IntelliJ)
         '(jump deaf|jump to definition)': Key('c-rbracket'),
