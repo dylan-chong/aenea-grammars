@@ -98,7 +98,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         '(ampersand|amp)': 'ampersand',
         '(asterisk|star)': 'asterisk',
         # Spaces
-        'space [bar]': 'space',
+        '(space [bar] | spay)': 'space',
         'tab': 'tab',
         '(enter|new line)': 'enter',
         # Other
@@ -358,15 +358,19 @@ class SimpleCommandRule(MappingRule):
         # NOTE: Tried to word these so these are usable for multiple languages
         # Remember that we don't know what language we are using from this
         # grammar.
-        'let': Text('let '),
-        'var': Text('var'),
-        'deaf': Text('def '),
-        'deaf pee': Text('defp '),
+        # NOTE 2: If a keyword is specific to a limited number of languages,
+        # and is only a single syllable, then to avoid accidental stuff, prefix
+        # the command with 'key'.
+        'key class': Text('class'),
+        'key let': Text('let '),
+        'key var': Text('var'),
+        'key deaf': Text('def '),
+        'key deaf pee': Text('defp '),
         'return': Text('return'),
         'if': Text('if '),
         'else': Text('else '),
         'ee-lif': Text('elif '),
-        'new': Text('new '),
+        'new': Text('new'),
         'lamb dash': Text(' -> '),
         'lamb eek': Text(' => '),
         'slash comment': Text('// '),
@@ -434,12 +438,13 @@ def format_dashword(text):
 def format_natword(text):
     return ' '.join(text)
 
+format_naewid = format_natword
 
 def format_spaceword(text):
     return ' '.join(text) + ' '
 
 
-format_spayword = format_spaceword
+format_spaywid = format_spaceword
 
 
 def format_broodingnarrative(text):
@@ -462,7 +467,7 @@ class IdentifierInsertion(CompoundRule):
     """
     spec = ('[upper | natural] ( proper | camel | rel-path | abs-path | score '
             '| sentence | scope-resolve | jumble | dotword | dashword '
-            '| natword | spaceword | spayword | snakeword '
+            '| natword | naewid | spaceword | spaywid | snakeword '
             '| brooding-narrative | title | params ) '
             '[<dictation>]')
     extras = [Dictation(name='dictation')]
