@@ -75,12 +75,13 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         # Brackets and stuff
         '(left (paren|parenthesis)|push)': 'lparen',
         '(right (paren|parenthesis)|pop)': 'rparen',
-        'left square': 'lbracket',  # saying 'left bracket' makes Dragon type '('
-        'right square': 'rbracket',
-        'left brace': 'lbrace',
-        'right brace': 'rbrace',
-        '(less than|left angle)': 'langle',
-        '(greater than|right angle)': 'rangle',
+        # saying 'left bracket' makes Dragon type '('
+        'left square|leer': 'lbracket',
+        'right square|rear': 'rbracket',
+        'left brace|lace': 'lbrace',
+        'right brace|race': 'rbrace',
+        'less than|left angle|langle': 'langle',
+        'greater than|right angle|wrangle': 'rangle',
         # Quotes
         '([single] quote|smote)': 'squote',
         '(double|dub) quote': 'dquote',
@@ -91,7 +92,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         # Shift + Keys 1-8
         '(exclamation [mark]|bang)': 'exclamation',
         'at sign': 'at',
-        '(hash|pound)': 'hash',
+        'hash': 'hash',
         'dollar': 'dollar',
         'percent': 'percent',
         'caret': 'caret',
@@ -108,9 +109,10 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         '(underscore|rail)': 'underscore',
         '(dash)': 'minus',
         'colon': 'colon',
-        '(pipe|vertical bar)': 'bar',
+        '(piper|vertical bar)': 'bar',
         '(equals|equal)': 'equal',
         'plus': 'plus',
+        'tilde': 'tilde',
         # Semicolon does not exist in dragonfly 0.6.5.
         # There is a SimpleCommandRule to get around this
     },
