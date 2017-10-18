@@ -363,15 +363,24 @@ class SimpleCommandRule(MappingRule):
         # NOTE 2: If a keyword is specific to a limited number of languages,
         # and is only a single syllable, then to avoid accidental stuff, prefix
         # the command with 'key'.
-        'key class': Text('class'),
+        'key class': Text('class '),
+        'key fun': Text('fn'),
+        'key function': Text('function '),
         'key let': Text('let '),
         'key var': Text('var'),
+        'key bool': Text('bool'),
+        'key boolean': Text('boolean'),
+        'key int': Text('int'),
         'key deaf': Text('def '),
         'key deaf pee': Text('defp '),
+        'key null': Text('null'),
+        'key nil': Text('nil'),
+        'key for': Text('for '),
+        'key while': Text('while '),
+        'key if': Text('if '),
+        'key else': Text('else '),
         'return': Text('return'),
-        'if': Text('if '),
-        'else': Text('else '),
-        'ee-lif': Text('elif '),
+        'key ee-lif': Text('elif '),
         'new': Text('new'),
         'lamb dash': Text(' -> '),
         'lamb eek': Text(' => '),
@@ -383,6 +392,9 @@ class SimpleCommandRule(MappingRule):
 
         # Temporary
         'short cat': Key('ws-space'),
+
+        # Words
+        'key todo': Text('TODO '),
     }
 
 
