@@ -341,9 +341,9 @@ class SimpleCommandRule(MappingRule):
         'compare less': Text(' < '),
         'compare (greater|great) eek': Text(' >= '),
         'compare less eek': Text(' <= '),
-        'boolean ore': Text(' || '),
+        'boolean or': Text(' || '),
         'boolean and': Text(' && '),
-        'bit ore': Text(' | '),
+        'bit or': Text(' | '),
         'bit and': Text(' & '),
         'bit ex or': Text(' ^ '),
         'times': Text(' * '),
@@ -360,11 +360,11 @@ class SimpleCommandRule(MappingRule):
         # NOTE: Tried to word these so these are usable for multiple languages
         # Remember that we don't know what language we are using from this
         # grammar.
-        # NOTE 2: If a keyword is specific to a limited number of languages,
-        # and is only a single syllable, then to avoid accidental stuff, prefix
-        # the command with 'key'.
+        # NOTE 2: To avoid collisions with other commands, prefix all of these
+        # with 'key'.
         'key class': Text('class '),
-        'key fun': Text('fn'),
+        'key fun': Text('fn '),
+        'key end': Text('end'),
         'key function': Text('function '),
         'key let': Text('let '),
         'key var': Text('var'),
@@ -379,9 +379,13 @@ class SimpleCommandRule(MappingRule):
         'key while': Text('while '),
         'key if': Text('if '),
         'key else': Text('else '),
-        'return': Text('return'),
+        'key do': Text('do'),
+        'key when': Text('when '),
+        'key case': Text('case '),
+        'key conned': Text('cond '),
+        'key return': Text('return'),
         'key ee-lif': Text('elif '),
-        'new': Text('new'),
+        'key new': Text('new'),
         'lamb dash': Text(' -> '),
         'lamb eek': Text(' => '),
         'slash comment': Text('// '),
