@@ -4,7 +4,9 @@ import aenea.vocabulary
 
 from aenea import (
     Key,
-    Text
+    Text,
+    Mouse,
+    Pause
 )
 
 from aenea.proxy_contexts import ProxyAppContext
@@ -288,6 +290,10 @@ class SimpleCommandRule(MappingRule):
 
     setup_key_mappings()
     mapping = {
+        # Mouse
+        'mouse left': Mouse('left'),
+        'mouse right': Mouse('right'),
+
         # Gets around invalid Key('semicolon') error
         '(semicolon|semi)': Text(';'),
 
@@ -298,7 +304,7 @@ class SimpleCommandRule(MappingRule):
         'align (par|paragraph)': Text('mzgqip`z'),
         'yank (file|all)': Text('mzggVGy`z'),
         'save file': Key('colon,w,enter'),
-        'save and quit': Key('colon,w,q,enter'),
+        'save [and] quit': Key('colon,w,q,enter'),
         'save all [files]': Key('colon,w,a,enter'),
         'save all [files] and quit': Key('colon,w,q,enter'),
         'move line up': Text('ddkP'),
@@ -362,7 +368,7 @@ class SimpleCommandRule(MappingRule):
         # grammar.
         # NOTE 2: To avoid collisions with other commands, prefix all of these
         # with 'key'.
-        'key class': Text('class '),
+        'key class': Text('class'),
         'key fun': Text('fn '),
         'key end': Text('end'),
         'key function': Text('function '),
@@ -371,6 +377,8 @@ class SimpleCommandRule(MappingRule):
         'key bool': Text('bool'),
         'key boolean': Text('boolean'),
         'key int': Text('int'),
+        'key deaf module': Text('defmodule '),
+        'key deaf macro': Text('defmacro '),
         'key deaf': Text('def '),
         'key deaf pee': Text('defp '),
         'key null': Text('null'),
@@ -386,6 +394,8 @@ class SimpleCommandRule(MappingRule):
         'key return': Text('return'),
         'key ee-lif': Text('elif '),
         'key new': Text('new'),
+        'key this': Text('this'),
+        'key self': Text('self'),
         'lamb dash': Text(' -> '),
         'lamb eek': Text(' => '),
         'slash comment': Text('// '),
@@ -394,11 +404,14 @@ class SimpleCommandRule(MappingRule):
         '(bee|brace) block': Key('space,lbrace,enter'),
         'slash doc comment': Key('slash,asterisk,asterisk,enter'),
 
-        # Temporary
+        # Temporary (TODO move elsewhere)
         'short cat': Key('ws-space'),
+        'do pause': Pause('20'),
+        'spotlight': Key('w-space') + Pause('20'),
 
         # Words
         'key todo': Text('TODO '),
+        'bullet': Text('- '),
     }
 
 
