@@ -407,10 +407,16 @@ class SimpleCommandRule(MappingRule):
         # Temporary (TODO move elsewhere)
         'short cat': Key('ws-space'),
         'do pause': Pause('20'),
+        # Temporary spotlight stuff (TODO move elsewhere)
         'spotlight': Key('w-space') + Pause('20'),
+        'clipboard': Key('w-space') + Pause('20') + Text('clipboard')
+            + Key('enter'),
+        'clear notifications': Key('w-space') + Pause('20')
+            + Text('clear notifications') + Key('enter'),
 
         # Words
         'key todo': Text('TODO '),
+        'key tea mucks': Text('tmux'),
         'bullet': Text('- '),
     }
 
