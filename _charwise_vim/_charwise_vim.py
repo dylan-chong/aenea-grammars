@@ -211,17 +211,8 @@ def create_app_context():
     )
 
 
-# Random Helpers
-
-
-def text_to_key_str(text):
-    """
-    Splits the text (e.g. 'abc') into comma-separated characters suitable for
-    use in the Key constructor.
-
-    It currently only works with lowercase letters, digits, and spaces
-    """
-    return ','.join(text).replace(' ', 'space')
+class Utils:
+    open_spotlight = Key('w-space') + Pause('20')
 
 
 # Rules
@@ -408,10 +399,9 @@ class SimpleCommandRule(MappingRule):
         'short cat': Key('ws-space'),
         'do pause': Pause('20'),
         # Temporary spotlight stuff (TODO move elsewhere)
-        'spotlight': Key('w-space') + Pause('20'),
-        'clipboard': Key('w-space') + Pause('20') + Text('clipboard')
-            + Key('enter'),
-        'clear notifications': Key('w-space') + Pause('20')
+        'spotlight': Utils.open_spotlight,
+        'clipboard': Utils.open_spotlight + Text('clipboard') + Key('enter'),
+        'clear notifications': Utils.open_spotlight
             + Text('clear notifications') + Key('enter'),
 
         # Words
@@ -530,30 +520,47 @@ class IdentifierInsertion(CompoundRule):
         return Text(formatted)
 
 
+class OpenAppRule(CompoundRule):
+    """
+    Open app with Spotlight/Alfred
+    """
+    spec = 'open-app <dictation>'
+    extras = [Dictation(name='dictation')]
+
+    def value(self, node):
+        words = ' '.join(node.words()[1:])
+        return Utils.open_spotlight + Text(words) + Key('enter')
+
+
 class CharwiseVimRule(CompoundRule):
     """
     The top level rule.
 
     Allows for saying multiple commands at once, but will end
-    after dictating words (see :class:`~TextEntryRule`)
+    after dictating words (see :class:`~IdentifierInsertion`)
     """
     _repeated_rules_key = 'repeated_rules'
     _identifier_insertion_key = 'identifier_insertion'
+    _open_app_key = 'open_app'
 
     _repeatable_rules = [
         RuleRef(ModifiableSingleKeyRule()),
         RuleRef(SimpleCommandRule()),
     ]
 
-    spec = '[<{}>] [<{}>]'.format(_repeated_rules_key,
-                                  _identifier_insertion_key)
+    spec = '[<{}>] [<{}> | <{}>]'.format(
+        _repeated_rules_key,
+        _identifier_insertion_key,
+        _open_app_key,
+    )
     extras = [
         Repetition(
             Alternative(_repeatable_rules),
             max=20,
             name=_repeated_rules_key
         ),
-        RuleRef(IdentifierInsertion(), name=_identifier_insertion_key)
+        RuleRef(IdentifierInsertion(), name=_identifier_insertion_key),
+        RuleRef(OpenAppRule(), name=_open_app_key),
     ]
 
     def _process_recognition(self, node, extras):
@@ -573,5 +580,9 @@ class CharwiseVimRule(CompoundRule):
             print 'Executing Identifier {}'.format(identifier)
             identifier.execute()
 
+        if self._open_app_key in extras:
+            text = extras[self._open_app_key]
+            print 'Executing OpenApp {}'.format(text)
+            text.execute()
 
 load()
