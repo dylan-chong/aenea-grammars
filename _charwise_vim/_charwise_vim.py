@@ -38,7 +38,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
     # In each sub-dict: What to say (key): String to pass into Key(str) (value)
     'all': {},  # All mappings excluding modifier keys. Updated below
     'letters': {
-        # Copied from aenea/client/misc.py
+        # Copied from aenea/client/misc.py (but modified)
         'alpha': 'a',
         'bravo': 'b',
         'charlie': 'c',
@@ -56,8 +56,8 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'oscar': 'o',
         'poppy': 'p',  # Different from 'poppa' (avoids conflict with 'proper')
         'quiche': 'q',
-        'romeo': 'r',
-        'sierra': 's',
+        '(romeo|row-me)': 'r', # Shorter than 'romeo'
+        '(sierra|sofa)': 's', # Shorter than 'sierra'
         'tango': 't',
         '(uniform|unit)': 'u',
         'victor': 'v',
@@ -212,7 +212,7 @@ def create_app_context():
 
 
 class Utils:
-    open_spotlight = Key('w-space') + Pause('20')
+    open_spotlight = Key('w-space') + Pause('10')
 
 
 # Rules
@@ -407,6 +407,7 @@ class SimpleCommandRule(MappingRule):
         # Words
         'key todo': Text('TODO '),
         'key tea mucks': Text('tmux'),
+        'key vim': Text('vim'),
         'bullet': Text('- '),
     }
 
