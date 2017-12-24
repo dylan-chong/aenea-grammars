@@ -78,7 +78,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         '(left (paren|parenthesis)|push)': 'lparen',
         '(right (paren|parenthesis)|pop)': 'rparen',
         # saying 'left bracket' makes Dragon type '('
-        'left square': 'lbracket',
+        'left square|lacket': 'lbracket',
         'right square': 'rbracket',
         'left brace|lace': 'lbrace',
         'right brace|race': 'rbrace',
@@ -511,7 +511,10 @@ class IdentifierInsertion(CompoundRule):
         if uppercase:
             words = [word.upper() for word in words]
 
+        words = [item for item in node.words() if not item.startswith(',')]
+
         words = [word.split('\\', 1)[0].replace('-', '') for word in words]
+
         if words[0].lower() in ('upper', 'natural'):
             del words[0]
 
