@@ -415,77 +415,6 @@ class SimpleCommandRule(MappingRule):
 # TODO include programming.json somewhere??
 
 
-def format_snakeword(text):
-    formatted = text[0][0].upper()
-    formatted += text[0][1:]
-    formatted += ('_' if len(text) > 1 else '')
-    formatted += format_score(text[1:])
-    return formatted
-
-
-def format_score(text):
-    return '_'.join(text)
-
-
-def format_params(text):
-    return ', '.join(text)
-
-
-def format_camel(text):
-    return text[0] + ''.join([word[0].upper() + word[1:] for word in text[1:]])
-
-
-def format_proper(text):
-    return ''.join(word.capitalize() for word in text)
-
-
-def format_relpath(text):
-    return '/'.join(text)
-
-
-def format_abspath(text):
-    return '/' + format_relpath(text)
-
-
-def format_scoperesolve(text):
-    return '::'.join(text)
-
-
-def format_jumble(text):
-    return ''.join(text)
-
-
-def format_dotword(text):
-    return '.'.join(text)
-
-
-def format_dashword(text):
-    return '-'.join(text)
-
-
-def format_natword(text):
-    return ' '.join(text)
-
-format_naewid = format_natword
-
-def format_spaceword(text):
-    return ' '.join(text) + ' '
-
-
-format_spaywid = format_spaceword
-
-
-def format_broodingnarrative(text):
-    return ''
-
-
-def format_sentence(text):
-    return ' '.join([text[0].capitalize()] + text[1:])
-
-
-def format_title(text):
-    return ' '.join([word[0].upper() + word[1:] for word in text])
-
 
 # TODO copy changes to vim grammar
 class IdentifierInsertion(CompoundRule):
@@ -518,10 +447,82 @@ class IdentifierInsertion(CompoundRule):
         if words[0].lower() in ('upper', 'natural'):
             del words[0]
 
-        func = globals()['format_%s' % words[0].lower()]
+        func = getattr(self.__class__, 'format_%s' % words[0].lower())
         formatted = func(words[1:])
 
         return Text(formatted)
+
+    @staticmethod
+    def format_snakeword(text):
+        formatted = text[0][0].upper()
+        formatted += text[0][1:]
+        formatted += ('_' if len(text) > 1 else '')
+        formatted += format_score(text[1:])
+        return formatted
+
+    @staticmethod
+    def format_score(text):
+        return '_'.join(text)
+
+    @staticmethod
+    def format_params(text):
+        return ', '.join(text)
+
+    @staticmethod
+    def format_camel(text):
+        return text[0] + ''.join([word[0].upper() + word[1:] for word in text[1:]])
+
+    @staticmethod
+    def format_proper(text):
+        return ''.join(word.capitalize() for word in text)
+
+    @staticmethod
+    def format_relpath(text):
+        return '/'.join(text)
+
+    @staticmethod
+    def format_abspath(text):
+        return '/' + format_relpath(text)
+
+    @staticmethod
+    def format_scoperesolve(text):
+        return '::'.join(text)
+
+    @staticmethod
+    def format_jumble(text):
+        return ''.join(text)
+
+    @staticmethod
+    def format_dotword(text):
+        return '.'.join(text)
+
+    @staticmethod
+    def format_dashword(text):
+        return '-'.join(text)
+
+    @staticmethod
+    def format_natword(text):
+        return ' '.join(text)
+
+    format_naewid = format_natword
+
+    @staticmethod
+    def format_spaceword(text):
+        return ' '.join(text) + ' '
+
+    format_spaywid = format_spaceword
+
+    @staticmethod
+    def format_broodingnarrative(text):
+        return ''
+
+    @staticmethod
+    def format_sentence(text):
+        return ' '.join([text[0].capitalize()] + text[1:])
+
+    @staticmethod
+    def format_title(text):
+        return ' '.join([word[0].upper() + word[1:] for word in text])
 
 
 class OpenAppRule(CompoundRule):
