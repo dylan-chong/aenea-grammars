@@ -405,10 +405,10 @@ class SimpleCommandRule(MappingRule):
             + Text('clear notifications') + Key('enter'),
 
         # Words
-        'key todo': Text('TODO '),
-        'key tea mucks': Text('tmux'),
-        'key vim': Text('vim'),
-        'bullet': Text('- '),
+        'word todo': Text('TODO '),
+        'word tea mucks': Text('tmux'),
+        'word vim': Text('vim'),
+        'word imple': Text('impl'),
     }
 
 
