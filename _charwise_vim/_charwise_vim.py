@@ -440,7 +440,7 @@ class IdentifierInsertion(CompoundRule):
         if uppercase:
             words = [word.upper() for word in words]
 
-        words = [item for item in node.words() if not item.startswith(',')]
+        words = [item for item in words if not item.startswith(',')]
 
         words = [word.split('\\', 1)[0].replace('-', '') for word in words]
 
