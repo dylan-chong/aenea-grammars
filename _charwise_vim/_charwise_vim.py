@@ -122,7 +122,9 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         # There is a SimpleCommandRule to get around this
     },
     'special-keys': {
-        '(escape|quit)': 'escape',
+        # For tmux, use the 'quit' SimpleCommandRule instead of 'escape'
+        # because of the escape button delay bug
+        'escape': 'escape',
         '(backspace|chuck)': 'backspace',
         'up': 'up',
         'down': 'down',
@@ -297,6 +299,7 @@ class SimpleCommandRule(MappingRule):
         'delete line': Text('dd'),
         'align (par|paragraph)': Text('mzgqip`z'),
         'yank (file|all)': Text('mzggVGy`z'),
+        'quit': Key('escape') + Pause('3'), # Delay because of tmux escape delay bug
         'save file': Key('colon,w,enter'),
         'save [and] quit': Key('colon,w,q,enter'),
         'save all [files]': Key('colon,w,a,enter'),
