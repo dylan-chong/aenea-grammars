@@ -88,7 +88,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'less than|left angle|langle': 'langle',
         'greater than|right angle|wrangle': 'rangle',
         # Quotes
-        '([single] quote|smote)': 'squote',
+        '([single] quote|sing quote)': 'squote',
         '(double|dub) quote': 'dquote',
         'backtick': 'backtick',
         # Slashes
@@ -303,7 +303,6 @@ class SimpleCommandRule(MappingRule):
         'save file': Key('colon,w,enter'),
         'save [and] quit': Key('colon,w,q,enter'),
         'save all [files]': Key('colon,w,a,enter'),
-        'save all [files] and quit': Key('colon,w,q,enter'),
         'move line up': Text('ddkP'),
         'move line down': Text('ddp'),
         'change word': Text('ciw'),
@@ -404,7 +403,8 @@ class SimpleCommandRule(MappingRule):
 
         # Temporary (TODO move elsewhere)
         'short cat': Key('ws-space'),
-        'do pause': Pause('20'),
+        'do pause': Pause('50'),
+        'bullet point': Text('- '),
         # Temporary spotlight stuff (TODO move elsewhere)
         'spotlight': Utils.open_spotlight,
         'clipboard': Utils.open_spotlight + Text('clipboard') + Key('enter'),
