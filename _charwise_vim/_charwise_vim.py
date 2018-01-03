@@ -44,7 +44,8 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'charlie': 'c',
         'delta': 'd',
         'echo': 'e',
-        'fox': 'f',
+        'foxtrot': 'f',
+#          '(foxtrot|fox)': 'f', # TODO  Tidy up
         'golf': 'g',
         'hotel': 'h',
         '(indigo|indie)': 'i',
@@ -55,9 +56,11 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         '(november|neighbour)': 'n',
         'oscar': 'o',
         'poppy': 'p',  # Different from 'poppa' (avoids conflict with 'proper')
-        'quiche': 'q',
-        '(romeo|row-me)': 'r', # Shorter than 'romeo'
-        '(sierra|sofa)': 's', # Shorter than 'sierra'
+        'quebec': 'q',
+        # TODO Put alternatives back once i have learned to use the shorter version
+#          '(romeo|row-me)': 'r', # Shorter than 'romeo'
+        'row-me': 'r', # Shorter than 'romeo'
+        'sofa': 's', # Shorter than 'sierra'
         'tango': 't',
         '(uniform|unit)': 'u',
         'victor': 'v',
