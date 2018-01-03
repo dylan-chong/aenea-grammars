@@ -302,6 +302,7 @@ class SimpleCommandRule(MappingRule):
         'move line down': Text('ddp'),
         'change word': Text('ciw'),
         'switch split': Key('c-w,c-w'),
+        'leader': Key('backslash'),
 
         # Vim tags (or IntelliJ)
         '(jump deaf|jump to definition)': Key('c-rbracket'),
