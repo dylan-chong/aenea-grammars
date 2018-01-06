@@ -108,7 +108,9 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'tab': 'tab',
         '(enter|new line)': 'enter',
         # Other
-        '(full stop|dot)': 'dot',
+        # 'dot' is too short and can be easily mistaken for something else by
+        # dragon
+        '(full stop|period)': 'dot',
         'comma': 'comma',
         '(question [mark]|quest)': 'question',
         '(underscore|rail)': 'underscore',
@@ -300,7 +302,7 @@ class SimpleCommandRule(MappingRule):
         'align (par|paragraph)': Text('mzgqip`z'),
         'yank (file|all)': Text('mzggVGy`z'),
         'quit': Key('escape') + Pause('3'), # Delay because of tmux escape delay bug
-        'save file': Key('colon,w,enter'),
+        'save the file': Key('colon,w,enter'),
         'save [and] quit': Key('colon,w,q,enter'),
         'save all [files]': Key('colon,w,a,enter'),
         'move line up': Text('ddkP'),
