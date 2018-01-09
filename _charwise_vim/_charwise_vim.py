@@ -192,27 +192,11 @@ def setup_grammar():
 
 
 def create_app_context():
-    # Allow use with IntelliJ's IDEA-Vim plugin (this is quite general so it
-    # may match other apps accidentally)
-    intellij_window_title = '[\S]+ - [\S]+ - \[\S+\]'
-    # iTerm 2 sets the window title to these when using Vim/Neovim.
-    # We might want to `set editing-mode vi` in the terminal, so we need to
-    # match Bash.
-    terminal_window_names = 'BASH|ZSH|RUBY|PYTHON\d?'
-    # IntelliJ (Mac) has no window title when there's any sort of popup
-    # window (e.g. autocomplete, find in files, etc), so we need to match an
-    blank_window_title = '\s*'
-    intellij_app_name = 'idea|intellij.*'  # TODO appcode, rubymine, pycharm ?
-
     return aenea.wrappers.AeneaContext(
         ProxyAppContext(
-            # Both title and app_id of the active app/window must match for
-            # this grammar to be active
             match='regex',
-            title='(?i).*(?:VIM|' + terminal_window_names + ').*' +
-                  '|(?:' + intellij_window_title +
-                  '|' + blank_window_title + ')',
-            app_id='(?i).*VIM.*|.*TERM.*|' + intellij_app_name,
+            title='.*',
+            app_id='.*',
         ),
         AppContext(title='VIM')
     )
