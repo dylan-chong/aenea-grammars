@@ -501,6 +501,8 @@ class IdentifierInsertion(CompoundRule):
 
     @staticmethod
     def format_spaceword(text):
+        if len(text) == 0:
+            return ''
         return ' '.join(text) + ' '
 
     format_spaywid = format_spaceword
@@ -511,7 +513,9 @@ class IdentifierInsertion(CompoundRule):
 
     @staticmethod
     def format_sentence(text):
-        return ' '.join([text[0].capitalize()] + text[1:])
+        if len(text) == 0:
+            return ''
+        return ' '.join([text[0].capitalize()] + text[1:]) + ' '
 
     @staticmethod
     def format_title(text):
