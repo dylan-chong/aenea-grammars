@@ -110,11 +110,11 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         # Other
         # 'dot' is too short and can be easily mistaken for something else by
         # dragon
-        '(full stop|period)': 'dot',
+        'period': 'dot',
         'comma': 'comma',
         '(question [mark]|quest)': 'question',
         '(underscore|rail)': 'underscore',
-        '(dash)': 'minus',
+        'hyphen': 'minus',
         'colon': 'colon',
         '(piper|vertical bar)': 'bar',
         '(equals|equal)': 'equal',
@@ -402,6 +402,7 @@ class SimpleCommandRule(MappingRule):
         'word tea mucks': Text('tmux'),
         'word vim': Text('vim'),
         'word imple': Text('impl'),
+        'word git': Text('git'),
     }
 
 
