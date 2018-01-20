@@ -539,22 +539,21 @@ class CharwiseVimRule(CompoundRule):
     """
     The top level rule.
 
-    Allows for saying multiple commands at once, but will end
-    after dictating words (see :class:`~IdentifierInsertion`)
+    Allows for saying multiple commands at once, but will end after dictating
+    words (see :class:`~IdentifierInsertion`) or some other kind of ending
+    rule.
     """
     _repeated_rules_key = 'repeated_rules'
-    _identifier_insertion_key = 'identifier_insertion'
-    _open_app_key = 'open_app'
+    _ending_rules_key = 'ending_rules'
 
     _repeatable_rules = [
         RuleRef(ModifiableSingleKeyRule()),
         RuleRef(SimpleCommandRule()),
     ]
 
-    spec = '[<{}>] [<{}> | <{}>]'.format(
+    spec = '[<{}>] [<{}>]'.format(
         _repeated_rules_key,
-        _identifier_insertion_key,
-        _open_app_key,
+        _ending_rules_key,
     )
     extras = [
         Repetition(
@@ -562,8 +561,13 @@ class CharwiseVimRule(CompoundRule):
             max=20,
             name=_repeated_rules_key
         ),
-        RuleRef(IdentifierInsertion(), name=_identifier_insertion_key),
-        RuleRef(OpenAppRule(), name=_open_app_key),
+        Alternative(
+            [
+                RuleRef(IdentifierInsertion()),
+                RuleRef(OpenAppRule())
+            ],
+            name=_ending_rules_key,
+        ),
     ]
 
     def _process_recognition(self, node, extras):
@@ -572,20 +576,17 @@ class CharwiseVimRule(CompoundRule):
 
         # Press keys / enter text for what user just said
 
+        # An executable could be an aenea Text, Key, or Pause
+
         if self._repeated_rules_key in extras:
-            for key_or_text in extras[self._repeated_rules_key]:
-                if key_or_text:
-                    print 'Executing Repeatable {}'.format(key_or_text)
-                    key_or_text.execute()
+            for executable in extras[self._repeated_rules_key]:
+                if executable:
+                    print 'Executing Repeatable {}'.format(executable)
+                    executable.execute()
 
-        if self._identifier_insertion_key in extras:
-            identifier = extras[self._identifier_insertion_key]
-            print 'Executing Identifier {}'.format(identifier)
-            identifier.execute()
-
-        if self._open_app_key in extras:
-            text = extras[self._open_app_key]
-            print 'Executing OpenApp {}'.format(text)
-            text.execute()
+        if self._ending_rules_key in extras:
+            executable = extras[self._ending_rules_key]
+            print 'Executing Ending Rule {}'.format(executable)
+            executable.execute()
 
 load()
