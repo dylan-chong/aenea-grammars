@@ -535,13 +535,24 @@ class OpenAppRule(CompoundRule):
         return Utils.open_spotlight + Text(words) + Key('enter')
 
 
+class NoOpRule(CompoundRule):
+    """
+    A no op rule (ignores what you are saying) for convenience.
+    """
+    spec = 'speaking <dictation>'
+    extras = [Dictation(name='dictation')]
+
+    def value(self, node):
+        return Text('') # Type nothing
+
+
 class CharwiseVimRule(CompoundRule):
     """
     The top level rule.
 
     Allows for saying multiple commands at once, but will end after dictating
     words (see :class:`~IdentifierInsertion`) or some other kind of ending
-    rule.
+    rule. (You do not have to say and ending rule).
     """
     _repeated_rules_key = 'repeated_rules'
     _ending_rules_key = 'ending_rules'
@@ -564,7 +575,8 @@ class CharwiseVimRule(CompoundRule):
         Alternative(
             [
                 RuleRef(IdentifierInsertion()),
-                RuleRef(OpenAppRule())
+                RuleRef(OpenAppRule()),
+                RuleRef(NoOpRule()),
             ],
             name=_ending_rules_key,
         ),
