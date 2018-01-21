@@ -451,7 +451,7 @@ class IdentifierInsertion(CompoundRule):
         formatted = text[0][0].upper()
         formatted += text[0][1:]
         formatted += ('_' if len(text) > 1 else '')
-        formatted += format_score(text[1:])
+        formatted += IdentifierInsertion.format_score(text[1:])
         return formatted
 
     @staticmethod
@@ -476,7 +476,7 @@ class IdentifierInsertion(CompoundRule):
 
     @staticmethod
     def format_abspath(text):
-        return '/' + format_relpath(text)
+        return '/' + IdentifierInsertion.format_relpath(text)
 
     @staticmethod
     def format_scoperesolve(text):
