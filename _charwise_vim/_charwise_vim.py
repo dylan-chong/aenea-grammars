@@ -60,7 +60,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         # TODO Put alternatives back once i have learned to use the shorter version
 #          '(romeo|row-me)': 'r', # Shorter than 'romeo'
         'row-me': 'r', # Shorter than 'romeo'
-        'sofa': 's', # Shorter than 'sierra'
+        'statue': 's', # Shorter than 'sierra'
         'tango': 't',
         '(uniform|unit)': 'u',
         'victor': 'v',
@@ -114,7 +114,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'comma': 'comma',
         '(question [mark]|quest)': 'question',
         '(underscore|rail)': 'underscore',
-        'hyphen': 'minus',
+        'dash|hyphen': 'minus',
         'colon': 'colon',
         '(piper|vertical bar)': 'bar',
         '(equals|equal)': 'equal',
@@ -293,7 +293,6 @@ class SimpleCommandRule(MappingRule):
         'move line down': Text('ddp'),
         'change word': Text('ciw'),
         'switch split': Key('c-w,c-w'),
-        'leader': Key('backslash'),
 
         # Vim tags (or IntelliJ)
         '(jump deaf|jump to definition)': Key('c-rbracket'),
