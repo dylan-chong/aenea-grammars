@@ -378,6 +378,8 @@ class SimpleCommandRule(MappingRule):
         'key new': Text('new'),
         'key this': Text('this'),
         'key self': Text('self'),
+        'key true': Text('true'),
+        'key false': Text('false'),
         'lamb dash': Text(' -> '),
         'lamb eek': Text(' => '),
         'slash comment': Text('// '),
@@ -431,9 +433,11 @@ class IdentifierInsertion(CompoundRule):
         if uppercase:
             words = [word.upper() for word in words]
 
-        words = [item for item in words if not item.startswith(',')]
-
-        words = [word.split('\\', 1)[0].replace('-', '') for word in words]
+        words = [
+            word.split('\\', 1)[0].replace('-', '')
+            for word in words
+            if not word.startswith(',')
+        ]
 
         if words[0].lower() in ('upper', 'natural'):
             del words[0]
