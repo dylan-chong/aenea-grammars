@@ -532,7 +532,8 @@ class OpenAppRule(CompoundRule):
     extras = [Dictation(name='dictation')]
 
     def value(self, node):
-        words = ' '.join(node.words()[1:])
+        words = [word.split('\\')[0] for word in node.words()]
+        words = ' '.join(words[1:])
         return Utils.open_spotlight + Text(words) + Key('enter')
 
 
