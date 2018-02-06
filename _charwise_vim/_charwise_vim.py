@@ -127,7 +127,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         # For tmux, use the 'quit' SimpleCommandRule instead of 'escape'
         # because of the escape button delay bug
         'escape': 'escape',
-        '(backspace|chuck)': 'backspace',
+        '(backspace|slap)': 'backspace',
         'up': 'up',
         'down': 'down',
         'left': 'left',
@@ -388,6 +388,7 @@ class SimpleCommandRule(MappingRule):
 
         # Temporary (TODO move elsewhere)
         'short cat': Key('ws-space'),
+        'tea mucks': Key('c-s'),
         'do pause': Pause('50'),
         'bullet point': Text('- '),
         # Temporary spotlight stuff (TODO move elsewhere)
@@ -395,6 +396,7 @@ class SimpleCommandRule(MappingRule):
         'clipboard': Utils.open_spotlight + Text('clipboard') + Key('enter'),
         'clear notifications': Utils.open_spotlight
             + Text('clear notifications') + Key('enter'),
+        'toggle music': Utils.open_spotlight + Text('play') + Key('enter'),
 
         # Words
         'word todo': Text('TODO '),
