@@ -285,6 +285,7 @@ class SimpleCommandRule(MappingRule):
         'yank (file|all)': Text('mzggVGy`z'),
         'quit': Key('escape') + Pause('3'), # Delay because of tmux escape delay bug
         'save the file': Key('colon,w,enter'),
+        'force save': Key('colon,w,exclamation,enter'),
         'save [and] quit': Key('colon,w,q,enter'),
         'save all [files]': Key('colon,w,a,enter'),
         'move line up': Text('ddkP'),
@@ -387,7 +388,7 @@ class SimpleCommandRule(MappingRule):
         # Temporary (TODO move elsewhere)
         'short cat': Key('ws-space'),
         'tea mucks': Key('c-s'),
-        'do pause': Pause('50'),
+        'do pause': Pause('20'),
         'bullet point': Text('- '),
         # Temporary spotlight stuff (TODO move elsewhere)
         'spotlight': Utils.open_spotlight,
@@ -397,7 +398,7 @@ class SimpleCommandRule(MappingRule):
         'toggle music': Utils.open_spotlight + Text('play') + Key('enter'),
 
         # Words
-        'word todo': Text('TODO '),
+        'word to do': Text('TODO '),
         'word tea mucks': Text('tmux'),
         'word vim': Text('vim'),
         'word imple': Text('impl'),
