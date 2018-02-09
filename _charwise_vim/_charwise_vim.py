@@ -45,10 +45,10 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'delta': 'd',
         'echo': 'e',
         'foxtrot': 'f',
-#          '(foxtrot|fox)': 'f', # TODO  Tidy up
         'golf': 'g',
         'hotel': 'h',
-        '(indigo|indie)': 'i',
+        # 'andy' because it sounds similar to 'indie'
+        '(indigo|indie|andy)': 'i',
         '(juliet|julie)': 'j',
         'kilo': 'k',
         'lima': 'l',
@@ -57,9 +57,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'oscar': 'o',
         'poppy': 'p',  # Different from 'poppa' (avoids conflict with 'proper')
         'quebec': 'q',
-        # TODO Put alternatives back once i have learned to use the shorter version
-#          '(romeo|row-me)': 'r', # Shorter than 'romeo'
-        'row-me': 'r', # Shorter than 'romeo'
+        '(romeo|row-me)': 'r', # Shorter than 'romeo'
         'statue': 's', # Shorter than 'sierra'
         'tango': 't',
         '(uniform|unit)': 'u',
@@ -225,7 +223,7 @@ class ModifierKeyRule(MappingRule):
         '(control|con)': 'c',
         '(alt|olt)': 'a',  # use 'olt` as hack for proper pronunciation of 'alt'
         # Command key on Mac. (Remember, it's 'w' for command, not 'c'!)
-        '(windows|command)': 'w',
+        '(windows|command|cherry)': 'w',
     }
 
 
