@@ -44,7 +44,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'charlie': 'c',
         'delta': 'd',
         'echo': 'e',
-        'foxtrot': 'f',
+        'factor': 'f',
         'golf': 'g',
         'hotel': 'h',
         # 'andy' because it sounds similar to 'indie'
@@ -80,7 +80,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         '(right (paren|parenthesis)|pop)': 'rparen',
         # saying 'left bracket' makes Dragon type '('
         'left square|lacket': 'lbracket',
-        'right square': 'rbracket',
+        'right square|racket': 'rbracket',
         'left brace|lace': 'lbrace',
         'right brace|race': 'rbrace',
         'less than|left angle|langle': 'langle',
@@ -102,7 +102,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         '(ampersand|amp)': 'ampersand',
         '(asterisk|star)': 'asterisk',
         # Spaces
-        '(space [bar] | spay)': 'space',
+        '(space [bar])': 'space',
         'tab': 'tab',
         '(enter|new line)': 'enter',
         # Other
@@ -286,7 +286,7 @@ class SimpleCommandRule(MappingRule):
         'quit': Key('escape') + Pause('3'), # Delay because of tmux escape delay bug
         'save the file': Key('colon,w,enter'),
         'force save': Key('colon,w,exclamation,enter'),
-        'save [and] quit': Key('colon,w,q,enter'),
+        'save [and] exit': Key('colon,w,q,enter'),
         'save all [files]': Key('colon,w,a,enter'),
         'move line up': Text('ddkP'),
         'move line down': Text('ddp'),
@@ -386,7 +386,7 @@ class SimpleCommandRule(MappingRule):
         'slash doc comment': Key('slash,asterisk,asterisk,enter'),
 
         # Temporary (TODO move elsewhere)
-        'short cat': Key('ws-space'),
+        'short cat': Key('ws-space') + Pause('10'),
         'tea mucks': Key('c-s'),
         'do pause': Pause('20'),
         'bullet point': Text('- '),
