@@ -125,7 +125,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         # For tmux, use the 'quit' SimpleCommandRule instead of 'escape'
         # because of the escape button delay bug
         'escape': 'escape',
-        '(backspace|slap)': 'backspace',
+        '(backspace|slip)': 'backspace',
         'up': 'up',
         'down': 'down',
         'left': 'left',
