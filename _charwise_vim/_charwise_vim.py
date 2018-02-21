@@ -560,24 +560,22 @@ class CharwiseVimRule(CompoundRule):
     _repeated_rules_key = 'repeated_rules'
     _ending_rules_key = 'ending_rules'
 
-    _repeatable_rules = [
-        RuleRef(ModifiableSingleKeyRule()),
-        RuleRef(SimpleCommandRule()),
-    ]
-
     spec = '[<{}>] [<{}>]'.format(
         _repeated_rules_key,
         _ending_rules_key,
     )
     extras = [
         Repetition(
-            Alternative(_repeatable_rules),
+            Alternative([
+                RuleRef(ModifiableSingleKeyRule()),
+                RuleRef(SimpleCommandRule()),
+                RuleRef(IdentifierInsertion()),
+            ]),
             max=20,
             name=_repeated_rules_key
         ),
         Alternative(
             [
-                RuleRef(IdentifierInsertion()),
                 RuleRef(OpenAppRule()),
                 RuleRef(NoOpRule()),
             ],
