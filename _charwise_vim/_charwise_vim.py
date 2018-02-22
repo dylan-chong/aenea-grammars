@@ -408,10 +408,8 @@ class SimpleCommandRule(MappingRule):
 
 # TODO include programming.json somewhere??
 
-
-
 # TODO copy changes to vim grammar
-class IdentifierInsertion(CompoundRule):
+class TextRule(CompoundRule):
     """
     Text insertion. E.g. saying 'camel my variable name' => types
     'myVariableName'.
@@ -425,6 +423,7 @@ class IdentifierInsertion(CompoundRule):
 
     def value(self, node):
         words = node.words()
+        self.preprocess_words(words)
 
         uppercase = words[0] == 'upper'
         lowercase = words[0] != 'natural'
@@ -443,17 +442,20 @@ class IdentifierInsertion(CompoundRule):
         if words[0].lower() in ('upper', 'natural'):
             del words[0]
 
-        func = getattr(self.__class__, 'format_%s' % words[0].lower())
+        func = getattr(TextRule, 'format_%s' % words[0].lower())
         formatted = func(words[1:])
 
         return Text(formatted)
+
+    def preprocess_words(self, words):
+        pass
 
     @staticmethod
     def format_snakeword(text):
         formatted = text[0][0].upper()
         formatted += text[0][1:]
         formatted += ('_' if len(text) > 1 else '')
-        formatted += IdentifierInsertion.format_score(text[1:])
+        formatted += TextRule.format_score(text[1:])
         return formatted
 
     @staticmethod
@@ -478,7 +480,7 @@ class IdentifierInsertion(CompoundRule):
 
     @staticmethod
     def format_abspath(text):
-        return '/' + IdentifierInsertion.format_relpath(text)
+        return '/' + TextRule.format_relpath(text)
 
     @staticmethod
     def format_scoperesolve(text):
@@ -525,6 +527,14 @@ class IdentifierInsertion(CompoundRule):
         return ' '.join([word[0].upper() + word[1:] for word in text])
 
 
+class ContinuableTextRule(TextRule):
+    spec = TextRule.spec + ' fin'
+    extras = TextRule.extras
+
+    def preprocess_words(self, words):
+        words.pop()
+
+
 class OpenAppRule(CompoundRule):
     """
     Open app with Spotlight/Alfred
@@ -554,7 +564,7 @@ class CharwiseVimRule(CompoundRule):
     The top level rule.
 
     Allows for saying multiple commands at once, but will end after dictating
-    words (see :class:`~IdentifierInsertion`) or some other kind of ending
+    words (see :class:`~TextRule`) or some other kind of ending
     rule. (You do not have to say and ending rule).
     """
     _repeated_rules_key = 'repeated_rules'
@@ -569,13 +579,14 @@ class CharwiseVimRule(CompoundRule):
             Alternative([
                 RuleRef(ModifiableSingleKeyRule()),
                 RuleRef(SimpleCommandRule()),
-                RuleRef(IdentifierInsertion()),
+                RuleRef(ContinuableTextRule()),
             ]),
             max=20,
             name=_repeated_rules_key
         ),
         Alternative(
             [
+                RuleRef(TextRule()),
                 RuleRef(OpenAppRule()),
                 RuleRef(NoOpRule()),
             ],
