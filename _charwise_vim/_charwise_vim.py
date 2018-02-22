@@ -207,6 +207,9 @@ class Utils:
 # Rules
 
 
+END_CONTINUABLE_TEXT_WORD = 'fin'
+
+
 class SingleKeyRule(MappingRule):
     """
     Allows the entry of a single character. See aenea/client/aenea/misc.py for
@@ -528,7 +531,7 @@ class TextRule(CompoundRule):
 
 
 class ContinuableTextRule(TextRule):
-    spec = TextRule.spec + ' fin'
+    spec = TextRule.spec + ' ' + END_CONTINUABLE_TEXT_WORD
     extras = TextRule.extras
 
     def preprocess_words(self, words):
@@ -570,7 +573,8 @@ class CharwiseVimRule(CompoundRule):
     _repeated_rules_key = 'repeated_rules'
     _ending_rules_key = 'ending_rules'
 
-    spec = '[<{}>] [<{}>]'.format(
+    spec = '[{}] [<{}>] [<{}>]'.format(
+        END_CONTINUABLE_TEXT_WORD, # Avoid problems with saying 'fin' too late
         _repeated_rules_key,
         _ending_rules_key,
     )
