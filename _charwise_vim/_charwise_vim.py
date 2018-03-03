@@ -207,7 +207,7 @@ class Utils:
 # Rules
 
 
-END_CONTINUABLE_TEXT_WORD = 'fin'
+END_CONTINUABLE_TEXT_WORD = 'fint'
 
 
 class SingleKeyRule(MappingRule):
@@ -574,7 +574,8 @@ class CharwiseVimRule(CompoundRule):
     _ending_rules_key = 'ending_rules'
 
     spec = '[{}] [<{}>] [<{}>]'.format(
-        END_CONTINUABLE_TEXT_WORD, # Avoid problems with saying 'fin' too late
+        # Avoid problems with saying END_CONTINUABLE_TEXT_WORD too late
+        END_CONTINUABLE_TEXT_WORD,
         _repeated_rules_key,
         _ending_rules_key,
     )
