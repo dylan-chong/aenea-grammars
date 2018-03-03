@@ -562,6 +562,10 @@ class NoOpRule(CompoundRule):
         return Text('') # Type nothing
 
 
+counter = dict()
+executable_count = 0
+
+
 class CharwiseVimRule(CompoundRule):
     """
     The top level rule.
@@ -600,6 +604,7 @@ class CharwiseVimRule(CompoundRule):
     ]
 
     def _process_recognition(self, node, extras):
+        global counter, executable_count
         # If node contains a string, but extras contains 'None', then perhaps
         # you have tried to call Key(str) where 'str' is some invalid key name.
 
@@ -612,6 +617,20 @@ class CharwiseVimRule(CompoundRule):
                 if executable:
                     print 'Executing Repeatable {}'.format(executable)
                     executable.execute()
+
+                    string = str(executable)[0:20]
+                    executable_count += 1
+                    if string not in counter:
+                        counter[string] = 1
+                    else:
+                        counter[string] += 1
+                    if executable_count % 20 == 0:
+                        sorted_counts = sorted(
+                            counter.iteritems(),
+                            key=lambda (k,v): (v,k)
+                        )
+                        for i in reversed(range(-min(5, len(sorted_counts)), 0)):
+                            print '- {}'.format(sorted_counts[i])
 
         if self._ending_rules_key in extras:
             executable = extras[self._ending_rules_key]
