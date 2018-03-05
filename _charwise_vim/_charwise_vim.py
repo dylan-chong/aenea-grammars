@@ -562,8 +562,34 @@ class NoOpRule(CompoundRule):
         return Text('') # Type nothing
 
 
-counter = dict()
-executable_count = 0
+class Counter:
+    EXECUTABLES_BETWEEN_PRINTS = 8
+    MAX_RESULTS_TO_PRINT = 5
+    counts = dict()
+    executable_count = 0
+
+    @staticmethod
+    def update(executable):
+        string = str(executable)[0:20]
+        Counter.executable_count += 1
+        if string not in Counter.counts:
+            Counter.counts[string] = 1
+        else:
+            Counter.counts[string] += 1
+
+        Counter.print_stats()
+
+    @staticmethod
+    def print_stats():
+        if Counter.executable_count % Counter.EXECUTABLES_BETWEEN_PRINTS != 0:
+            return
+        sorted_counts = sorted(
+            Counter.counts.iteritems(),
+            key=lambda (k,v): (v,k)
+        )
+        results_to_print = min(Counter.MAX_RESULTS_TO_PRINT, len(sorted_counts))
+        for i in reversed(range(-results_to_print, 0)):
+            print '- {}'.format(sorted_counts[i])
 
 
 class CharwiseVimRule(CompoundRule):
@@ -604,7 +630,6 @@ class CharwiseVimRule(CompoundRule):
     ]
 
     def _process_recognition(self, node, extras):
-        global counter, executable_count
         # If node contains a string, but extras contains 'None', then perhaps
         # you have tried to call Key(str) where 'str' is some invalid key name.
 
@@ -618,19 +643,7 @@ class CharwiseVimRule(CompoundRule):
                     print 'Executing Repeatable {}'.format(executable)
                     executable.execute()
 
-                    string = str(executable)[0:20]
-                    executable_count += 1
-                    if string not in counter:
-                        counter[string] = 1
-                    else:
-                        counter[string] += 1
-                    if executable_count % 20 == 0:
-                        sorted_counts = sorted(
-                            counter.iteritems(),
-                            key=lambda (k,v): (v,k)
-                        )
-                        for i in reversed(range(-min(5, len(sorted_counts)), 0)):
-                            print '- {}'.format(sorted_counts[i])
+                    Counter.update(executable)
 
         if self._ending_rules_key in extras:
             executable = extras[self._ending_rules_key]
