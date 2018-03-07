@@ -106,12 +106,12 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'tab': 'tab',
         '(enter|new line)': 'enter',
         # Other
-        # 'dot' is too short and can be easily mistaken for something else by
-        # dragon
-        'period': 'dot',
+        # 'dot' is too short and does not have a unique vowel sound, so can be
+        # easily mistaken for something else by dragon
+        'point': 'dot',
         'comma': 'comma',
-        '(question [mark]|quest)': 'question',
-        '(underscore|rail)': 'underscore',
+        'question [mark]': 'question',
+        'underscore': 'underscore',
         'dash|hyphen': 'minus',
         'colon': 'colon',
         '(piper|vertical bar)': 'bar',
@@ -390,7 +390,7 @@ class SimpleCommandRule(MappingRule):
 
         # Temporary (TODO move elsewhere)
         'short cat': Key('ws-space') + Pause('10'),
-        'tea mucks': Key('c-s'),
+        'tammer': Key('c-s'),
         'do pause': Pause('20'),
         'bullet point': Text('- '),
         # Temporary spotlight stuff (TODO move elsewhere)
@@ -406,6 +406,7 @@ class SimpleCommandRule(MappingRule):
         'word vim': Text('vim'),
         'word imple': Text('impl'),
         'word git': Text('git'),
+        'word grep': Text('grep'),
     }
 
 
@@ -588,8 +589,9 @@ class Counter:
             key=lambda (k,v): (v,k)
         )
         results_to_print = min(Counter.MAX_RESULTS_TO_PRINT, len(sorted_counts))
+        print '  Popular repeatables:'
         for i in reversed(range(-results_to_print, 0)):
-            print '- {}'.format(sorted_counts[i])
+            print '  - {}'.format(sorted_counts[i])
 
 
 class CharwiseVimRule(CompoundRule):
