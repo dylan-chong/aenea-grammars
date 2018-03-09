@@ -286,7 +286,7 @@ class SimpleCommandRule(MappingRule):
         'delete line': Text('dd'),
         'align (par|paragraph)': Text('mzgqip`z'),
         'yank (file|all)': Text('mzggVGy`z'),
-        'quit': Key('escape') + Pause('3'), # Delay because of tmux escape delay bug
+        'quit': Key('escape') + Pause('10'), # Delay because of tmux escape delay bug
         'save the file': Key('colon,w,enter'),
         'force save': Key('colon,w,exclamation,enter'),
         'save [and] exit': Key('colon,w,q,enter'),
@@ -390,7 +390,6 @@ class SimpleCommandRule(MappingRule):
 
         # Temporary (TODO move elsewhere)
         'short cat': Key('ws-space') + Pause('10'),
-        'tammer': Key('c-s'),
         'do pause': Pause('20'),
         'bullet point': Text('- '),
         # Temporary spotlight stuff (TODO move elsewhere)
