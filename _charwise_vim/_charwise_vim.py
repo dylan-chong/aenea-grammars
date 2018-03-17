@@ -418,7 +418,7 @@ class TextRule(CompoundRule):
     'myVariableName'.
     """
     spec = ('[upper | natural] ( proper | camel | rel-path | abs-path | score '
-            '| sentence | scope-resolve | jumble | dotword | dashword '
+            '| sentence | spay-tince | scope-resolve | jumble | dotword | dashword '
             '| natword | naewid | spaceword | spaywid | snakeword '
             '| brooding-narrative | title | params ) '
             '[<dictation>]')
@@ -521,6 +521,12 @@ class TextRule(CompoundRule):
 
     @staticmethod
     def format_sentence(text):
+        if len(text) == 0:
+            return ''
+        return ' '.join([text[0].capitalize()] + text[1:])
+
+    @staticmethod
+    def format_spaytince(text):
         if len(text) == 0:
             return ''
         return ' '.join([text[0].capitalize()] + text[1:]) + ' '
