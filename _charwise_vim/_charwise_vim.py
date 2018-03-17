@@ -47,8 +47,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'factor': 'f',
         'golf': 'g',
         'hotel': 'h',
-        # 'andy' because it sounds similar to 'indie'
-        '(indigo|indie|andy)': 'i',
+        'india': 'i',
         '(juliet|julie)': 'j',
         'kilo': 'k',
         'lima': 'l',
@@ -207,7 +206,7 @@ class Utils:
 # Rules
 
 
-END_CONTINUABLE_TEXT_WORD = 'fint'
+END_CONTINUABLE_TEXT_WORD = 'finto'
 
 
 class SingleKeyRule(MappingRule):
@@ -226,7 +225,7 @@ class ModifierKeyRule(MappingRule):
         '(control|con)': 'c',
         '(alt|olt)': 'a',  # use 'olt` as hack for proper pronunciation of 'alt'
         # Command key on Mac. (Remember, it's 'w' for command, not 'c'!)
-        '(windows|command|cherry)': 'w',
+        '(windows|command|curry)': 'w',
     }
 
 
