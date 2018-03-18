@@ -225,7 +225,7 @@ class ModifierKeyRule(MappingRule):
         '(control|con)': 'c',
         '(alt|olt)': 'a',  # use 'olt` as hack for proper pronunciation of 'alt'
         # Command key on Mac. (Remember, it's 'w' for command, not 'c'!)
-        '(windows|command|curry)': 'w',
+        '(windows|command|church)': 'w',
     }
 
 
