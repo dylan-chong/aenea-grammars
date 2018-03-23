@@ -44,14 +44,14 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'charlie': 'c',
         'delta': 'd',
         'echo': 'e',
-        'factor': 'f',
+        'finking': 'f',
         'golf': 'g',
         'hotel': 'h',
         'india': 'i',
         '(juliet|julie)': 'j',
         'kilo': 'k',
         'lima': 'l',
-        'mike': 'm',
+        'mooky': 'm',
         '(november|neighbour)': 'n',
         'oscar': 'o',
         'poppy': 'p',  # Different from 'poppa' (avoids conflict with 'proper')
@@ -60,7 +60,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'statue': 's', # Shorter than 'sierra'
         'tango': 't',
         '(uniform|unit)': 'u',
-        'victor': 'v',
+        'vacuum': 'v',
         'whiskey': 'w',
         'x-ray': 'x',
         'yankee': 'y',
@@ -99,7 +99,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'percent': 'percent',
         'caret': 'caret',
         '(ampersand|amp)': 'ampersand',
-        '(asterisk|star)': 'asterisk',
+        '(asterisk|aster)': 'asterisk',
         # Spaces
         '(space [bar])': 'space',
         'tab': 'tab',
@@ -124,7 +124,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         # For tmux, use the 'quit' SimpleCommandRule instead of 'escape'
         # because of the escape button delay bug
         'escape': 'escape',
-        '(backspace|slip)': 'backspace',
+        '(backspace|slipper)': 'backspace',
         'up': 'up',
         'down': 'down',
         'left': 'left',
@@ -306,8 +306,8 @@ class SimpleCommandRule(MappingRule):
         'find (subclasses|subclass)': Key('wa-b'),
         'find in superclass': Key('w-u'),
         'find in (path|files)': Key('ws-f'),
-        '(open|find) class': Key('w-o'),
-        '(open|find) symbol': Key('wa-o'),
+        'find class': Key('w-o'),
+        'find symbol': Key('wa-o'),
         'recent files': Key('w-e'),
         'search files': Key('shift:down, shift:up, shift:down, shift:up'),
         'next error': Key('f2'),
@@ -332,9 +332,9 @@ class SimpleCommandRule(MappingRule):
         'compare less eek': Text(' <= '),
         'boolean or': Text(' || '),
         'boolean and': Text(' && '),
-        'bit or': Text(' | '),
-        'bit and': Text(' & '),
-        'bit ex or': Text(' ^ '),
+        'bitwise or': Text(' | '),
+        'bitwise and': Text(' & '),
+        'bitwise ex or': Text(' ^ '),
         'math times': Text(' * '),
         'math divide': Text(' / '),
         'math add': Text(' + '),
@@ -352,11 +352,12 @@ class SimpleCommandRule(MappingRule):
         # NOTE 2: To avoid collisions with other commands, prefix all of these
         # with 'key'.
         'key class': Text('class'),
-        'key fun': Text('fn'),
+        'key fun': Text('fun'),
         'key end': Text('end'),
         'key function': Text('function'),
         'key let': Text('let'),
         'key var': Text('var'),
+        'key val': Text('val'),
         'key bool': Text('bool'),
         'key boolean': Text('boolean'),
         'key int': Text('int'),
@@ -383,9 +384,8 @@ class SimpleCommandRule(MappingRule):
         'key false': Text('false'),
         'lamb dash': Text(' -> '),
         'lamb eek': Text(' => '),
-        'slash comment': Text('// '),
         'pie opper': Text('|> '),  # sounds like 'pipe operator'
-        'slash doc comment': Key('slash,asterisk,asterisk,enter'),
+        'slash comment': Text('// '),
 
         # Temporary (TODO move elsewhere)
         'short cat': Key('ws-space') + Pause('10'),
@@ -405,6 +405,7 @@ class SimpleCommandRule(MappingRule):
         'word imple': Text('impl'),
         'word git': Text('git'),
         'word grep': Text('grep'),
+        'word kotlin': Text('kotlin'),
     }
 
 
