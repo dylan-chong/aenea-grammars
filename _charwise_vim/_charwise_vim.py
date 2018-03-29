@@ -44,7 +44,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'charlie': 'c',
         'delta': 'd',
         'echo': 'e',
-        'finking': 'f',
+        'factor': 'f',
         'golf': 'g',
         'hotel': 'h',
         'india': 'i',
@@ -225,7 +225,7 @@ class ModifierKeyRule(MappingRule):
         '(control|con)': 'c',
         '(alt|olt)': 'a',  # use 'olt` as hack for proper pronunciation of 'alt'
         # Command key on Mac. (Remember, it's 'w' for command, not 'c'!)
-        '(windows|command|church)': 'w',
+        '(windows|command|chatty)': 'w',
     }
 
 
@@ -301,14 +301,11 @@ class SimpleCommandRule(MappingRule):
 
         # IntelliJ (Mac shortcuts - TODO detect platform)
         'find (action|actions)': Key('ws-a'),
-        '(refactor|rename)': Key('s-f6'),
         'find (usages|uses)': Key('a-f7'),
         'find (subclasses|subclass)': Key('wa-b'),
         'find in superclass': Key('w-u'),
         'find in (path|files)': Key('ws-f'),
-        'find class': Key('w-o'),
-        'find symbol': Key('wa-o'),
-        'recent files': Key('w-e'),
+        'do rename': Key('s-f6'),
         'search files': Key('shift:down, shift:up, shift:down, shift:up'),
         'next error': Key('f2'),
         'previous error': Key('s-f2'),
@@ -318,9 +315,9 @@ class SimpleCommandRule(MappingRule):
         # Custom IntelliJ shortcuts (Mac)
         # A lot of these are remapped to avoid conflicting with (IDEA) Vim
         # shortcuts
-        'run configuration': Key('csw-r'),
-        'debug configuration': Key('csw-d'),
-        'edit (configuration|configurations)': Key('csw-e'),
+        'run config': Key('csw-r'),
+        'debug config': Key('csw-d'),
+        'edit (config|configs)': Key('csw-e'),
 
         # Vocabulary (TODO Don't copy paste from programming.json)
         'assign': Text(' = '),
@@ -349,8 +346,9 @@ class SimpleCommandRule(MappingRule):
         # NOTE: Tried to word these so these are usable for multiple languages
         # Remember that we don't know what language we are using from this
         # grammar.
-        # NOTE 2: To avoid collisions with other commands, prefix all of these
-        # with 'key'.
+        # NOTE 2: To avoid collisions with other commands, prefix the short
+        # ones with 'key'.
+        # NOTE 3: Prefix some actions with 'do' to improve accuracy
         'key class': Text('class'),
         'key fun': Text('fun'),
         'key end': Text('end'),
@@ -382,6 +380,8 @@ class SimpleCommandRule(MappingRule):
         'key self': Text('self'),
         'key true': Text('true'),
         'key false': Text('false'),
+        'key public': Text('public'),
+        'key private': Text('private'),
         'lamb dash': Text(' -> '),
         'lamb eek': Text(' => '),
         'pie opper': Text('|> '),  # sounds like 'pipe operator'
@@ -390,13 +390,12 @@ class SimpleCommandRule(MappingRule):
         # Temporary (TODO move elsewhere)
         'short cat': Key('ws-space') + Pause('10'),
         'do pause': Pause('20'),
-        'bullet point': Text('- '),
         # Temporary spotlight stuff (TODO move elsewhere)
         'spotlight': Utils.open_spotlight,
         'clipboard': Utils.open_spotlight + Text('clipboard') + Key('enter'),
         'clear notifications': Utils.open_spotlight
             + Text('clear notifications') + Key('enter'),
-        'toggle music': Utils.open_spotlight + Text('play') + Key('enter'),
+        'do toggle music': Utils.open_spotlight + Text('play') + Key('enter'),
 
         # Words
         'word to do': Text('TODO '),
