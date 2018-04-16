@@ -48,7 +48,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'golf': 'g',
         'hotel': 'h',
         'india': 'i',
-        '(juliet|julie)': 'j',
+        'julia': 'j',
         'kilo': 'k',
         'lima': 'l',
         'mooky': 'm',
@@ -225,7 +225,10 @@ class ModifierKeyRule(MappingRule):
         '(control|con)': 'c',
         '(alt|olt)': 'a',  # use 'olt` as hack for proper pronunciation of 'alt'
         # Command key on Mac. (Remember, it's 'w' for command, not 'c'!)
-        '(windows|command|chatty)': 'w',
+        '(windows|command|cherrio)': 'w',
+
+        # Convenience combinations
+        'mash mod 1': 'csw',
     }
 
 
@@ -283,7 +286,7 @@ class SimpleCommandRule(MappingRule):
         '(page up)': Key('c-u'),
         '(page down)': Key('c-d'),
         'delete line': Text('dd'),
-        'align (par|paragraph)': Text('mzgqip`z'),
+        'align (par|paragraph)': Text('gwip'),
         'yank (file|all)': Text('mzggVGy`z'),
         'quit': Key('escape') + Pause('10'), # Delay because of tmux escape delay bug
         'save the file': Key('colon,w,enter'),
@@ -311,13 +314,6 @@ class SimpleCommandRule(MappingRule):
         'previous error': Key('s-f2'),
         'toggle breakpoint': Key('w-f8'),
         'file structure': Key('w-f12'),
-
-        # Custom IntelliJ shortcuts (Mac)
-        # A lot of these are remapped to avoid conflicting with (IDEA) Vim
-        # shortcuts
-        'run config': Key('csw-r'),
-        'debug config': Key('csw-d'),
-        'edit (config|configs)': Key('csw-e'),
 
         # Vocabulary (TODO Don't copy paste from programming.json)
         'assign': Text(' = '),
@@ -353,6 +349,7 @@ class SimpleCommandRule(MappingRule):
         'key fun': Text('fun'),
         'key end': Text('end'),
         'key function': Text('function'),
+        'key const': Text('const'),
         'key let': Text('let'),
         'key var': Text('var'),
         'key val': Text('val'),
@@ -389,7 +386,7 @@ class SimpleCommandRule(MappingRule):
 
         # Temporary (TODO move elsewhere)
         'short cat': Key('ws-space') + Pause('10'),
-        'do pause': Pause('20'),
+        'do pause': Pause('40'),
         # Temporary spotlight stuff (TODO move elsewhere)
         'spotlight': Utils.open_spotlight,
         'clipboard': Utils.open_spotlight + Text('clipboard') + Key('enter'),
