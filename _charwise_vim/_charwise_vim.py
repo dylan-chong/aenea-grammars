@@ -114,7 +114,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'dash|hyphen': 'minus',
         'colon': 'colon',
         '(piper|vertical bar)': 'bar',
-        '(equals|equal)': 'equal',
+        'equals': 'equal',
         'plus': 'plus',
         'tilde': 'tilde',
         # Semicolon does not exist in dragonfly 0.6.5.
@@ -309,20 +309,18 @@ class SimpleCommandRule(MappingRule):
         'find in superclass': Key('w-u'),
         'find in (path|files)': Key('ws-f'),
         'do rename': Key('s-f6'),
-        'search files': Key('shift:down, shift:up, shift:down, shift:up'),
         'next error': Key('f2'),
         'previous error': Key('s-f2'),
         'toggle breakpoint': Key('w-f8'),
         'file structure': Key('w-f12'),
 
         # Vocabulary (TODO Don't copy paste from programming.json)
-        'assign': Text(' = '),
-        'compare eek': Text(' == '),
-        'compare not eek': Text(' != '),
+        'compare equal[s]': Text(' == '),
+        'compare not equal[s]': Text(' != '),
         'compare (greater|great)': Text(' > '),
         'compare less': Text(' < '),
-        'compare (greater|great) eek': Text(' >= '),
-        'compare less eek': Text(' <= '),
+        'compare (greater|great) equal[s]': Text(' >= '),
+        'compare less equal[s]': Text(' <= '),
         'boolean or': Text(' || '),
         'boolean and': Text(' && '),
         'bitwise or': Text(' | '),
@@ -332,11 +330,12 @@ class SimpleCommandRule(MappingRule):
         'math divide': Text(' / '),
         'math add': Text(' + '),
         'math (minus|take away)': Text(' - '),
-        'assign (plus|add) eek': Text(' += '),
-        'assign minus eek': Text(' -= '),
-        'assign times eek': Text(' *= '),
-        'assign divided eek': Text(' /= '),
-        'assign mod eek': Text(' %%= '),
+        'assign var': Text(' = '),
+        'assign (plus|add) equal[s]': Text(' += '),
+        'assign minus equal[s]': Text(' -= '),
+        'assign times equal[s]': Text(' *= '),
+        'assign divid[ed] equal[s]': Text(' /= '),
+        'assign mod equal[s]': Text(' %%= '),
 
         # Programming aliases
         # NOTE: Tried to word these so these are usable for multiple languages
@@ -402,6 +401,9 @@ class SimpleCommandRule(MappingRule):
         'word git': Text('git'),
         'word grep': Text('grep'),
         'word kotlin': Text('kotlin'),
+        # It is difficult to get dragon to not interpret saying 'python' as
+        # 'hyphen'
+        'word python': Text('python'),
     }
 
 
