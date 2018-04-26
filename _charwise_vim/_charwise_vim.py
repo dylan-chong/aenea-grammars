@@ -249,7 +249,7 @@ class ModifiableSingleKeyRule(CompoundRule):
     - 'control space'
     - 'command shift alpha'
     """
-    spec = '[<modifiers>] <SingleKeyRule> [<repeats>]'
+    spec = '[<repeats>] [<modifiers>] <SingleKeyRule>'
     extras = [
         RuleRef(KeyRepeatRule(), name='repeats'),
         Repetition(
@@ -262,11 +262,12 @@ class ModifiableSingleKeyRule(CompoundRule):
 
     def value(self, node):
         child_grammar_nodes = node.children[0].children[0]
+        # Returns something like [2, ['c', 's'], 'a']
         grammar_values = child_grammar_nodes.value()
 
-        modifiers = ''.join(grammar_values[0] or [])
-        char = grammar_values[1]
-        repeats = grammar_values[2] or 1
+        repeats = grammar_values[0] or 1
+        modifiers = ''.join(grammar_values[1] or [])
+        char = grammar_values[2]
 
         if modifiers:
             key_str = '{}-{}'.format(modifiers, char)
