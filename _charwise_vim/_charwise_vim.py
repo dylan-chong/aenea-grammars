@@ -228,7 +228,7 @@ class ModifierKeyRule(MappingRule):
         '(windows|command|cherrio)': 'w',
 
         # Convenience combinations
-        'mash mod 1': 'csw',
+        'mash mod': 'csw',
     }
 
 
@@ -382,6 +382,7 @@ class SimpleCommandRule(MappingRule):
         'lamb eek': Text(' => '),
         'pie opper': Text('|> '),  # sounds like 'pipe operator'
         'slash comment': Text('// '),
+        'triple backtick': Text('```'), # TODO Make this more general
 
         # Temporary (TODO move elsewhere)
         'short cat': Key('ws-space') + Pause('10'),
@@ -393,17 +394,18 @@ class SimpleCommandRule(MappingRule):
             + Text('clear notifications') + Key('enter'),
         'do toggle music': Utils.open_spotlight + Text('play') + Key('enter'),
 
-        # Words
-        'word to do': Text('TODO '),
-        'word tea mucks': Text('tmux'),
-        'word vim': Text('vim'),
-        'word imple': Text('impl'),
-        'word git': Text('git'),
-        'word grep': Text('grep'),
-        'word kotlin': Text('kotlin'),
+        # Terms/words that dragon has some difficulty understanding even after
+        # manually correcting dragon to train it
+        'term to do': Text('TODO '),
+        'term tea mucks': Text('tmux'),
+        'term vim': Text('vim'),
+        'term imple': Text('impl'),
+        'term git': Text('git'),
+        'term grep': Text('grep'),
+        'term kotlin': Text('kotlin'),
         # It is difficult to get dragon to not interpret saying 'python' as
         # 'hyphen'
-        'word python': Text('python'),
+        'term python': Text('python'),
     }
 
 
