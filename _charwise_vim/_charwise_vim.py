@@ -232,17 +232,28 @@ class ModifierKeyRule(MappingRule):
     }
 
 
+class KeyRepeatRule(MappingRule):
+    mapping = {
+        'double': 2,
+        'triple': 3,
+        'quadruple': 4,
+        'quintuple': 5,
+        'sextuple': 6,
+    }
+
+
 class ModifiableSingleKeyRule(CompoundRule):
     """
-    A SingleKeyRule with 0 or more modifier keys.
+    A SingleKeyRule with 0 or more modifier keys, or repeats.
 
     You can say things like:
     - 'alpha'
     - 'control space'
     - 'command shift alpha'
     """
-    spec = '[<modifiers>] <SingleKeyRule>'
+    spec = '[<repeats>] [<modifiers>] <SingleKeyRule>'
     extras = [
+        RuleRef(KeyRepeatRule(), name='repeats'),
         Repetition(
             RuleRef(ModifierKeyRule()),
             max=8,
@@ -252,19 +263,20 @@ class ModifiableSingleKeyRule(CompoundRule):
     ]
 
     def value(self, node):
-        # Seriously, what kind of api makes you write this sort of nonsense?
         child_grammar_nodes = node.children[0].children[0]
-        grammar_values = child_grammar_nodes.value()  # e.g. [['c', 's'], 'a']
+        # Returns something like [2, ['c', 's'], 'a']
+        grammar_values = child_grammar_nodes.value()
 
-        modifiers = ''.join(grammar_values[0] or [])
-        char = grammar_values[1]
+        repeats = grammar_values[0] or 1
+        modifiers = ''.join(grammar_values[1] or [])
+        char = grammar_values[2]
 
         if modifiers:
             key_str = '{}-{}'.format(modifiers, char)
         else:
             key_str = char
 
-        return Key(key_str)
+        return Key(key_str) * repeats
 
 
 class SimpleCommandRule(MappingRule):
@@ -382,7 +394,6 @@ class SimpleCommandRule(MappingRule):
         'lamb eek': Text(' => '),
         'pie opper': Text('|> '),  # sounds like 'pipe operator'
         'slash comment': Text('// '),
-        'triple backtick': Text('```'), # TODO Make this more general
 
         # Temporary (TODO move elsewhere)
         'short cat': Key('ws-space') + Pause('10'),
