@@ -237,10 +237,8 @@ class KeyRepeatRule(MappingRule):
         'double': 2,
         'triple': 3,
         'quadruple': 4,
-        'quintuple': 5,
-        'sextuple': 6,
+        # Do you *really* need any more?
     }
-
 
 class ModifiableSingleKeyRule(CompoundRule):
     """
