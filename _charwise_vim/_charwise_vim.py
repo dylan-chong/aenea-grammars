@@ -25,7 +25,7 @@ from dragonfly import (
 GRAMMAR_NAME = 'charwise_vim'
 INHIBITED_GRAMMAR_TAGS = ["vim.insertions", "multiedit.count", "global"]
 
-CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
+CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
     # See the Dragonfly documentation to see what the values should be:
     # http://dragonfly.readthedocs.io/en/latest/_modules/dragonfly/actions/action_key.html?highlight=lparen
     #
@@ -56,8 +56,8 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable grammar file?
         'oscar': 'o',
         'poppy': 'p',  # Different from 'poppa' (avoids conflict with 'proper')
         'quebec': 'q',
-        '(romeo|row-me)': 'r', # Shorter than 'romeo'
-        'statue': 's', # Shorter than 'sierra'
+        '(romeo|row-me)': 'r',  # Shorter than 'romeo'
+        'statue': 's',  # Shorter than 'sierra'
         'tango': 't',
         '(uniform|unit)': 'u',
         'vacuum': 'v',
@@ -206,7 +206,7 @@ class Utils:
 # Rules
 
 
-END_CONTINUABLE_TEXT_WORD = 'finto'
+END_CONTINUABLE_TEXT_WORD = 'finto'  # Pronounced 'fin-toe'
 
 
 class SingleKeyRule(MappingRule):
@@ -223,7 +223,7 @@ class ModifierKeyRule(MappingRule):
         # grammar to modifier for use in Key, e.g. Key('s-a')
         '(shift|big)': 's',
         '(control|con)': 'c',
-        '(alt|olt)': 'a',  # use 'olt` as hack for proper pronunciation of 'alt'
+        '(alt|olt)': 'a',
         # Command key on Mac. (Remember, it's 'w' for command, not 'c'!)
         '(windows|command|cherrio)': 'w',
 
@@ -239,6 +239,7 @@ class KeyRepeatRule(MappingRule):
         'quadruple': 4,
         # Do you *really* need any more?
     }
+
 
 class ModifiableSingleKeyRule(CompoundRule):
     """
@@ -298,7 +299,8 @@ class SimpleCommandRule(MappingRule):
         'delete line': Text('dd'),
         'align (par|paragraph)': Text('gwip'),
         'yank (file|all)': Text('mzggVGy`z'),
-        'quit': Key('escape') + Pause('10'), # Delay because of tmux escape delay bug
+        # Delay for escape because of tmux escape delay bug
+        'quit': Key('escape') + Pause('10'),
         'save the file': Key('colon,w,enter'),
         'force save': Key('colon,w,exclamation,enter'),
         'save [and] exit': Key('colon,w,q,enter'),
@@ -399,9 +401,11 @@ class SimpleCommandRule(MappingRule):
         # Temporary spotlight stuff (TODO move elsewhere)
         'spotlight': Utils.open_spotlight,
         'clipboard': Utils.open_spotlight + Text('clipboard') + Key('enter'),
-        'clear notifications': Utils.open_spotlight
-            + Text('clear notifications') + Key('enter'),
-        'do toggle music': Utils.open_spotlight + Text('play') + Key('enter'),
+        'clear notifications':
+            Utils.open_spotlight
+            + Text('clear notifications')
+            + Key('enter'),
+        'toggle music': Utils.open_spotlight + Text('play') + Key('enter'),
 
         # Terms/words that dragon has some difficulty understanding even after
         # manually correcting dragon to train it
@@ -427,8 +431,8 @@ class TextRule(CompoundRule):
     'myVariableName'.
     """
     spec = ('[upper | natural] ( proper | camel | rel-path | abs-path | score '
-            '| sentence | spay-tince | scope-resolve | jumble | dotword | dashword '
-            '| natword | naewid | spaceword | spaywid | snakeword '
+            '| sentence | spay-tince | scope-resolve | jumble | dotword '
+            '| dashword | natword | naewid | spaceword | spaywid | snakeword '
             '| brooding-narrative | title | params ) '
             '[<dictation>]')
     extras = [Dictation(name='dictation')]
@@ -480,7 +484,10 @@ class TextRule(CompoundRule):
 
     @staticmethod
     def format_camel(text):
-        return text[0] + ''.join([word[0].upper() + word[1:] for word in text[1:]])
+        return text[0] + ''.join(
+            [word[0].upper() + word[1:]
+             for word in text[1:]]
+        )
 
     @staticmethod
     def format_proper(text):
@@ -574,7 +581,7 @@ class NoOpRule(CompoundRule):
     extras = [Dictation(name='dictation')]
 
     def value(self, node):
-        return Text('') # Type nothing
+        return Text('')  # Type nothing
 
 
 class Counter:
@@ -600,9 +607,12 @@ class Counter:
             return
         sorted_counts = sorted(
             Counter.counts.iteritems(),
-            key=lambda (k,v): (v,k)
+            key=lambda (k, v): (v, k)
         )
-        results_to_print = min(Counter.MAX_RESULTS_TO_PRINT, len(sorted_counts))
+        results_to_print = min(
+            Counter.MAX_RESULTS_TO_PRINT,
+            len(sorted_counts)
+        )
         print '  Popular repeatables:'
         for i in reversed(range(-results_to_print, 0)):
             print '  - {}'.format(sorted_counts[i])
@@ -665,5 +675,6 @@ class CharwiseVimRule(CompoundRule):
             executable = extras[self._ending_rules_key]
             print 'Executing Ending Rule {}'.format(executable)
             executable.execute()
+
 
 load()
