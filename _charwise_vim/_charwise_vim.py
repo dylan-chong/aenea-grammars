@@ -678,22 +678,11 @@ class CharwiseVimRule(CompoundRule):
         # perhaps you have tried to call Key(str) where 'str' is some invalid
         # key name.
 
-        to_execute = []
-        to_repeat_last = None
-        print(extras)
+        to_execute = extras.get(self._repeated_rules_key, [])
+        to_execute.append(extras.get(self._ending_rules_key))
+        to_repeat = extras.get(self._repeat_last_rule_key)
 
-        if self._repeated_rules_key in extras:
-            for executable in extras[self._repeated_rules_key]:
-                if executable:
-                    to_execute.append(executable)
-
-        if self._ending_rules_key in extras:
-            executable = extras[self._ending_rules_key]
-            # TODO Simplify this code
-            to_execute.append(executable)
-
-        if self._repeat_last_rule_key in extras:
-            to_repeat_last = extras[self._repeat_last_rule_key]
+        to_execute = [item for item in to_execute if item]
 
         if to_execute:
             for executable in to_execute:
@@ -702,8 +691,9 @@ class CharwiseVimRule(CompoundRule):
                 Counter.update(executable)
             RepeatLastRule.last_chunk = to_execute
 
-        if to_repeat_last:
-            print 'Repeating {}'.format(to_repeat_last)
-            to_repeat_last.execute()
+        if to_repeat:
+            print 'Repeating {}'.format(to_repeat)
+            to_repeat.execute()
+
 
 load()
