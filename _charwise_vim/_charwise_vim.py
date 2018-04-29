@@ -22,6 +22,10 @@ from dragonfly import (
     RuleRef
 )
 
+# TODO Split this big file up into smaller files
+
+# TODO Add customisability, especially for different platforms
+
 GRAMMAR_NAME = 'charwise_vim'
 INHIBITED_GRAMMAR_TAGS = ["vim.insertions", "multiedit.count", "global"]
 
@@ -38,26 +42,28 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
     # In each sub-dict: What to say (key): String to pass into Key(str) (value)
     'all': {},  # All mappings excluding modifier keys. Updated below
     'letters': {
-        # Copied from aenea/client/misc.py (but modified)
+        # Copied from aenea/client/misc.py (but modified greatly for improved
+        # accuracy)
         'alpha': 'a',
         'bravo': 'b',
         'charlie': 'c',
-        'delta': 'd',
+        'delicate': 'd',  # 'delta' occasionally is not recognised correctly
         'echo': 'e',
         'factor': 'f',
         'golf': 'g',
         'hotel': 'h',
         'india': 'i',
-        'julia': 'j',
+        'julie': 'j',
         'kilo': 'k',
         'lima': 'l',
         'mooky': 'm',
-        '(november|neighbour)': 'n',
+        'neighbour': 'n',
         'oscar': 'o',
         'poppy': 'p',  # Different from 'poppa' (avoids conflict with 'proper')
         'quebec': 'q',
-        '(romeo|row-me)': 'r',  # Shorter than 'romeo'
-        'statue': 's',  # Shorter than 'sierra'
+        'row-me': 'r',
+        # Better alternative to 'sierra', which gets confused with zero
+        'statue': 's',
         'tango': 't',
         '(uniform|unit)': 'u',
         'vacuum': 'v',
@@ -112,7 +118,10 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'question [mark]': 'question',
         'underscore': 'underscore',
         'dash|hyphen': 'minus',
-        'colon': 'colon',
+        # 'colon' can sometimes get confused with 'comma' or 'con'. 'intestine'
+        # sounds different to both of these words, and has more syllables, so
+        # is more likely to be recognised correctly
+        '(colon|intestine)': 'colon',
         '(piper|vertical bar)': 'bar',
         'equals': 'equal',
         'plus': 'plus',
