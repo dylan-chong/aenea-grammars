@@ -422,7 +422,22 @@ class SimpleCommandRule(MappingRule):
     }
 
 
-# TODO include programming.json somewhere??
+class RepeatLastRule(CompoundRule):
+    REPEAT_CHUNK = 'repeat chunk'
+    REPEAT_LAST = 'repeat last'
+    last_chunk = [Text('')]
+    spec = '{}|{}'.format(REPEAT_CHUNK, REPEAT_LAST)
+
+    def value(self, node):
+        action = ' '.join(node.words())
+
+        if action == RepeatLastRule.REPEAT_CHUNK:
+            return reduce((lambda a, b: a + b), RepeatLastRule.last_chunk)
+        elif action == RepeatLastRule.REPEAT_LAST:
+            return RepeatLastRule.last_chunk[-1]
+        else:
+            raise ValueError('Invalid action: ' + action)
+
 
 # TODO copy changes to vim grammar
 class TextRule(CompoundRule):
@@ -628,12 +643,14 @@ class CharwiseVimRule(CompoundRule):
     """
     _repeated_rules_key = 'repeated_rules'
     _ending_rules_key = 'ending_rules'
+    _repeat_last_rule_key = 'repeat_last_rule'
 
-    spec = '[{}] [<{}>] [<{}>]'.format(
+    spec = '[{}] [<{}>] [<{}>] [<{}>]'.format(
         # Avoid problems with saying END_CONTINUABLE_TEXT_WORD too late
         END_CONTINUABLE_TEXT_WORD,
         _repeated_rules_key,
         _ending_rules_key,
+        _repeat_last_rule_key,
     )
     extras = [
         Repetition(
@@ -653,28 +670,40 @@ class CharwiseVimRule(CompoundRule):
             ],
             name=_ending_rules_key,
         ),
+        RuleRef(RepeatLastRule(), name=_repeat_last_rule_key),
     ]
 
     def _process_recognition(self, node, extras):
-        # If node contains a string, but extras contains 'None', then perhaps
-        # you have tried to call Key(str) where 'str' is some invalid key name.
+        # NOTE: If node contains a string, but extras contains 'None', then
+        # perhaps you have tried to call Key(str) where 'str' is some invalid
+        # key name.
 
-        # Press keys / enter text for what user just said
-
-        # An executable could be an aenea Text, Key, or Pause
+        to_execute = []
+        to_repeat_last = None
+        print(extras)
 
         if self._repeated_rules_key in extras:
             for executable in extras[self._repeated_rules_key]:
                 if executable:
-                    print 'Executing Repeatable {}'.format(executable)
-                    executable.execute()
-
-                    Counter.update(executable)
+                    to_execute.append(executable)
 
         if self._ending_rules_key in extras:
             executable = extras[self._ending_rules_key]
-            print 'Executing Ending Rule {}'.format(executable)
-            executable.execute()
+            # TODO Simplify this code
+            to_execute.append(executable)
 
+        if self._repeat_last_rule_key in extras:
+            to_repeat_last = extras[self._repeat_last_rule_key]
+
+        if to_execute:
+            for executable in to_execute:
+                print 'Executing {}'.format(executable)
+                executable.execute()
+                Counter.update(executable)
+            RepeatLastRule.last_chunk = to_execute
+
+        if to_repeat_last:
+            print 'Repeating {}'.format(to_repeat_last)
+            to_repeat_last.execute()
 
 load()
