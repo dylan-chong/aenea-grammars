@@ -47,7 +47,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'alpha': 'a',
         'bravo': 'b',
         'charlie': 'c',
-        'delicate': 'd',  # 'delta' occasionally is not recognised correctly
+        'delegate': 'd',  # 'delta' occasionally is not recognised correctly
         'echo': 'e',
         'factor': 'f',
         'golf': 'g',
@@ -69,7 +69,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'vacuum': 'v',
         'whiskey': 'w',
         'x-ray': 'x',
-        'yankee': 'y',
+        'yapping': 'y',
         'zulu': 'z'
     },
     'symbols': {
@@ -118,10 +118,8 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'question [mark]': 'question',
         'underscore': 'underscore',
         'dash|hyphen': 'minus',
-        # 'colon' can sometimes get confused with 'comma' or 'con'. 'intestine'
-        # sounds different to both of these words, and has more syllables, so
-        # is more likely to be recognised correctly
-        '(colon|intestine)': 'colon',
+        # 'colon' can sometimes get confused with 'comma' or 'con'.
+        '[full] colon': 'colon',
         '(piper|vertical bar)': 'bar',
         'equals': 'equal',
         'plus': 'plus',
@@ -215,7 +213,10 @@ class Utils:
 # Rules
 
 
-END_CONTINUABLE_TEXT_WORD = 'finto'  # Pronounced 'fin-toe'
+# Pronounced 'fin-toe'.
+# You can add this word to your vocabulary in your dragon user profile, to
+# improve accuracy of recognising this word.
+END_CONTINUABLE_TEXT_WORD = 'finto'
 
 
 class SingleKeyRule(MappingRule):
@@ -419,6 +420,7 @@ class SimpleCommandRule(MappingRule):
         # Terms/words that dragon has some difficulty understanding even after
         # manually correcting dragon to train it
         'term to do': Text('TODO '),
+        'term whip': Text('WIP'),
         'term tea mucks': Text('tmux'),
         'term vim': Text('vim'),
         'term imple': Text('impl'),
@@ -428,6 +430,8 @@ class SimpleCommandRule(MappingRule):
         # It is difficult to get dragon to not interpret saying 'python' as
         # 'hyphen'
         'term python': Text('python'),
+        'term cat': Text('cat'),  # Dragon has difficulty recognising this word
+        'term jason': Text('JSON'),
     }
 
 
@@ -637,7 +641,7 @@ class Counter:
             Counter.MAX_RESULTS_TO_PRINT,
             len(sorted_counts)
         )
-        print '  Popular repeatables:'
+        print 'Popular executables:'
         for i in reversed(range(-results_to_print, 0)):
             print '  - {}'.format(sorted_counts[i])
 
