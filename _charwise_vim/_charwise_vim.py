@@ -684,7 +684,11 @@ class CharwiseVimRule(CompoundRule):
             ],
             name=_ending_rules_key,
         ),
-        RuleRef(RepeatLastRule(), name=_repeat_last_rule_key),
+        Repetition(
+            RuleRef(RepeatLastRule()),
+            name=_repeat_last_rule_key,
+            max=20,
+        ),
     ]
 
     def _process_recognition(self, node, extras):
@@ -694,7 +698,7 @@ class CharwiseVimRule(CompoundRule):
 
         to_execute = extras.get(self._repeated_rules_key, [])
         to_execute.append(extras.get(self._ending_rules_key))
-        to_repeat_getter = extras.get(self._repeat_last_rule_key)
+        to_repeat_getters = extras.get(self._repeat_last_rule_key, [])
 
         to_execute = [item for item in to_execute if item]
 
@@ -705,7 +709,7 @@ class CharwiseVimRule(CompoundRule):
                 Counter.update(executable)
             RepeatLastRule.last_chunk = to_execute
 
-        if to_repeat_getter:
+        for to_repeat_getter in to_repeat_getters:
             to_repeat = to_repeat_getter()
             print 'Repeating {}'.format(to_repeat)
             to_repeat.execute()
