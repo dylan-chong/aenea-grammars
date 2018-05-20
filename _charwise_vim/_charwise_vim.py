@@ -1,3 +1,4 @@
+import operator
 import aenea.config
 import aenea.misc
 import aenea.vocabulary
@@ -445,9 +446,9 @@ class RepeatLastRule(CompoundRule):
         action = ' '.join(node.words())
 
         if action == RepeatLastRule.REPEAT_CHUNK:
-            return reduce((lambda a, b: a + b), RepeatLastRule.last_chunk)
+            return lambda: reduce(operator.add, RepeatLastRule.last_chunk)
         elif action == RepeatLastRule.REPEAT_LAST:
-            return RepeatLastRule.last_chunk[-1]
+            return lambda: RepeatLastRule.last_chunk[-1]
         else:
             raise ValueError('Invalid action: ' + action)
 
@@ -693,7 +694,7 @@ class CharwiseVimRule(CompoundRule):
 
         to_execute = extras.get(self._repeated_rules_key, [])
         to_execute.append(extras.get(self._ending_rules_key))
-        to_repeat = extras.get(self._repeat_last_rule_key)
+        to_repeat_getter = extras.get(self._repeat_last_rule_key)
 
         to_execute = [item for item in to_execute if item]
 
@@ -704,7 +705,8 @@ class CharwiseVimRule(CompoundRule):
                 Counter.update(executable)
             RepeatLastRule.last_chunk = to_execute
 
-        if to_repeat:
+        if to_repeat_getter:
+            to_repeat = to_repeat_getter()
             print 'Repeating {}'.format(to_repeat)
             to_repeat.execute()
 
