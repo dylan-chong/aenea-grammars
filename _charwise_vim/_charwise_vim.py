@@ -70,7 +70,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'vacuum': 'v',
         'whiskey': 'w',
         'x-ray': 'x',
-        'yapping': 'y',
+        'yankee-oh': 'y',  # yankee doesn't get recognised actually sometimes
         'zulu': 'z'
     },
     'symbols': {
@@ -110,7 +110,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         # Spaces
         '(space [bar])': 'space',
         'tab': 'tab',
-        '(enter|new line)': 'enter',
+        'enter': 'enter',
         # Other
         # 'dot' is too short and does not have a unique vowel sound, so can be
         # easily mistaken for something else by dragon
@@ -214,10 +214,10 @@ class Utils:
 # Rules
 
 
-# Pronounced 'fin-toe'.
+# Pronounced 'tin-toe'.
 # You can add this word to your vocabulary in your dragon user profile, to
 # improve accuracy of recognising this word.
-END_CONTINUABLE_TEXT_WORD = 'finto'
+END_CONTINUABLE_TEXT_WORD = 'tinto'
 
 
 class SingleKeyRule(MappingRule):
@@ -234,8 +234,8 @@ class ModifierKeyRule(MappingRule):
         # grammar to modifier for use in Key, e.g. Key('s-a')
         '(shift|big)': 's',
         '(control|con)': 'c',
-        '(alt|olt)': 'a',
-        # Command key on Mac. (Remember, it's 'w' for command, not 'c'!)
+        'elt': 'a',  # alt doesn't have very good accuracy
+        # Command key on Mac / Windows key
         '(windows|command|cherrio)': 'w',
 
         # Convenience combinations
@@ -309,7 +309,6 @@ class SimpleCommandRule(MappingRule):
         '(page down)': Key('c-d'),
         'delete line': Text('dd'),
         'align (par|paragraph)': Text('gwip'),
-        'yank (file|all)': Text('mzggVGy`z'),
         # Delay for escape because of tmux escape delay bug
         'quit': Key('escape') + Pause('10'),
         'save the file': Key('colon,w,enter'),
@@ -423,7 +422,7 @@ class SimpleCommandRule(MappingRule):
         'term to do': Text('TODO '),
         'term whip': Text('WIP'),
         'term tea mucks': Text('tmux'),
-        'term vim': Text('vim'),
+        'term (vim|whim)': Text('vim'),
         'term imple': Text('impl'),
         'term git': Text('git'),
         'term grep': Text('grep'),
