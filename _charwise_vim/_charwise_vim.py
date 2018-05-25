@@ -478,19 +478,28 @@ class TextRule(CompoundRule):
         if uppercase:
             words = [word.upper() for word in words]
 
-        words = [
-            word.split('\\', 1)[0].replace('-', '')
-            for word in words
-            if not word.startswith(',')
-        ]
-
         if words[0].lower() in ('upper', 'natural'):
             del words[0]
+
+        words = self.properly_separate_words(words)
 
         func = getattr(TextRule, 'format_%s' % words[0].lower())
         formatted = func(words[1:])
 
         return Text(formatted)
+
+    def properly_separate_words(self, words):
+        # Fix dragon not properly formatting words. Examples of `words`:
+        # ['natword', 'control panel']
+        # ['natword', 'well', 'I\\pronoun', 'think', 'we', 'should', 'go']
+
+        words = [
+            word.split('\\', 1)[0].replace('-', ' ')
+            for word in words
+            if not word.startswith(',')
+        ]
+        words_2d = [word.split(' ') for word in words]
+        return reduce(list.__add__, words_2d)  # flat map
 
     def preprocess_words(self, words):
         pass
@@ -709,6 +718,7 @@ class CharwiseVimRule(CompoundRule):
                 Counter.update(executable)
             RepeatLastRule.last_chunk = to_execute
 
+        # TODO fix can't say 'Something something repeat last' literally
         for to_repeat_getter in to_repeat_getters:
             to_repeat = to_repeat_getter()
             print 'Repeating {}'.format(to_repeat)
