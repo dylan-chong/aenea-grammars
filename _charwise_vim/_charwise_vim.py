@@ -480,10 +480,13 @@ class TextRule(CompoundRule):
         if words[0].lower() in ('upper', 'natural'):
             del words[0]
 
+        format_type = words[0].lower().replace('-', '')
+        del words[0]
+
         words = self.properly_separate_words(words)
 
-        func = getattr(TextRule, 'format_%s' % words[0].lower())
-        formatted = func(words[1:])
+        func = getattr(TextRule, 'format_%s' % format_type)
+        formatted = func(words)
 
         return Text(formatted)
 
