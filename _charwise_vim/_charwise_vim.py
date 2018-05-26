@@ -495,13 +495,14 @@ class TextRule(CompoundRule):
         # ['natword', 'control panel']
         # ['natword', 'well', 'I\\pronoun', 'think', 'we', 'should', 'go']
 
-        words = [
+        split_words = [
             word.split('\\', 1)[0].replace('-', ' ')
             for word in words
             if not word.startswith(',')
         ]
-        words_2d = [word.split(' ') for word in words]
-        return reduce(list.__add__, words_2d)  # flat map
+        words_2d = [word.split(' ') for word in split_words]
+        words_list = reduce(list.__add__, words_2d)  # flat map
+        return [word for word in words_list if word]
 
     def preprocess_words(self, words):
         pass
