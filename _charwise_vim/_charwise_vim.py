@@ -397,8 +397,10 @@ class SimpleCommandRule(MappingRule):
         'key self': Text('self'),
         'key true': Text('true'),
         'key false': Text('false'),
-        'key public': Text('public'),
-        'key private': Text('private'),
+        'key try': Text('try'),
+        'key except': Text('except'),
+        'key catch': Text('catch'),
+        'key finally': Text('finally'),
         'lamb dash': Text(' -> '),
         'lamb eek': Text(' => '),
         'pie opper': Text('|> '),  # sounds like 'pipe operator'
