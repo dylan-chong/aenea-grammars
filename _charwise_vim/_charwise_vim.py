@@ -432,7 +432,9 @@ class SimpleCommandRule(MappingRule):
         # 'hyphen'
         'term python': Text('python'),
         'term cat': Text('cat'),  # Dragon has difficulty recognising this word
-        'term jason': Text('JSON'),
+        'term upper jason': Text('JSON'),
+        'term jason': Text('json'),
+        'term in it': Text('init'),
     }
 
 
