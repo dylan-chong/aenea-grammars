@@ -92,7 +92,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'less than|left angle|langle': 'langle',
         'greater than|right angle|wrangle': 'rangle',
         # Quotes
-        '([single] quote|sing quote)': 'squote',
+        '(single|sing) quote': 'squote',
         '(double|dub) quote': 'dquote',
         'backtick': 'backtick',
         # Slashes
