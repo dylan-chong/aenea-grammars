@@ -214,10 +214,9 @@ class Utils:
 # Rules
 
 
-# Pronounced 'tin-toe'.
 # You can add this word to your vocabulary in your dragon user profile, to
 # improve accuracy of recognising this word.
-END_CONTINUABLE_TEXT_WORD = 'tinto'
+END_CONTINUABLE_TEXT_WORD = 'fan-toe'
 
 
 class SingleKeyRule(MappingRule):
