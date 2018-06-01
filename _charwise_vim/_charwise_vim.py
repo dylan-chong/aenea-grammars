@@ -27,6 +27,8 @@ from dragonfly import (
 
 # TODO Add customisability, especially for different platforms
 
+PRINT_COUNTER_STATISTICS = False
+
 GRAMMAR_NAME = 'charwise_vim'
 INHIBITED_GRAMMAR_TAGS = ["vim.insertions", "multiedit.count", "global"]
 
@@ -657,6 +659,10 @@ class Counter:
             Counter.MAX_RESULTS_TO_PRINT,
             len(sorted_counts)
         )
+
+        if not PRINT_COUNTER_STATISTICS:
+            return
+
         print 'Popular executables:'
         for i in reversed(range(-results_to_print, 0)):
             print '  - {}'.format(sorted_counts[i])
