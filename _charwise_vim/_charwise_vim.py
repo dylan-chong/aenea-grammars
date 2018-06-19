@@ -56,7 +56,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'golf': 'g',
         'hotel': 'h',
         'india': 'i',
-        'julie': 'j',
+        'juliet': 'j',
         'kilo': 'k',
         'lima': 'l',
         'mooky': 'm',
@@ -299,8 +299,8 @@ class SimpleCommandRule(MappingRule):
     setup_key_mappings()
     mapping = {
         # Mouse
-        'mouse left': Mouse('left'),
-        'mouse right': Mouse('right'),
+        'click left': Mouse('left'),
+        'click right': Mouse('right'),
 
         # Gets around invalid Key('semicolon') error
         '(semicolon|semi)': Text(';'),
@@ -313,6 +313,7 @@ class SimpleCommandRule(MappingRule):
         # Delay for escape because of tmux escape delay bug
         'quit': Key('escape') + Pause('10'),
         'save the file': Key('colon,w,enter'),
+        'exit the file': Key('colon,q,enter'),
         'force save': Key('colon,w,exclamation,enter'),
         'save [and] exit': Key('colon,w,q,enter'),
         'save all [files]': Key('colon,w,a,enter'),
