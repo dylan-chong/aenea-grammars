@@ -65,14 +65,13 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'poppy': 'p',  # Different from 'poppa' (avoids conflict with 'proper')
         'quebec': 'q',
         'row-me': 'r',
-        # Better alternative to 'sierra', which gets confused with zero
-        'statue': 's',
+        'statue': 's',  # 'sierra' can be confused with zero
         'tango': 't',
         '(uniform|unit)': 'u',
         'vacuum': 'v',
         'whiskey': 'w',
         'x-ray': 'x',
-        'yankee-oh': 'y',  # yankee doesn't get recognised actually sometimes
+        'yarcho': 'y',  # yankee doesn't get recognised sometimes
         'zulu': 'z'
     },
     'symbols': {
@@ -121,8 +120,8 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'question [mark]': 'question',
         'underscore': 'underscore',
         'dash|hyphen': 'minus',
-        # 'colon' can sometimes get confused with 'comma' or 'con'.
-        '[full] colon': 'colon',
+        # 'colon' gets confused with 'comma' or 'con'.
+        '(colton|colon)': 'colon',
         '(piper|vertical bar)': 'bar',
         'equals': 'equal',
         'plus': 'plus',
@@ -327,6 +326,7 @@ class SimpleCommandRule(MappingRule):
         'jump back': Key('c-t'),
 
         # IntelliJ (Mac shortcuts - TODO detect platform)
+        # TODO move to new file
         'find (action|actions)': Key('ws-a'),
         'find (usages|uses)': Key('a-f7'),
         'find (subclasses|subclass)': Key('wa-b'),
