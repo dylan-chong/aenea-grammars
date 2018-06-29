@@ -502,7 +502,7 @@ class TextRule(CompoundRule):
         # ['natword', 'well', 'I\\pronoun', 'think', 'we', 'should', 'go']
 
         split_words = [
-            word.split('\\', 1)[0].replace('-', ' ')
+            word.split('\\', 1)[0].replace('-', '')
             for word in words
             if not word.startswith(',')
         ]
