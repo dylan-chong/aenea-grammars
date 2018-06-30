@@ -4,13 +4,12 @@ import aenea.misc
 import aenea.vocabulary
 
 from aenea import (
+    AlwaysContext,
     Key,
     Text,
     Mouse,
     Pause
 )
-
-from aenea.proxy_contexts import ProxyAppContext
 
 from dragonfly import (
     Alternative,
@@ -199,12 +198,8 @@ def setup_grammar():
 
 def create_app_context():
     return aenea.wrappers.AeneaContext(
-        ProxyAppContext(
-            match='regex',
-            title='.*',
-            app_id='.*',
-        ),
-        AppContext(title='VIM')
+        AlwaysContext(),
+        AppContext(title='VIM'),
     )
 
 
