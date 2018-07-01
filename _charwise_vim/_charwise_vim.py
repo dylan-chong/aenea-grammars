@@ -1,4 +1,6 @@
 import operator
+import re
+
 import aenea.config
 import aenea.misc
 import aenea.vocabulary
@@ -453,7 +455,6 @@ class RepeatLastRule(CompoundRule):
             raise ValueError('Invalid action: ' + action)
 
 
-# TODO copy changes to vim grammar
 class TextRule(CompoundRule):
     """
     Text insertion. E.g. saying 'camel my variable name' => types
@@ -493,17 +494,27 @@ class TextRule(CompoundRule):
 
     def properly_separate_words(self, words):
         # Fix dragon not properly formatting words. Examples of `words`:
-        # ['natword', 'control panel']
-        # ['natword', 'well', 'I\\pronoun', 'think', 'we', 'should', 'go']
+        # ['hello', 'world'],
+        # ["let's", 'use', 'the', 'control panel'],
+        # ['well', 'I\\pronoun', 'think', 'we', 'should', 'go'],
+        # ['\x96\\dash\\dash'],  # when you say 'natword dash'
+        # ['\x97\\em-dash\\m dash'],  # when you say 'natword em dash'
+        # ["let's", 'go', 'off-campus'],
 
-        split_words = [
+        def flat_map(function, iterable):
+            map_results = [function(item) for item in iterable]
+            if not map_results:
+                return []
+            return reduce(operator.add, map_results)
+
+        words = [
             word.split('\\', 1)[0].replace('-', '')
             for word in words
-            if not word.startswith(',')
+            if not re.match(r'^[,\x96\x97]', word)
         ]
-        words_2d = [word.split(' ') for word in split_words]
-        words_list = reduce(list.__add__, words_2d)  # flat map
-        return [word for word in words_list if word]
+        words = flat_map(lambda word: word.split(' '), words)
+        words = [word for word in words if word]
+        return words
 
     def preprocess_words(self, words):
         pass
