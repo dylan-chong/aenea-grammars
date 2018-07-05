@@ -231,7 +231,7 @@ class ModifierKeyRule(MappingRule):
         # grammar to modifier for use in Key, e.g. Key('s-a')
         '(shift|big)': 's',
         '(control|con)': 'c',
-        'elt': 'a',  # alt doesn't have very good accuracy
+        'elter': 'a',  # alt doesn't have very good accuracy
         # Command key on Mac / Windows key
         '(windows|command|cherrio)': 'w',
 
