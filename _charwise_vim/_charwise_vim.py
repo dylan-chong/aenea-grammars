@@ -351,12 +351,12 @@ class SimpleCommandRule(MappingRule):
         'math divide': Text(' / '),
         'math add': Text(' + '),
         'math (minus|take away)': Text(' - '),
-        'assign var': Text(' = '),
-        'assign (plus|add) equal[s]': Text(' += '),
-        'assign minus equal[s]': Text(' -= '),
-        'assign times equal[s]': Text(' *= '),
-        'assign divid[ed] equal[s]': Text(' /= '),
-        'assign mod equal[s]': Text(' %%= '),
+        'set var': Text(' = '),
+        'set (plus|add) equal[s]': Text(' += '),
+        'set minus equal[s]': Text(' -= '),
+        'set times equal[s]': Text(' *= '),
+        'set divid[ed] equal[s]': Text(' /= '),
+        'set mod equal[s]': Text(' %%= '),
 
         # Programming aliases
         # NOTE: Tried to word these so these are usable for multiple languages
