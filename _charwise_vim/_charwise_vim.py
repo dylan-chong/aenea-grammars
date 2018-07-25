@@ -212,9 +212,7 @@ class Utils:
 # Rules
 
 
-# You can add this word to your vocabulary in your dragon user profile, to
-# improve accuracy of recognising this word.
-END_CONTINUABLE_TEXT_WORD = 'fan-toe'
+END_CONTINUABLE_TEXT_WORD = 'fan-tarchee'
 
 
 class SingleKeyRule(MappingRule):
@@ -351,7 +349,7 @@ class SimpleCommandRule(MappingRule):
         'math divide': Text(' / '),
         'math add': Text(' + '),
         'math (minus|take away)': Text(' - '),
-        'set var': Text(' = '),
+        'set value': Text(' = '),
         'set (plus|add) equal[s]': Text(' += '),
         'set minus equal[s]': Text(' -= '),
         'set times equal[s]': Text(' *= '),
