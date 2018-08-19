@@ -409,12 +409,6 @@ class SimpleCommandRule(MappingRule):
         'do pause': Pause('40'),
         # Temporary spotlight stuff (TODO move elsewhere)
         'spotlight': Utils.open_spotlight,
-        'clipboard': Utils.open_spotlight + Text('clipboard') + Key('enter'),
-        'clear notifications':
-            Utils.open_spotlight
-            + Text('clear notifications')
-            + Key('enter'),
-        'toggle music': Utils.open_spotlight + Text('play') + Key('enter'),
 
         # Terms/words that dragon has some difficulty understanding even after
         # manually correcting dragon to train it
