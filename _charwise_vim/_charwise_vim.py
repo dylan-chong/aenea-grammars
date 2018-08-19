@@ -427,6 +427,7 @@ class SimpleCommandRule(MappingRule):
         'term upper jason': Text('JSON'),
         'term jason': Text('json'),
         'term in it': Text('init'),
+        'term sync': Text('sync'),
     }
 
 
