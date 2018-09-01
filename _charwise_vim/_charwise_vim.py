@@ -415,9 +415,10 @@ class SimpleCommandRule(MappingRule):
         'term to do': Text('TODO '),
         'term whip': Text('WIP'),
         'term tea mucks': Text('tmux'),
-        'term (vim|whim)': Text('vim'),
+        'term vim': Text('vim'),
         'term imple': Text('impl'),
         'term git': Text('git'),
+        'term diff': Text('diff'),
         'term grep': Text('grep'),
         'term kotlin': Text('kotlin'),
         # It is difficult to get dragon to not interpret saying 'python' as
