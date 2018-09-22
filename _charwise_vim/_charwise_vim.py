@@ -411,6 +411,7 @@ class SimpleCommandRule(MappingRule):
         'spotlight': Utils.open_spotlight,
         'edit in vim': Key('w-a,w-c,wc-v'),
         'win copy all': Key('c-a,c-c,right'),
+        'win cut all': Key('c-a,c-x,right'),
         'open in new tab': Key('w-c,w-t,w-v,enter'),
 
         # Terms/words that dragon has some difficulty understanding even after
