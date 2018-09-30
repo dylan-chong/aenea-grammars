@@ -416,6 +416,10 @@ class SimpleCommandRule(MappingRule):
         'win copy all': Key('c-a,c-c,right'),
         'win cut all': Key('c-a,c-x,right'),
         'open in new tab': Key('w-c,w-t,w-v,enter'),
+        'clipboard': Utils.open_spotlight + Text('clipboard') + Key('enter'),
+        'clear notifications':
+            Utils.open_spotlight + Text('clear notifications') + Key('enter'),
+        'toggle music': Utils.open_spotlight + Text('play') + Key('enter'),
 
         # Terms/words that dragon has some difficulty understanding even after
         # manually correcting dragon to train it
