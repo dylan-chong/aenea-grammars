@@ -305,7 +305,7 @@ class SimpleCommandRule(MappingRule):
         'delete line': Text('dd'),
         'align (par|paragraph)': Text('gwip'),
         # Delay for escape because of tmux escape delay bug
-        'quit': Key('escape') + Pause('10'),
+        'quit': Key('escape') + Pause('20'),
         'save the file': Key('colon,w,enter'),
         'exit the file': Key('colon,q,enter'),
         'force save': Key('colon,w,exclamation,enter'),
