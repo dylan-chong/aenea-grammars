@@ -399,10 +399,13 @@ class SimpleCommandRule(MappingRule):
         'key except': Text('except'),
         'key catch': Text('catch'),
         'key finally': Text('finally'),
+
+        # Symbol shortcuts
         'lamb dash': Text(' -> '),
         'lamb eek': Text(' => '),
         'pie opper': Text('|> '),  # sounds like 'pipe operator'
         'slash comment': Text('// '),
+        'pie dunder': Text('__'),
 
         # Temporary (TODO move elsewhere)
         'short cat': Key('ws-space') + Pause('10'),
