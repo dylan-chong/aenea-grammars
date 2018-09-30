@@ -122,7 +122,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'underscore': 'underscore',
         'dash': 'minus',
         # 'colon' gets confused with 'comma' or 'con'.
-        'full colon': 'colon',
+        'ratio': 'colon',
         '(piper|vertical bar)': 'bar',
         'equals': 'equal',
         'plus': 'plus',
@@ -229,7 +229,7 @@ class ModifierKeyRule(MappingRule):
         # grammar to modifier for use in Key, e.g. Key('s-a')
         '(shift|big)': 's',
         '(control|con)': 'c',
-        'elter': 'a',  # alt doesn't have very good accuracy
+        'altering': 'a',  # alt doesn't have very good accuracy
         # Command key on Mac / Windows key
         '(windows|command|cherrio)': 'w',
 
