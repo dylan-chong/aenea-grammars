@@ -121,7 +121,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'question [mark]': 'question',
         'underscore': 'underscore',
         'dash': 'minus',
-        # 'colon' gets confused with 'comma' or 'con'.
+        # 'colon' gets confused with 'comma', 'con', or 'con four'.
         'ratio': 'colon',
         '(piper|vertical bar)': 'bar',
         'equals': 'equal',
@@ -212,7 +212,7 @@ class Utils:
 # Rules
 
 
-END_CONTINUABLE_TEXT_WORD = 'fan-tarchee'
+END_CONTINUABLE_TEXT_WORD = 'fan-tar-chee'
 
 
 class SingleKeyRule(MappingRule):
@@ -420,6 +420,10 @@ class SimpleCommandRule(MappingRule):
         'clear notifications':
             Utils.open_spotlight + Text('clear notifications') + Key('enter'),
         'toggle music': Utils.open_spotlight + Text('play') + Key('enter'),
+        'jupiter run all': Key('ws-f')
+            + Pause('30')
+            + Text('restart kernel and run all cells')
+            + Key('down,down,enter'),
 
         # Terms/words that dragon has some difficulty understanding even after
         # manually correcting dragon to train it
