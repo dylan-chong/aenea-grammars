@@ -421,7 +421,7 @@ class SimpleCommandRule(MappingRule):
             Utils.open_spotlight + Text('clear notifications') + Key('enter'),
         'toggle music': Utils.open_spotlight + Text('play') + Key('enter'),
         'jupiter run all': Key('ws-f')
-            + Pause('30')
+            + Pause('10')
             + Text('restart kernel and run all cells')
             + Key('down,down,enter'),
 
