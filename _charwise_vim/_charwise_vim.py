@@ -127,8 +127,8 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'equals': 'equal',
         'plus': 'plus',
         'tilde': 'tilde',
-        # Semicolon does not exist in dragonfly 0.6.5.
-        # There is a SimpleCommandRule to get around this
+        # Note: Semicolon does not exist in dragonfly 0.6.5.
+        '(semicolon|semi)': 'semicolon',
     },
     'special-keys': {
         # For tmux, use the 'quit' SimpleCommandRule instead of 'escape'
@@ -295,9 +295,6 @@ class SimpleCommandRule(MappingRule):
         # Mouse
         'click left': Mouse('left'),
         'click right': Mouse('right'),
-
-        # Gets around invalid Key('semicolon') error
-        '(semicolon|semi)': Text(';'),
 
         # Vim key aliases
         '(page up)': Key('c-u'),
