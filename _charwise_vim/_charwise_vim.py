@@ -50,7 +50,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         # accuracy)
         'alpha': 'a',
         'bravo': 'b',
-        'charlie': 'c',
+        'cap': 'c',
         'delegate': 'd',  # 'delta' occasionally is not recognised correctly
         'echo': 'e',
         'factor': 'f',
