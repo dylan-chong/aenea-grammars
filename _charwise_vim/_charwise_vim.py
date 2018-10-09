@@ -632,17 +632,6 @@ class OpenAppRule(CompoundRule):
         return Utils.open_spotlight + Text(words) + Key('enter')
 
 
-class NoOpRule(CompoundRule):
-    """
-    A no op rule (ignores what you are saying) for convenience.
-    """
-    spec = 'speaking <dictation>'
-    extras = [Dictation(name='dictation')]
-
-    def value(self, node):
-        return Text('')  # Type nothing
-
-
 class Counter:
     EXECUTABLES_BETWEEN_PRINTS = 8
     MAX_RESULTS_TO_PRINT = 5
@@ -714,7 +703,6 @@ class CharwiseVimRule(CompoundRule):
             [
                 RuleRef(TextRule()),
                 RuleRef(OpenAppRule()),
-                RuleRef(NoOpRule()),
             ],
             name=_ending_rules_key,
         ),
