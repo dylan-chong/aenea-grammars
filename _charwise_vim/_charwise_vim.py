@@ -48,32 +48,32 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
     'letters': {
         # Copied from aenea/client/misc.py (but modified greatly for improved
         # accuracy)
-        'alpha': 'a',
-        'bravo': 'b',
+        'air': 'a',
+        'bat': 'b',
         'cap': 'c',
-        'delegate': 'd',  # 'delta' occasionally is not recognised correctly
-        'echo': 'e',
-        'factor': 'f',
-        'golf': 'g',
-        'hotel': 'h',
-        'india': 'i',
-        'juliet': 'j',
-        'kilo': 'k',
-        'litter': 'l',
-        'mooky': 'm',
-        'neighbour': 'n',
-        'oscar': 'o',
-        'poppy': 'p',  # Different from 'poppa' (avoids conflict with 'proper')
-        'quebec': 'q',
-        'row-me': 'r',
-        'statue': 's',  # 'sierra' can be confused with zero
-        'tango': 't',
-        '(uniform|unit)': 'u',
-        'vacuum': 'v',
-        'whiskey': 'w',
-        'x-ray': 'x',
-        'yarcho': 'y',  # yankee doesn't get recognised sometimes
-        'zulu': 'z'
+        'drum': 'd',
+        'each': 'e',
+        'fine': 'f',
+        'gust': 'g',
+        'harp': 'h',
+        'sit': 'i',
+        'jury': 'j',
+        'crunch': 'k',
+        'look': 'l',
+        'made': 'm',
+        'need': 'n',
+        'odd': 'o',
+        'pit': 'p',
+        'quench': 'q',
+        'red': 'r',
+        'sun': 's',
+        'trap': 't',
+        'urge': 'u',
+        'vest': 'v',
+        'whale': 'w',
+        'plex': 'x',
+        'yank': 'y',
+        'zip': 'z'
     },
     'symbols': {
         # NOTES:
