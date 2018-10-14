@@ -107,10 +107,10 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'dollar': 'dollar',
         'percent': 'percent',
         'caret': 'caret',
-        '(ampersand|amp)': 'ampersand',
+        'ampersand': 'ampersand',
         '(asterisk|aster)': 'asterisk',
         # Spaces
-        '(space [bar])': 'space',
+        'space': 'space',
         'tab': 'tab',
         'enter': 'enter',
         # Other
