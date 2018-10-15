@@ -134,7 +134,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         # For tmux, use the 'quit' SimpleCommandRule instead of 'escape'
         # because of the escape button delay bug
         'escape': 'escape',
-        '(backspace|slipper)': 'backspace',
+        '(backspace|delete)': 'backspace',
         'up': 'up',
         'down': 'down',
         'left': 'left',
@@ -299,7 +299,6 @@ class SimpleCommandRule(MappingRule):
         # Vim key aliases
         '(page up)': Key('c-u'),
         '(page down)': Key('c-d'),
-        'delete line': Text('dd'),
         'align (par|paragraph)': Text('gwip'),
         # Delay for escape because of tmux escape delay bug
         'quit': Key('escape') + Pause('20'),
