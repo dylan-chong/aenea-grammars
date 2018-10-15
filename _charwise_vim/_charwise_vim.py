@@ -123,7 +123,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'dash': 'minus',
         # 'colon' gets confused with 'comma', 'con', or 'con four'.
         'ratio': 'colon',
-        '(piper|vertical bar)': 'bar',
+        'piper': 'bar',
         'equals': 'equal',
         'plus': 'plus',
         'tilde': 'tilde',
