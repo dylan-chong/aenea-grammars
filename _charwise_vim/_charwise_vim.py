@@ -678,13 +678,12 @@ class CharwiseVimRule(CompoundRule):
     rule. (You do not have to say and ending rule).
     """
 
-    spec = '[{}] [<{}>] [<{}>] [<{}>] [<{}>]'.format(
+    spec = '[{}] [<{}>] [<{}>] [<{}>]'.format(
         # Avoid problems with saying END_CONTINUABLE_TEXT_WORD too late
         END_CONTINUABLE_TEXT_WORD,
         'repeated_rules',
         'ending_rules',
         'repeat_last_rule',
-        'ignore_random_speech_rule',
     )
     extras = [
         Repetition(
@@ -708,7 +707,6 @@ class CharwiseVimRule(CompoundRule):
             name='repeat_last_rule',
             max=20,
         ),
-        Dictation(name='ignore_random_speech_rule'),
     ]
 
     def _process_recognition(self, node, extras):
