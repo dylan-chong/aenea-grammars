@@ -677,16 +677,13 @@ class CharwiseVimRule(CompoundRule):
     words (see :class:`~TextRule`) or some other kind of ending
     rule. (You do not have to say and ending rule).
     """
-    _repeated_rules_key = 'repeated_rules'
-    _ending_rules_key = 'ending_rules'
-    _repeat_last_rule_key = 'repeat_last_rule'
 
     spec = '[{}] [<{}>] [<{}>] [<{}>]'.format(
         # Avoid problems with saying END_CONTINUABLE_TEXT_WORD too late
         END_CONTINUABLE_TEXT_WORD,
-        _repeated_rules_key,
-        _ending_rules_key,
-        _repeat_last_rule_key,
+        'repeated_rules',
+        'ending_rules',
+        'repeat_last_rule',
     )
     extras = [
         Repetition(
@@ -696,18 +693,18 @@ class CharwiseVimRule(CompoundRule):
                 RuleRef(ContinuableTextRule()),
             ]),
             max=20,
-            name=_repeated_rules_key
+            name='repeated_rules'
         ),
         Alternative(
             [
                 RuleRef(TextRule()),
                 RuleRef(OpenAppRule()),
             ],
-            name=_ending_rules_key,
+            name='ending_rules',
         ),
         Repetition(
             RuleRef(RepeatLastRule()),
-            name=_repeat_last_rule_key,
+            name='repeat_last_rule',
             max=20,
         ),
     ]
@@ -717,9 +714,9 @@ class CharwiseVimRule(CompoundRule):
         # perhaps you have tried to call Key(str) where 'str' is some invalid
         # key name.
 
-        to_execute = extras.get(self._repeated_rules_key, [])
-        to_execute.append(extras.get(self._ending_rules_key))
-        to_repeat_getters = extras.get(self._repeat_last_rule_key, [])
+        to_execute = extras.get('repeated_rules', [])
+        to_execute.append(extras.get('ending_rules'))
+        to_repeat_getters = extras.get('repeat_last_rule', [])
 
         to_execute = [item for item in to_execute if item]
 
