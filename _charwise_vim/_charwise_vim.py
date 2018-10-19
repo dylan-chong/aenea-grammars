@@ -48,7 +48,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
     'letters': {
         # Copied from aenea/client/misc.py (but modified greatly for improved
         # accuracy)
-        'chair': 'a',
+        'share': 'a',
         'bat': 'b',
         'cap': 'c',
         'drum': 'd',
