@@ -330,11 +330,11 @@ class SimpleCommandRule(MappingRule):
         'file structure': Key('w-f12'),
 
         # Mac shortcuts (TODO remove)
-        'mac bullet delete': Key('w-right,ws-left,w-x,backspace'),
-        'mac bullet up': Key(
+        'mac line delete': Key('w-right,ws-left,w-x,backspace'),
+        'mac line up': Key(
             'w-right,ws-left,w-x,backspace,w-left,w-v,enter,up,w-right'
         ),
-        'mac bullet down': Key(
+        'mac line down': Key(
             'w-right,ws-left,w-x,backspace,down,w-left,w-v,enter,w-right'
         ),
 
