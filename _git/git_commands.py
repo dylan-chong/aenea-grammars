@@ -38,6 +38,9 @@ def _add_common_refs(rule_builder):
     # bring up a fuzzy finder where you can type in the name of a branch.)
     rule_builder.option('select branch', '`fbr`')
 
+    # TODO don't submit in pull request
+    rule_builder.option('current branch', '`current_branch`')
+
 
 def all_commands(GitCommandRuleBuilder):
     return (
