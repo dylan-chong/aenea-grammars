@@ -231,7 +231,7 @@ class ModifierKeyRule(MappingRule):
         '(control|con)': 'c',
         'altering': 'a',  # alt doesn't have very good accuracy
         # Command key on Mac / Windows key
-        '(windows|command|cherrio)': 'w',
+        '(windows|command|cheerio)': 'w',
 
         # Convenience combinations
         'mash mod': 'csw',
