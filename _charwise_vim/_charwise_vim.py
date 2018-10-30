@@ -28,7 +28,7 @@ from dragonfly import (
 
 # TODO Add customisability, especially for different platforms
 
-PRINT_COUNTER_STATISTICS = True
+PRINT_COUNTER_STATISTICS = False
 
 GRAMMAR_NAME = 'charwise_vim'
 INHIBITED_GRAMMAR_TAGS = ["vim.insertions", "multiedit.count", "global"]
@@ -642,7 +642,7 @@ class OpenAppRule(CompoundRule):
 
 class Counter:
     EXECUTABLES_BETWEEN_PRINTS = 8
-    MAX_RESULTS_TO_PRINT = 50
+    MAX_RESULTS_TO_PRINT = 10
     counts = dict()
     executable_count = 0
 
