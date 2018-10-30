@@ -433,7 +433,11 @@ class SimpleCommandRule(MappingRule):
         # Terms/words that dragon has some difficulty understanding even after
         # manually correcting dragon to train it
         'term to do': Text('TODO '),
-        'term whip': Text('WIP'),
+        'term to do next': Text('TODO NEXT '),
+        'term to do after': Text('TODO AFTER '),
+        'term to do sometime': Text('TODO SOMETIME '),
+        'term to do later': Text('TODO LATER '),
+        'term whip': Text('WIP '),
         'term tea mucks': Text('tmux'),
         'term vim': Text('vim'),
         'term imple': Text('impl'),
