@@ -626,7 +626,17 @@ class TextRule(CompoundRule):
 
     @staticmethod
     def format_title(text):
-        return ' '.join([word[0].upper() + word[1:] for word in text])
+        words_to_keep_lowercase = (
+            'a,an,the,at,by,for,in,of,on,to,up,and,as,but,or,nor'.split(',')
+        )
+        words = []
+        for index, word in enumerate(text):
+            if index == 0 or word not in words_to_keep_lowercase:
+                words.append(word.capitalize())
+            else:
+                words.append(word)
+
+        return ' '.join(words)
 
 
 class ContinuableTextRule(TextRule):
