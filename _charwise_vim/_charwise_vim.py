@@ -439,6 +439,7 @@ class SimpleCommandRule(MappingRule):
         'term to do after': Text('TODO AFTER '),
         'term to do sometime': Text('TODO SOMETIME '),
         'term to do later': Text('TODO LATER '),
+        'term to do last': Text('TODO LAST '),
         'term whip': Text('WIP '),
         'term tea mucks': Text('tmux'),
         'term vim': Text('vim'),
