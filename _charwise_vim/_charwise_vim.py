@@ -340,6 +340,9 @@ class SimpleCommandRule(MappingRule):
             'w-right,ws-left,w-x,backspace,down,w-left,w-v,enter,w-right'
         ),
 
+        # tmux (assumes prefix key is control-s)
+        'switch panes': Key('c-s,semicolon') + Pause('10') + Key('c-s,z'),
+
         # Vocabulary (TODO Don't copy paste from programming.json)
         'compare equal[s]': Text(' == '),
         'compare not equal[s]': Text(' != '),
