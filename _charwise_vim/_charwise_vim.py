@@ -139,6 +139,10 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'down': 'down',
         'left': 'left',
         'right': 'right',
+        'page up': 'pageup',
+        'page down': 'pagedown',
+        'home': 'home',
+        'end': 'end',
     },
     'digits': {
         'zero': '0',
@@ -297,8 +301,6 @@ class SimpleCommandRule(MappingRule):
         'click right': Mouse('right'),
 
         # Vim key aliases
-        '(page up)': Key('c-u'),
-        '(page down)': Key('c-d'),
         'align (par|paragraph)': Text('gwip'),
         # Delay for escape because of tmux escape delay bug
         'quit': Key('escape') + Pause('20'),
