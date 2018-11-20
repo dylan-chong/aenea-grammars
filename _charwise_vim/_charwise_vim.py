@@ -50,7 +50,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         # accuracy)
         'share': 'a',
         'bat': 'b',
-        'cap': 'c',
+        'cut': 'c',
         'drum': 'd',
         'each': 'e',
         'fine': 'f',
@@ -63,7 +63,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'made': 'm',
         'need': 'n',
         'odd': 'o',
-        'pit': 'p',
+        'paint': 'p',
         'quench': 'q',
         'red': 'r',
         'sun': 's',
@@ -337,11 +337,17 @@ class SimpleCommandRule(MappingRule):
             'w-right,ws-left,w-x,backspace,w-left,w-v,enter,up,w-right'
         ),
         'mac line down': Key(
-            'w-right,ws-left,w-x,backspace,down,w-left,w-v,enter,w-right'
+            'w-right,ws-left,w-x,backspace,down,w-right,enter,w-v'
         ),
+        'mac copy all': Key('w-a,w-c'),
+        'mac cut all': Key('w-a,w-x'),
+
+        # Windows shortcuts (TODO remove)
+        'win copy all': Key('c-a,c-c,right'),
+        'win cut all': Key('c-a,c-x,right'),
 
         # tmux (assumes prefix key is control-s)
-        'switch panes': Key('c-s,semicolon') + Pause('10') + Key('c-s,z'),
+        'switch panes': Key('c-s,semicolon,c-s,z'),
 
         # Vocabulary (TODO Don't copy paste from programming.json)
         'compare equal[s]': Text(' == '),
@@ -423,8 +429,6 @@ class SimpleCommandRule(MappingRule):
         # Temporary spotlight stuff (TODO move elsewhere)
         'spotlight': Utils.open_spotlight,
         'edit in vim': Key('w-a,w-c,wc-v'),
-        'win copy all': Key('c-a,c-c,right'),
-        'win cut all': Key('c-a,c-x,right'),
         'open in new tab': Key('w-c,w-t,w-v,enter'),
         'clipboard': Utils.open_spotlight + Text('clipboard') + Key('enter'),
         'clear notifications':
