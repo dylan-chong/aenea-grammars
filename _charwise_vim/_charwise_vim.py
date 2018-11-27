@@ -50,7 +50,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         # accuracy)
         'share': 'a',
         'bat': 'b',
-        'cut': 'c',
+        'cot': 'c',
         'drum': 'd',
         'each': 'e',
         'fine': 'f',
@@ -73,7 +73,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'whale': 'w',
         'plex': 'x',
         'yank': 'y',
-        'zip': 'z'
+        'zeal': 'z'
     },
     'symbols': {
         # NOTES:
@@ -235,7 +235,7 @@ class ModifierKeyRule(MappingRule):
         '(control|con)': 'c',
         'altering': 'a',  # alt doesn't have very good accuracy
         # Command key on Mac / Windows key
-        '(windows|command|cheerio)': 'w',
+        '(windows|command|apple)': 'w',
 
         # Convenience combinations
         'mash mod': 'csw',
@@ -441,12 +441,12 @@ class SimpleCommandRule(MappingRule):
 
         # Terms/words that dragon has some difficulty understanding even after
         # manually correcting dragon to train it
-        'term to do': Text('TODO '),
-        'term to do next': Text('TODO NEXT '),
-        'term to do after': Text('TODO AFTER '),
-        'term to do sometime': Text('TODO SOMETIME '),
-        'term to do later': Text('TODO LATER '),
-        'term to do last': Text('TODO LAST '),
+        'term to do': Text('TODO: '),
+        'term to do next': Text('TODO NEXT: '),
+        'term to do after': Text('TODO AFTER: '),
+        'term to do sometime': Text('TODO SOMETIME: '),
+        'term to do later': Text('TODO LATER: '),
+        'term to do last': Text('TODO LAST: '),
         'term whip': Text('WIP '),
         'term tea mucks': Text('tmux'),
         'term vim': Text('vim'),
@@ -488,7 +488,7 @@ class TextRule(CompoundRule):
     Text insertion. E.g. saying 'camel my variable name' => types
     'myVariableName'.
     """
-    spec = ('[upper | natural] ( proper | camel | rel-path | abs-path | score '
+    spec = ('[upper | natural] ( proper | camel | relpath | abs-path | score '
             '| sentence | spay-tince | scope-resolve | jumble | dotword '
             '| dashword | natword | naewid | spaceword | spaywid | snakeword '
             '| brooding-narrative | title | params ) '
