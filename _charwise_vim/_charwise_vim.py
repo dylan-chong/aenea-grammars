@@ -56,7 +56,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'fine': 'f',
         'gust': 'g',
         'harp': 'h',
-        'sit': 'i',
+        'site': 'i',
         'jury': 'j',
         'crunch': 'k',
         'look': 'l',
@@ -69,7 +69,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'sun': 's',
         'trap': 't',
         'urge': 'u',
-        'vest': 'v',
+        'vote': 'v',
         'whale': 'w',
         'plex': 'x',
         'yank': 'y',
@@ -135,7 +135,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         # because of the escape button delay bug
         'escape': 'escape',
         '(backspace|delete)': 'backspace',
-        'up': 'up',
+        'gup': 'up',  # up gets some false positives sometimes
         'down': 'down',
         'left': 'left',
         'right': 'right',
@@ -233,7 +233,7 @@ class ModifierKeyRule(MappingRule):
         # grammar to modifier for use in Key, e.g. Key('s-a')
         '(shift|big)': 's',
         '(control|con)': 'c',
-        'altering': 'a',  # alt doesn't have very good accuracy
+        'alter': 'a',  # alt doesn't have very good accuracy
         # Command key on Mac / Windows key
         '(windows|command|apple)': 'w',
 
