@@ -319,10 +319,10 @@ class SimpleCommandRule(MappingRule):
         # Delay for escape because of tmux escape delay bug
         'quit': Key('escape') + Pause('20'),
         'save file': Key('escape,colon,w,enter'),
-        'exit file': Key('colon,q,enter'),
+        'exit': Key('colon,q,enter'),
         'force save': Key('escape,colon,w,exclamation,enter'),
         'save exit': Key('escape,colon,w,q,enter'),
-        'save all [files]': Key('escape,colon,w,a,enter'),
+        'save all': Key('escape,colon,w,a,enter'),
         'move line up': Text('ddkP'),
         'move line down': Text('ddp'),
         'change word': Text('ciw'),
