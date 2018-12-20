@@ -1,5 +1,6 @@
 import operator
 import re
+import datetime
 
 import aenea.config
 import aenea.misc
@@ -10,7 +11,8 @@ from aenea import (
     Key,
     Text,
     Mouse,
-    Pause
+    Pause,
+    Function,
 )
 
 from dragonfly import (
@@ -288,6 +290,18 @@ class ModifiableSingleKeyRule(CompoundRule):
         return Key(key_str) * repeats
 
 
+def notes_complete_line():
+    # Propietary function for my workflow
+    Key('w-right,ws-left,w-x,backspace').execute()
+    Key('w-down, asterisk, space').execute()
+
+    Text(str(datetime.datetime.now())).execute()
+    Key('space, w-v').execute()
+
+    Pause('40').execute()
+    Key('w-up').execute()
+
+
 class SimpleCommandRule(MappingRule):
     """
     Similar to SingleKeyRule, but you can include aliases for key combinations
@@ -341,6 +355,7 @@ class SimpleCommandRule(MappingRule):
         ),
         'mac copy all': Key('w-a,w-c'),
         'mac cut all': Key('w-a,w-x'),
+        'notes complete line': Function(notes_complete_line),
 
         # Windows shortcuts (TODO remove)
         'win copy all': Key('c-a,c-c,right'),
