@@ -404,10 +404,8 @@ class SimpleCommandRule(MappingRule):
         'key bool': Text('bool'),
         'key boolean': Text('boolean'),
         'key int': Text('int'),
-        'key deaf module': Text('defmodule'),
-        'key deaf macro': Text('defmacro'),
+        'key module': Text('module'),
         'key deaf': Text('def'),
-        'key deaf pee': Text('defp'),
         'key null': Text('null'),
         'key nil': Text('nil'),
         'key for': Text('for'),
@@ -433,6 +431,7 @@ class SimpleCommandRule(MappingRule):
         # Symbol shortcuts
         'lamb dash': Text(' -> '),
         'lamb eek': Text(' => '),
+        'back dash': Text(' <- '),
         'pie opper': Text('|> '),  # sounds like 'pipe operator'
         'slash comment': Text('// '),
         'pie dunder': Text('__'),
