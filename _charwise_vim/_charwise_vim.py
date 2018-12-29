@@ -365,12 +365,12 @@ class SimpleCommandRule(MappingRule):
         'switch panes': Key('c-s,semicolon,c-s,z'),
 
         # Vocabulary (TODO Don't copy paste from programming.json)
-        'compare equal[s]': Text(' == '),
-        'compare not equal[s]': Text(' != '),
-        'compare (greater|great)': Text(' > '),
+        'compare equal': Text(' == '),
+        'compare not equal': Text(' != '),
+        'compare greater': Text(' > '),
         'compare less': Text(' < '),
-        'compare (greater|great) equal[s]': Text(' >= '),
-        'compare less equal[s]': Text(' <= '),
+        'compare greater equal': Text(' >= '),
+        'compare less equal': Text(' <= '),
         'boolean or': Text(' || '),
         'boolean and': Text(' && '),
         'bitwise or': Text(' | '),
@@ -379,13 +379,12 @@ class SimpleCommandRule(MappingRule):
         'math times': Text(' * '),
         'math divide': Text(' / '),
         'math add': Text(' + '),
-        'math (minus|take away)': Text(' - '),
+        'math minus': Text(' - '),
         'set value': Text(' = '),
-        'set (plus|add) equal[s]': Text(' += '),
-        'set minus equal[s]': Text(' -= '),
-        'set times equal[s]': Text(' *= '),
-        'set divid[ed] equal[s]': Text(' /= '),
-        'set mod equal[s]': Text(' %%= '),
+        'set plus equal': Text(' += '),
+        'set minus equal': Text(' -= '),
+        'set times equal': Text(' *= '),
+        'set divided equal': Text(' /= '),
 
         # Programming aliases
         # NOTE: Tried to word these so these are usable for multiple languages
