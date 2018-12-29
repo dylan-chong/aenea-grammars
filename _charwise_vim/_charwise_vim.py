@@ -503,7 +503,7 @@ class TextRule(CompoundRule):
     """
     spec = ('[upper | natural] ( proper | camel | relpath | abs-path | score '
             '| sentence | spay-tince | scope-resolve | jumble | dotword '
-            '| dashword | natword | naewid | spaceword | spaywid | snakeword '
+            '| spineword | natword | naewid | spaceword | spaywid | snakeword '
             '| brooding-narrative | title | params ) '
             '[<dictation>]')
     extras = [Dictation(name='dictation')]
@@ -608,7 +608,7 @@ class TextRule(CompoundRule):
         return '.'.join(text)
 
     @staticmethod
-    def format_dashword(text):
+    def format_spineword(text):
         return '-'.join(text)
 
     @staticmethod
