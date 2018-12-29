@@ -139,7 +139,7 @@ class GitCommandRuleBuilder:
         optional_pattern = r'-(.*)\[(.+)?\](.*)'
 
         if option == '.':
-            alias = 'dot|point'
+            alias = 'dot'
         elif re.match(r'^-+$', option):
             # TODO change to double dash to avoid conflicts between the
             # different number of dashes
