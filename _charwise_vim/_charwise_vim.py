@@ -66,7 +66,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'need': 'n',
         'odd': 'o',
         'paint': 'p',
-        'quench': 'q',
+        'quest': 'q',
         'red': 'r',
         'sun': 's',
         'trap': 't',
@@ -74,7 +74,7 @@ CHAR_KEY_MAPPINGS = {  # TODO move this into a separate importable file?
         'vote': 'v',
         'whale': 'w',
         'plex': 'x',
-        'yank': 'y',
+        'yes': 'y',
         'zeal': 'z'
     },
     'symbols': {
