@@ -502,8 +502,8 @@ class TextRule(CompoundRule):
     'myVariableName'.
     """
     spec = ('[upper | natural] ( proper | camel | relpath | abs-path | score '
-            '| sentence | spay-tince | scope-resolve | jumble | dotword '
-            '| spineword | natword | naewid | spaceword | spaywid | snakeword '
+            '| sentence | spay-tince | scope-resolve | jumble | dotway '
+            '| spineway | natway | spaceway | spayway | snakeway '
             '| brooding-narrative | title | params ) '
             '[<dictation>]')
     extras = [Dictation(name='dictation')]
@@ -561,7 +561,7 @@ class TextRule(CompoundRule):
         pass
 
     @staticmethod
-    def format_snakeword(text):
+    def format_snakeway(text):
         formatted = text[0][0].upper()
         formatted += text[0][1:]
         formatted += ('_' if len(text) > 1 else '')
@@ -604,26 +604,24 @@ class TextRule(CompoundRule):
         return ''.join(text)
 
     @staticmethod
-    def format_dotword(text):
+    def format_dotway(text):
         return '.'.join(text)
 
     @staticmethod
-    def format_spineword(text):
+    def format_spineway(text):
         return '-'.join(text)
 
     @staticmethod
-    def format_natword(text):
+    def format_natway(text):
         return ' '.join(text)
 
-    format_naewid = format_natword
-
     @staticmethod
-    def format_spaceword(text):
+    def format_spaceway(text):
         if len(text) == 0:
             return ''
         return ' '.join(text) + ' '
 
-    format_spaywid = format_spaceword
+    format_spayway = format_spaceway
 
     @staticmethod
     def format_broodingnarrative(text):
